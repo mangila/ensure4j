@@ -71,11 +71,23 @@ public void placeOrder(Order order) {
 }
 ```
 
-Here's how the same code looks like with Ensure4j
+Here's what the same code looks like with Ensure4j
 
 ```java
 public void placeOrder(Order order) {
     Ensure.notNull(order, "Order cannot be null");
+    Ensure.min(1, order.getAmount(), "Order amount must be greater than zero");
+    // do business logic
+}
+```
+
+With the exception that Ensure4j throws an `EnsureException` instead of an `IllegalArgumentException`.
+
+Ensure4j has supplier functions that can be used to provide a custom exception suited for the application/use case need.
+
+```java
+public void placeOrder(Order order) {
+    Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
     Ensure.min(1, order.getAmount(), "Order amount must be greater than zero");
     // do business logic
 }
