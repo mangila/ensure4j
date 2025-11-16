@@ -5,7 +5,7 @@ repos:
       - id: ensure-test
         name: Ensure pre commit test
         entry: cmd.exe /c mvnw.cmd
-        args: [ "-f", "ensure/pom.xml", "clean", "test" ]
+        args: [ "-f", "lib/pom.xml", "clean", "test" ]
         language: system
         files: ^ensure/src
         require_serial: true
