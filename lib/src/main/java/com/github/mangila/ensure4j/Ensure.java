@@ -211,15 +211,4 @@ public final class Ensure {
     private static boolean isNull(Object obj) {
         return obj == null;
     }
-
-    /**
-     * Checks whether the given object is not null.
-     *
-     * @param <T> the type of the object being checked
-     * @param obj the object to check for non-null can be of any type
-     * @return true if the given object is not null, false otherwise
-     */
-    private static <T> boolean isNotNull(T obj) {
-        return obj != null;
-    }
 }

@@ -84,8 +84,7 @@ public void placeOrder(Order order) {
 We have fewer if statements (less cognitive load) and more readable code and also re-usable pre-conditions checks throughout the whole
 codebase.
 
-There is some library support for Preconditions already in Java, but they are not as comprehensive and direct for
-preconditions checks as Ensure4j.
+There is some library support for Preconditions already in Java, but they are not as comprehensive and direct as Ensure4j is a precondition-only library.
 
 Libs with the same functionality:
 

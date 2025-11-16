@@ -2,55 +2,19 @@ package com.github.mangila.ensure4j;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Constructor;
 
-class EnsureTest {
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-    @Test
-    void notNullOrElseGet() {
-    }
+public class EnsureTest {
 
     @Test
-    void notNullOrElse() {
+    void test() throws Exception {
+        Constructor<?> constructor = Ensure.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThatThrownBy(constructor::newInstance)
+                .hasCauseInstanceOf(IllegalStateException.class)
+                .hasRootCauseMessage("Utility class");
     }
 
-    @Test
-    void notNullOrElseThrow() {
-    }
-
-    @Test
-    void notNull() {
-    }
-
-    @Test
-    void testNotNull() {
-    }
-
-    @Test
-    void testNotNull1() {
-    }
-
-    @Test
-    void isTrue() {
-    }
-
-    @Test
-    void testIsTrue() {
-    }
-
-    @Test
-    void testIsTrue1() {
-    }
-
-    @Test
-    void isFalse() {
-    }
-
-    @Test
-    void testIsFalse() {
-    }
-
-    @Test
-    void testIsFalse1() {
-    }
 }
