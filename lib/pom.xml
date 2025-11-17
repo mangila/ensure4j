@@ -28,7 +28,7 @@
         <connection>scm:git:https://github.com/mangila/ensure4j.git</connection>
         <developerConnection>scm:git:git@github.com:mangila/ensure4j.git</developerConnection>
         <url>https://github.com/mangila/ensure4j/tree/main</url>
-    <tag>ensure4j-0.0.1</tag>
+        <tag>HEAD</tag>
   </scm>
 
     <properties>
@@ -62,6 +62,13 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.27.6</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit</artifactId>
+            <version>1.4.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

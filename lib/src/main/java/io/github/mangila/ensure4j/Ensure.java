@@ -19,6 +19,82 @@ public final class Ensure {
     }
 
     /**
+     * Checks if the given number is less than the specified minimum value and throws an exception if the condition is met.
+     *
+     * @param min      the minimum allowable value
+     * @param n        the number to be checked
+     * @param supplier the supplier providing the exception to be thrown if the check fails
+     * @throws RuntimeException if the number is less than the minimum value
+     */
+    public static void min(int min, int n, Supplier<RuntimeException> supplier) throws RuntimeException {
+        if (n < min) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Ensures that the provided value meets the minimum required value, otherwise throws an exception.
+     *
+     * @param min              The minimum permissible value.
+     * @param n                The value to check against the minimum.
+     * @param exceptionMessage The message to be used in case an exception is thrown.
+     * @throws EnsureException if the value does not meet the minimum requirement.
+     */
+    public static void min(int min, int n, String exceptionMessage) throws EnsureException {
+        min(min, n, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the given value is greater than or equal to the specified minimum value.
+     *
+     * @param min the minimum allowable value
+     * @param n   the value to be checked against the minimum
+     * @throws EnsureException if the value does not meet the specified minimum requirement
+     */
+    public static void min(int min, int n) throws EnsureException {
+        min(min, n, "value must be greater than or equal to %d, but was %d".formatted(min, n));
+    }
+
+    /**
+     * Ensures that the provided string is not blank. If the string is blank,
+     * a {@link RuntimeException} provided by the given {@link Supplier} is thrown.
+     *
+     * @param s        the string to be checked for blankness
+     * @param supplier the supplier responsible for providing the {@link RuntimeException}
+     *                 to be thrown if {@code s} is blank
+     * @throws RuntimeException if {@code s} is blank, with the exception derived from {@code supplier}
+     */
+    public static void notBlank(String s, Supplier<RuntimeException> supplier) throws RuntimeException {
+        notNull(s, supplier);
+        if (s.isBlank()) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Checks if the given string is blank (null, empty, or only contains whitespace) and
+     * throws an exception if it is.
+     *
+     * @param s                the string to be checked for blankness
+     * @param exceptionMessage the message to be included in the thrown exception if the string is blank
+     * @throws EnsureException if the given string is blank
+     */
+    public static void notBlank(String s, String exceptionMessage) throws EnsureException {
+        notBlank(s, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Checks if the provided string is blank (null, empty, or containing only whitespace).
+     * Throws an EnsureException if the string does not meet the specified condition.
+     *
+     * @param s the string to be checked for blankness
+     * @throws EnsureException if the string is blank
+     */
+    public static void notBlank(String s) throws EnsureException {
+        notBlank(s, "string must not be blank");
+    }
+
+    /**
      * Returns the given object if it is not null; otherwise, it evaluates and returns the result from the supplied {@link Supplier}.
      * If the supplier is null or produces a null value, it throws an {@link EnsureException}.
      *
@@ -63,6 +139,22 @@ public final class Ensure {
     public static <T> T notNullOrElseThrow(T obj, Supplier<RuntimeException> supplier) throws RuntimeException {
         if (isNull(obj)) {
             throw getSupplierOrThrow(supplier);
+        }
+        return obj;
+    }
+
+    /**
+     * Ensures that the given object is not null, and returns the object if it is non-null.
+     * If the object is null, this method throws a {@link RuntimeException}.
+     *
+     * @param obj the object to be checked for nullity
+     * @param <T> the type of the object
+     * @return the non-null object passed as input
+     * @throws RuntimeException if the object is null
+     */
+    public static <T> T notNullOrElseThrow(T obj) throws RuntimeException {
+        if (isNull(obj)) {
+            throw getSupplierOrThrow(() -> EnsureException.from("object must not be null"));
         }
         return obj;
     }
