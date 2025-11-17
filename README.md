@@ -28,6 +28,8 @@ If you’re building your project using Maven, you can add the following depende
 If your project is built using another build tool that uses the Maven Central repository, translate this dependency into
 the format used by your build tool.
 
+Check out the artifact in [Central-Sonatype Overview](https://central.sonatype.com/artifact/io.github.mangila/ensure4j/overview)
+
 ## What is Preconditions?
 
 Preconditions are a design pattern that helps prevent invalid method calls by ensuring that the method arguments meet
@@ -51,7 +53,8 @@ certain criteria.
   written without continually checking for nulls or invalid values. This makes the core logic flatter and cleaner (
   lowering the indentation level).
 
-You most likely already use Preconditions in your code. If you have heard about _Look Before You Leap_ (LBYL), it's the same
+You most likely already use Preconditions in your code. If you have heard about _Look Before You Leap_ (LBYL), it's the
+same
 mechanism, but preconditions are leaning more towards a contract-based approach.
 
 It's a great and simple way to ensure that your code is in a predictable state.
@@ -93,10 +96,12 @@ public void placeOrder(Order order) {
 }
 ```
 
-We have fewer if statements (less cognitive load) and more readable code and also re-usable pre-conditions checks throughout the whole
+We have fewer if statements (less cognitive load) and more readable code and also re-usable pre-conditions checks
+throughout the whole
 codebase.
 
-There is some library support for Preconditions already in Java, but they are not as comprehensive and direct as Ensure4j is a precondition-only library.
+There is some library support for Preconditions already in Java, but they are not as comprehensive and direct as
+Ensure4j is a precondition-only library.
 
 Libs with the same functionality:
 
@@ -104,7 +109,8 @@ Libs with the same functionality:
 - Java's builtin Objects
 - Spring's Assert class.
 
-Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a performance penalty that might waste some CPU cycles, 
+Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
+performance penalty that might waste some CPU cycles,
 But this library is very lightweight and has no dependencies.
 
 And of course, you can always roll your own, and I have done that in the past, that's why I created Ensure4j.
