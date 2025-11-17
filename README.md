@@ -1,6 +1,6 @@
 # ensure4j
 
-Ensure4j is an implementation of the Preconditions pattern in Java.
+Ensure4j is an implementation of the precondition pattern in Java.
 
 There is also support for functional programming pipelines and Java Streams.
 
@@ -21,7 +21,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
@@ -53,7 +53,7 @@ certain criteria.
   written without continually checking for nulls or invalid values. This makes the core logic flatter and cleaner (
   lowering the indentation level).
 
-You most likely already use Preconditions in your code. If you have heard about _Look Before You Leap_ (LBYL), it's the
+You most likely already use preconditions in your code. If you have heard about _Look Before You Leap_ (LBYL), it's the
 same
 mechanism, but preconditions are leaning more towards a contract-based approach.
 
@@ -86,7 +86,7 @@ public void placeOrder(Order order) {
 
 With the exception that Ensure4j throws an `EnsureException` instead of an `IllegalArgumentException`.
 
-Ensure4j has supplier functions that can be used to provide a custom exception suited for the application/use case need.
+Ensure4j has supplier functions that can be used to provide a custom exception suited for the application or use case need.
 
 ```java
 public void placeOrder(Order order) {
@@ -96,14 +96,14 @@ public void placeOrder(Order order) {
 }
 ```
 
-We have fewer if statements (less cognitive load) and more readable code and also re-usable pre-conditions checks
+We have fewer if statements (less cognitive load) and more readable code and also reusable preconditions checks
 throughout the whole
 codebase.
 
-There is some library support for Preconditions already in Java, but they are not as comprehensive and direct as
-Ensure4j is a precondition-only library.
+There is some library support for preconditions already in Java, but they are not as comprehensive and direct as
+Ensure4j. Since this is a precondition only library.
 
-Libs with the same functionality:
+Libs with preconditions support:
 
 - Guava's Preconditions
 - Java's builtin Objects

@@ -1,6 +1,7 @@
 package io.github.mangila.ensure4j;
 
 import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.core.domain.JavaMember;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
@@ -43,9 +44,13 @@ public class EnsureTest {
                 .should(new ArchCondition<>("") {
                     @Override
                     public void check(JavaClass item, ConditionEvents events) {
-                        item.getMethods().forEach(m -> System.out.println(m.getName()));
+                        item.getMethods()
+                                .stream()
+                                .map(JavaMember::getName)
+                                .distinct()
+                                .forEach(System.out::println);
                         int size = item.getMethods().size();
-                        assertThat(size).isEqualTo(21);
+                        assertThat(size).isEqualTo(30);
                     }
                 })
                 .check(new ClassFileImporter().importPackages(javaPackage));

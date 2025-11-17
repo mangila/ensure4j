@@ -5,9 +5,10 @@ import io.github.mangila.ensure4j.Ensure;
 public class MultipleBoolCheck {
 
     public static void main(String[] args) {
-        boolean isFullmoon = isFullMoon();
-        boolean hasGarlicBread = hasGarlicBread();
-        Ensure.isTrue(isFullmoon && hasGarlicBread);
+        // Good practice is to keep one pre-condition per line.
+        // It's easier to know which pre-condition failed when it fails
+        Ensure.isTrue(isFullMoon(), "no full moon");
+        Ensure.isTrue(hasGarlicBread(), "no garlic bread");
     }
 
     /**
@@ -18,7 +19,7 @@ public class MultipleBoolCheck {
     }
 
     /**
-     * Calculate garlic probability
+     * Calculate garlic if bread or bread is garlic
      */
     private static boolean hasGarlicBread() {
         return true;
