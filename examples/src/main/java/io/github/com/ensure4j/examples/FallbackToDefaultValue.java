@@ -5,7 +5,7 @@ import io.github.mangila.ensure4j.Ensure;
 import java.util.ArrayList;
 
 /**
- * Some null values in a list transform to a default value.
+ * If a null value was found in a list, ensure that we return a default value.
  */
 public class FallbackToDefaultValue {
 
@@ -22,7 +22,8 @@ public class FallbackToDefaultValue {
         l.stream()
                 .map(v -> Ensure.notNullOrElse(v, VehicleDetails.DEFAULT))
                 .forEach(System.out::println);
-        // or create a default value on demand
+        System.out.println("### INTERMISSION ###");
+        // or create a default value on demand using the Supplier
         l.stream()
                 .map(v -> Ensure.notNullOrElseGet(v, () -> new VehicleDetails("unknown", "unknown")))
                 .forEach(System.out::println);

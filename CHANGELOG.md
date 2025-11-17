@@ -1,11 +1,19 @@
 # CHANGELOG
 
+## 0.0.4
+
+Added more methods.
+
+- isEmpty([])
+- equals(Object)
+- max(int)
+
 ## 0.0.3
 
 Add more methods.
 
-- isBlank
-- min
+- isBlank(String)
+- min(int)
 
 ## 0.0.2
 

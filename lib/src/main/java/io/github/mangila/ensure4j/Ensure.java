@@ -19,6 +19,126 @@ public final class Ensure {
     }
 
     /**
+     * Compares two objects for equality and throws a provided exception if they are not equal.
+     * If both objects are the same instance or the first object equals the second, the method returns without exception.
+     * If the first object is null or the objects are not equal, a custom exception is thrown.
+     *
+     * @param object   the first object to compare, must not be null
+     * @param other    the second object to compare with the first one
+     * @param supplier the supplier providing the exception to be thrown if objects are not equal
+     * @throws RuntimeException if the first object is null or the objects are not equal
+     */
+    public static void equals(Object object, Object other, Supplier<RuntimeException> supplier) throws RuntimeException {
+        if (object == other) {
+            return;
+        }
+        notNull(object, supplier);
+        if (object.equals(other)) {
+            return;
+        }
+        throw getSupplierOrThrow(supplier);
+    }
+
+    /**
+     * Compares two objects for equality and throws an EnsureException with the specified message if they are not equal.
+     *
+     * @param object           the first object to compare
+     * @param other            the second object to compare
+     * @param exceptionMessage the message to include in the EnsureException if the objects are not equal
+     * @throws EnsureException if the objects are not equal
+     */
+    public static void equals(Object object, Object other, String exceptionMessage) throws EnsureException {
+        equals(object, other, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Compares two objects for equality. If they are not equal, a default exception is triggered.
+     * The method delegates to an internal implementation with a pre-defined exception supplier.
+     *
+     * @param object the first object to compare
+     * @param other  the second object to compare
+     */
+    public static void equals(Object object, Object other) {
+        equals(object, other, () -> EnsureException.from("objects must be equal"));
+    }
+
+    /**
+     * Validates that the given array is not empty. If the array is null or empty,
+     * the provided supplier is used to throw an exception.
+     *
+     * @param array    the array to check for non-emptiness
+     * @param supplier the supplier providing the exception to be thrown if validation fails
+     * @throws RuntimeException if the array is null or empty
+     */
+    public static void notEmpty(Object[] array, Supplier<RuntimeException> supplier) throws RuntimeException {
+        notNull(array, supplier);
+        if (array.length == 0) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Checks if the provided array is not empty. If the array is empty,
+     * throws an EnsureException with the provided exception message.
+     *
+     * @param array            the array to check for non-emptiness
+     * @param exceptionMessage the message to include in the exception if the array is empty
+     * @throws EnsureException if the array is empty
+     */
+    public static void notEmpty(Object[] array, String exceptionMessage) throws EnsureException {
+        notEmpty(array, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided array is not empty. If the array is empty, an EnsureException is thrown.
+     *
+     * @param array the array to be checked
+     * @throws EnsureException if the array is empty
+     */
+    public static void notEmpty(Object[] array) throws EnsureException {
+        notEmpty(array, "array must not be empty");
+    }
+
+    /**
+     * Ensures that the provided integer value does not exceed the specified maximum.
+     * If the value exceeds the maximum, the provided exception supplier is used to
+     * throw a RuntimeException.
+     *
+     * @param max the maximum allowable value
+     * @param n the value to check against the maximum
+     * @param supplier the supplier function that provides the RuntimeException to be thrown
+     *                  if the value exceeds the maximum
+     */
+    public static void max(int max, int n, Supplier<RuntimeException> supplier) {
+        if (n > max) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Ensures that a given value does not exceed a specified maximum limit.
+     *
+     * @param max the maximum allowable value
+     * @param n the value to be checked
+     * @param exceptionMessage the message to be used in the exception if the condition is violated
+     * @throws EnsureException if the value exceeds the maximum limit
+     */
+    public static void max(int max, int n, String exceptionMessage) throws EnsureException {
+        max(max, n, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Ensures that a given value does not exceed a specified maximum value.
+     *
+     * @param max the maximum allowed value
+     * @param n the value to be checked
+     * @throws EnsureException if the value exceeds the maximum allowed
+     */
+    public static void max(int max, int n) throws EnsureException {
+        max(max, n, "value must be less than or equal to %d, but was %d".formatted(max, n));
+    }
+
+    /**
      * Checks if the given number is less than the specified minimum value and throws an exception if the condition is met.
      *
      * @param min      the minimum allowable value
@@ -56,13 +176,12 @@ public final class Ensure {
     }
 
     /**
-     * Ensures that the provided string is not blank. If the string is blank,
-     * a {@link RuntimeException} provided by the given {@link Supplier} is thrown.
+     * Validates that the provided string is not blank (not null, not empty, and does not consist solely of whitespace).
+     * If the string is blank, the specified exception is thrown.
      *
-     * @param s        the string to be checked for blankness
-     * @param supplier the supplier responsible for providing the {@link RuntimeException}
-     *                 to be thrown if {@code s} is blank
-     * @throws RuntimeException if {@code s} is blank, with the exception derived from {@code supplier}
+     * @param s the string to validate
+     * @param supplier a supplier for the exception to be thrown if the validation fails
+     * @throws RuntimeException if the string is blank
      */
     public static void notBlank(String s, Supplier<RuntimeException> supplier) throws RuntimeException {
         notNull(s, supplier);
@@ -72,8 +191,8 @@ public final class Ensure {
     }
 
     /**
-     * Checks if the given string is blank (null, empty, or only contains whitespace) and
-     * throws an exception if it is.
+     * Checks if the provided string is blank (null, empty, or containing only whitespace).
+     * Throws an EnsureException if the string does not meet the specified condition.
      *
      * @param s                the string to be checked for blankness
      * @param exceptionMessage the message to be included in the thrown exception if the string is blank
