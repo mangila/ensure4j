@@ -1,4 +1,4 @@
-package com.github.mangila.ensure4j;
+package io.github.mangila.ensure4j;
 
 /**
  * Represents an exception that can be used for validation or ensuring specific conditions are met

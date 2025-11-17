@@ -1,4 +1,4 @@
-package com.github.com.ensure4j.examples;
+package io.github.com.ensure4j.examples;
 
 public class NullExamples {
 
