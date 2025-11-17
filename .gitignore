@@ -115,7 +115,6 @@ Thumbs.db
 *.tmp
 *.swp
 
-deployment.md
 # Local deployment stuffs TODO: remove and put in circleci
 settings.xml
 deploy-dry-run.py

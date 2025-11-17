@@ -17,17 +17,6 @@ public class NullTest {
     }
 
     @Test
-    @DisplayName("Sad path notNullOrElseGet()")
-    void notNullOrElseGet1() {
-        assertThatThrownBy(() -> Ensure.notNullOrElseGet(null, null))
-                .isInstanceOf(EnsureException.class)
-                .hasMessage("supplier was null");
-        assertThatThrownBy(() -> Ensure.notNullOrElseGet(null, () -> null))
-                .isInstanceOf(EnsureException.class)
-                .hasMessage("supplier was given a null value");
-    }
-
-    @Test
     @DisplayName("Happy path notNullOrElse()")
     void notNullOrElse() {
         String s = Ensure.notNullOrElse("happy", "test");
@@ -45,20 +34,19 @@ public class NullTest {
         String s = Ensure.notNullOrElseThrow("test",
                 () -> new IllegalArgumentException("test"));
         assertThat(s).isEqualTo("test");
+        s = Ensure.notNullOrElseThrow("test");
+        assertThat(s).isEqualTo("test");
     }
 
     @Test
     @DisplayName("Sad - notNullOrElseThrow()")
     void notNullOrElseThrow1() {
-        assertThatThrownBy(() -> Ensure.notNullOrElseThrow(null, null))
-                .isInstanceOf(EnsureException.class)
-                .hasMessage("supplier was null");
-        assertThatThrownBy(() -> Ensure.notNullOrElseThrow(null, () -> null))
-                .isInstanceOf(EnsureException.class)
-                .hasMessage("supplier was given a null value");
         assertThatThrownBy(() -> Ensure.notNullOrElseThrow(null, () -> new IllegalArgumentException("test")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("test");
+        assertThatThrownBy(() -> Ensure.notNullOrElseThrow(null))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("object must not be null");
     }
 
     @Test
