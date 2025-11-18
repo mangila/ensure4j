@@ -1,3 +1,5 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
+
 # ensure4j
 
 Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
