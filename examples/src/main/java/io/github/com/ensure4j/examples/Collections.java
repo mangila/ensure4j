@@ -30,6 +30,7 @@ public class Collections {
 
     static class ServiceLayer {
         public void processCollection(PersonCollection collection) {
+            Ensure.notNull(collection, "collection must not be null");
             Ensure.notEmpty(collection.people, "collection must not be empty");
             Ensure.min(2, collection.size(), "collection must contain at least 2 people");
             Ensure.max(10, collection.size(), "collection must not exceed 10 people");
