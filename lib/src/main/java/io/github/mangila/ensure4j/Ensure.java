@@ -3,6 +3,8 @@ package io.github.mangila.ensure4j;
 
 import org.jspecify.annotations.NonNull;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -63,6 +65,83 @@ public final class Ensure {
     }
 
     /**
+     * Validates that the provided collection is not null and not empty.
+     * If the collection is null or empty, a RuntimeException is thrown, which is
+     * either created using the provided supplier or thrown directly if the supplier is null.
+     *
+     * @param collection the collection to be validated
+     * @param supplier   the supplier providing the RuntimeException to be thrown if the collection is null or empty
+     * @throws RuntimeException if the collection is null or empty
+     */
+    public static void notEmpty(Collection<?> collection, Supplier<RuntimeException> supplier) throws RuntimeException {
+        notNull(collection, supplier);
+        if (collection.isEmpty()) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Checks if the provided collection is not empty. If the collection is empty,
+     * throws an {@code EnsureException} with the provided exception message.
+     *
+     * @param collection       the collection to check for non-emptiness
+     * @param exceptionMessage the exception message to use if the collection is empty
+     * @throws EnsureException if the collection is empty
+     */
+    public static void notEmpty(Collection<?> collection, String exceptionMessage) throws EnsureException {
+        notEmpty(collection, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided collection is not empty. If the collection is empty, an EnsureException is thrown.
+     *
+     * @param collection the collection to validate for non-emptiness
+     * @throws EnsureException if the collection is empty
+     */
+    public static void notEmpty(Collection<?> collection) throws EnsureException {
+        notEmpty(collection, "collection must not be empty");
+    }
+
+    /**
+     * Validates that the provided map is not empty. If the map is null or empty,
+     * the exception provided by the supplied {@code supplier} is thrown.
+     *
+     * @param map      the map to be validated
+     * @param supplier the supplier that provides the exception to be thrown if
+     *                 the validation fails
+     * @throws RuntimeException if the map is null or empty
+     */
+    public static void notEmpty(Map<?, ?> map, Supplier<RuntimeException> supplier) throws RuntimeException {
+        notNull(map, supplier);
+        if (map.isEmpty()) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Ensures that the provided map is not empty. If the map is null or empty,
+     * throws an EnsureException with the specified exception message.
+     *
+     * @param map              the map to check for emptiness
+     * @param exceptionMessage the message to include in the exception if the map is empty
+     * @throws EnsureException if the map is null or empty
+     */
+    public static void notEmpty(Map<?, ?> map, String exceptionMessage) throws EnsureException {
+        notEmpty(map, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Validates that the provided map is not empty. If the map is null or empty,
+     * an EnsureException will be thrown with a specified error message.
+     *
+     * @param map the map to be checked for emptiness; must not be null or empty
+     * @throws EnsureException if the provided map is null or empty
+     */
+    public static void notEmpty(Map<?, ?> map) throws EnsureException {
+        notEmpty(map, "map must not be empty");
+    }
+
+    /**
      * Validates that the given array is not empty. If the array is null or empty,
      * the provided supplier is used to throw an exception.
      *
@@ -104,10 +183,10 @@ public final class Ensure {
      * If the value exceeds the maximum, the provided exception supplier is used to
      * throw a RuntimeException.
      *
-     * @param max the maximum allowable value
-     * @param n the value to check against the maximum
+     * @param max      the maximum allowable value
+     * @param n        the value to check against the maximum
      * @param supplier the supplier function that provides the RuntimeException to be thrown
-     *                  if the value exceeds the maximum
+     *                 if the value exceeds the maximum
      */
     public static void max(int max, int n, Supplier<RuntimeException> supplier) {
         if (n > max) {
@@ -118,8 +197,8 @@ public final class Ensure {
     /**
      * Ensures that a given value does not exceed a specified maximum limit.
      *
-     * @param max the maximum allowable value
-     * @param n the value to be checked
+     * @param max              the maximum allowable value
+     * @param n                the value to be checked
      * @param exceptionMessage the message to be used in the exception if the condition is violated
      * @throws EnsureException if the value exceeds the maximum limit
      */
@@ -131,7 +210,7 @@ public final class Ensure {
      * Ensures that a given value does not exceed a specified maximum value.
      *
      * @param max the maximum allowed value
-     * @param n the value to be checked
+     * @param n   the value to be checked
      * @throws EnsureException if the value exceeds the maximum allowed
      */
     public static void max(int max, int n) throws EnsureException {
@@ -179,7 +258,7 @@ public final class Ensure {
      * Validates that the provided string is not blank (not null, not empty, and does not consist solely of whitespace).
      * If the string is blank, the specified exception is thrown.
      *
-     * @param s the string to validate
+     * @param s        the string to validate
      * @param supplier a supplier for the exception to be thrown if the validation fails
      * @throws RuntimeException if the string is blank
      */

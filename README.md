@@ -4,6 +4,8 @@ Ensure4j is an implementation of the precondition pattern in Java.
 
 There is also support for functional programming pipelines and Java Streams.
 
+**NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered stable. Yet...**
+
 ## Get started
 
 To get Ensure4j, you have two options:
