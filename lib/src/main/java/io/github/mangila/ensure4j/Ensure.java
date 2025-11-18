@@ -337,7 +337,6 @@ public final class Ensure {
      * @return the non-null object
      * @throws RuntimeException if the object is null and the supplier provides an exception
      */
-    @NonNull
     public static <T> T notNullOrElseThrow(T obj, Supplier<RuntimeException> supplier) throws RuntimeException {
         if (isNull(obj)) {
             throw getSupplierOrThrow(supplier);
@@ -354,7 +353,6 @@ public final class Ensure {
      * @return the non-null object passed as input
      * @throws RuntimeException if the object is null
      */
-    @NonNull
     public static <T> T notNullOrElseThrow(T obj) throws RuntimeException {
         if (isNull(obj)) {
             throw getSupplierOrThrow(() -> EnsureException.from("object must not be null"));
