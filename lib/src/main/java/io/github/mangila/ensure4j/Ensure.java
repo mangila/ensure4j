@@ -328,15 +328,16 @@ public final class Ensure {
     }
 
     /**
-     * Returns the provided object if it is not null; otherwise, it throws a {@link RuntimeException}
-     * provided by the given {@link Supplier}.
+     * Ensures that the specified object is not null. If the object is null, a RuntimeException
+     * provided by the given supplier is thrown.
      *
-     * @param <T>      the type of the object being evaluated
-     * @param obj      the object to be checked for non-nullity
-     * @param supplier the supplier to provide the {@link RuntimeException} to throw if {@code obj} is null
-     * @return the non-null {@code obj}
-     * @throws RuntimeException if {@code obj} is null, derived from the exception provided by {@code supplier}
+     * @param <T>      the type of the object being checked
+     * @param obj      the object to check for nullity
+     * @param supplier the supplier that provides a RuntimeException to be thrown if the object is null
+     * @return the non-null object
+     * @throws RuntimeException if the object is null and the supplier provides an exception
      */
+    @NonNull
     public static <T> T notNullOrElseThrow(T obj, Supplier<RuntimeException> supplier) throws RuntimeException {
         if (isNull(obj)) {
             throw getSupplierOrThrow(supplier);
@@ -353,6 +354,7 @@ public final class Ensure {
      * @return the non-null object passed as input
      * @throws RuntimeException if the object is null
      */
+    @NonNull
     public static <T> T notNullOrElseThrow(T obj) throws RuntimeException {
         if (isNull(obj)) {
             throw getSupplierOrThrow(() -> EnsureException.from("object must not be null"));
