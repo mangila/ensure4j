@@ -1,2 +1,18 @@
-# TODO: circle ci publishing
-version: 2.1
+version: '2.1'
+
+workflows:
+  publish-on-folder-change:
+    jobs:
+      - maven-publish-job:
+          filters:
+            branches:
+              only: main
+            paths:
+              only:
+                - "^lib/.*"
+          docker:
+            - image: cimg/openjdk:21.0.9
+          steps:
+            - checkout
+            - run: java --version
+            - run: mvn clean test -f lib/pom.xml

@@ -119,6 +119,7 @@ Thumbs.db
 settings.xml
 deploy-dry-run.py
 private.key
+.circleci/circle_ci_schema.json
 # Dry release run
 lib/pom.xml.next
 lib/pom.xml.releaseBackup
