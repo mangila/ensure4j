@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.0.6
+
+Prettier Javadocs
+
 ## 0.0.5
 
 More methods.
