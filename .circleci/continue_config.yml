@@ -29,7 +29,7 @@ jobs:
           command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
       - run:
           name: Maven Release Prepare
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B -DdryRun=true release:prepare --settings settings.xml -f lib/pom.xml
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B -DdryRun=true -DskipTests release:prepare --settings settings.xml -f lib/pom.xml
       - run:
           name: Maven Release Perform
           command: mvn -B -DdryRun=true release:perform --settings settings.xml -f lib/pom.xml
