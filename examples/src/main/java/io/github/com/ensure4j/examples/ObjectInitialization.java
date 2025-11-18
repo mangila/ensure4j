@@ -43,4 +43,16 @@ public class ObjectInitialization {
             this.value = Ensure.notNullOrElseGet(value, () -> "default_value");
         }
     }
+
+    static class EnsuredObject3 {
+        String key;
+        String value;
+
+        // Run some preconditions in the class constructor
+        // use the value, but only if it's not null
+        EnsuredObject3(String key, String value) {
+            this.key = Ensure.notNullOrElseThrow(key);
+            this.value = Ensure.notNullOrElseThrow(value);
+        }
+    }
 }
