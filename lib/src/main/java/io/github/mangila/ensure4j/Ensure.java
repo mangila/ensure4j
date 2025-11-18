@@ -81,8 +81,9 @@ public final class Ensure {
     }
 
     /**
-     * Checks if the provided collection is not empty. If the collection is empty,
-     * throws an {@code EnsureException} with the provided exception message.
+     * Validates that the provided collection is not null and not empty.
+     * If the collection is null or empty, an EnsureException is thrown, which is
+     * either created using the provided supplier or thrown directly if the supplier is null.
      *
      * @param collection       the collection to check for non-emptiness
      * @param exceptionMessage the exception message to use if the collection is empty
@@ -93,7 +94,9 @@ public final class Ensure {
     }
 
     /**
-     * Ensures that the provided collection is not empty. If the collection is empty, an EnsureException is thrown.
+     * Validates that the provided collection is not null and not empty.
+     * If the collection is null or empty, an EnsureException is thrown, which is
+     * either created using the provided supplier or thrown directly if the supplier is null.
      *
      * @param collection the collection to validate for non-emptiness
      * @throws EnsureException if the collection is empty
