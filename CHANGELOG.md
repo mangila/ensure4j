@@ -4,6 +4,10 @@
 
 Prettier Javadocs
 
+Added methods:
+
+- notContainsNull(Collection)
+
 ## 0.0.5
 
 More methods.

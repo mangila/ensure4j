@@ -65,6 +65,47 @@ public final class Ensure {
     }
 
     /**
+     * Checks if the provided collection does not contain any null elements.
+     * If the collection contains a null element, an exception is thrown using the provided supplier.
+     * <br>
+     * NOTE: No check if the collection is null or empty is performed.
+     *
+     * @param collection the collection to be checked for null elements
+     * @param supplier   the supplier of the exception to be thrown if a null element is found
+     * @throws EnsureException if the collection contains a null element
+     */
+    public static void notContainsNull(Collection<?> collection, Supplier<RuntimeException> supplier) throws EnsureException {
+        if (collection.contains(null)) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Ensures that the provided collection does not contain any null elements.
+     * <br>
+     * NOTE: No check if the collection is null or empty is performed.
+     *
+     * @param collection       the collection to be checked for null elements
+     * @param exceptionMessage the message to be used in the exception if the condition is violated
+     * @throws EnsureException if the collection contains null elements
+     */
+    public static void notContainsNull(Collection<?> collection, String exceptionMessage) throws EnsureException {
+        notContainsNull(collection, () -> EnsureException.from(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided collection does not contain any null elements.
+     * <br>
+     * NOTE: No check if the collection is null or empty is performed.
+     *
+     * @param collection the collection to be checked for null elements
+     * @throws EnsureException with the message "collection must not contain null elements" - if the collection contains a null element
+     */
+    public static void notContainsNull(Collection<?> collection) throws EnsureException {
+        notContainsNull(collection, "collection must not contain null elements");
+    }
+
+    /**
      * Validates that the provided collection is not null and not empty.
      * If the collection is null or empty, a RuntimeException is thrown, which is
      * either created using the provided supplier or thrown directly if the supplier is null.
@@ -185,8 +226,8 @@ public final class Ensure {
      * Ensures that the provided number does not exceed the specified maximum value.
      * If the number exceeds the maximum, a RuntimeException is thrown using the provided supplier.
      *
-     * @param max the maximum allowable value
-     * @param n the number to be validated
+     * @param max      the maximum allowable value
+     * @param n        the number to be validated
      * @param supplier a supplier that provides the RuntimeException to be thrown when the validation fails
      * @throws RuntimeException if the value of {@code n} exceeds {@code max}
      */
