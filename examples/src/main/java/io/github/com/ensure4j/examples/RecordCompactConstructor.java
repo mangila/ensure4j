@@ -4,6 +4,7 @@ import io.github.mangila.ensure4j.Ensure;
 
 /**
  * Domain object instantiation pre-condition within a compact record constructor.
+ * And throw a custom domain exception if the pre-condition fails.
  */
 public class RecordCompactConstructor {
 
