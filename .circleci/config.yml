@@ -8,16 +8,16 @@ jobs:
       - checkout
       - run:
           name: Create settings.xml
-          command: echo $MAVEN_SETTINGS_BASE64 | base64 -d -i > settings.xml
+          command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
       - run:
           name: Create GPG Key
-          command: echo $MAVEN_GPG_KEY_BASE64 | base64 -d -i > private.key
+          command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
       - run:
           name: Maven Release Prepare
-          command: mvn -B -DdryRun=true release:prepare -Dgpg.keyFilePath=private.key --settings settings.xml -f lib/pom.xml
+          command: mvn -B -DdryRun=true release:prepare -Dgpg.keyFilePath=private.asc --settings settings.xml -f lib/pom.xml
       - run:
           name: Maven Release Perform
-          command: mvn -B -DdryRun=true release:perform -Dgpg.keyFilePath=private.key --settings settings.xml -f lib/pom.xml
+          command: mvn -B -DdryRun=true release:perform -Dgpg.keyFilePath=private.asc --settings settings.xml -f lib/pom.xml
 
 workflows:
   main:
