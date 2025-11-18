@@ -115,14 +115,9 @@ Thumbs.db
 *.tmp
 *.swp
 
-# Local deployment stuffs TODO: remove and put in circleci
-settings.xml
-deploy-dry-run.py
-private.key
-.circleci/circle_ci_schema.json
-# Dry release run
-lib/pom.xml.next
-lib/pom.xml.releaseBackup
-lib/pom.xml.tag
-lib/release.properties
+# =========================================
+# Local
+# =========================================
 
+settings.xml
+.circleci/circle_ci_schema.json
