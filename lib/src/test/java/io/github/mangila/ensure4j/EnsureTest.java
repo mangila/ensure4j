@@ -40,7 +40,7 @@ public class EnsureTest {
     }
 
     @Test
-    void testMethodSize() {
+    void archTest() {
         String javaPackage = "io.github.mangila.ensure4j";
         ArchRuleDefinition.classes()
                 .that()
@@ -58,8 +58,8 @@ public class EnsureTest {
                                 .map(JavaMember::getName)
                                 .toList();
                         assertPublicMethods(publicMethods);
-                        int size = item.getMethods().size();
-                        assertThat(size).isEqualTo(36);
+                        int totalMethods = item.getMethods().size();
+                        assertThat(totalMethods).isEqualTo(36);
                     }
 
                     /**
