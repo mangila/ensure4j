@@ -1,6 +1,7 @@
 # ensure4j
 
-Ensure4j is an implementation of the precondition pattern in Java.
+Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
+dependencies.
 
 There is also support for functional programming pipelines and Java Streams.
 
@@ -126,8 +127,7 @@ Libs with preconditions support:
 - Spring's Assert class.
 
 Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
-performance penalty that might waste some CPU cycles,
-But this library is very lightweight and has no dependencies.
+performance penalty that might waste some CPU cycles.
 
 And of course, you can always roll your own, and I have done that in the past, that's why I created Ensure4j.
 
