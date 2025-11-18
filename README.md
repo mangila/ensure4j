@@ -9,7 +9,7 @@ stable. Yet...**
 
 ## Get started
 
-To get Ensure4j, you have two options:
+To get **Ensure4j**, you have two options:
 
 - Add a dependency to Ensure4j to your project.
 
@@ -36,7 +36,7 @@ in [Central-Sonatype Overview](https://central.sonatype.com/artifact/io.github.m
 
 ## What is Preconditions?
 
-Preconditions are a design pattern that helps prevent invalid method calls by ensuring that the method arguments meet
+Preconditions is a design pattern that helps prevent invalid method calls by ensuring that the method arguments meet
 certain criteria.
 
 ## Why use Preconditions?
@@ -63,7 +63,7 @@ mechanism, but preconditions are leaning more towards a contract-based approach.
 
 It's a great and simple way to ensure that your code is in a predictable state.
 
-Here's a basic example of what usage of preconditions can look like in the wild
+Here's a basic example of what usage of preconditions can look like in the wild:
 
 ```java
 
@@ -78,7 +78,7 @@ public void placeOrder(Order order) {
 }
 ```
 
-Here's what the same code looks like with Ensure4j
+Here's what the same code looks like with Ensure4j:
 
 ```java
 public void placeOrder(Order order) {
@@ -101,7 +101,10 @@ public void placeOrder(Order order) {
 }
 ```
 
-Predefined exception messages are also supported.
+Predefined exception messages are builtin in the library if you don't want to provide a custom one.
+
+**NOTE: Use well-defined exception messages. They should be self-explanatory and provide enough context to help
+understand the problem. The default ones might not be enough for your use case.**
 
 ```java
 public void placeOrder(Order order) {
