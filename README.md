@@ -1,9 +1,10 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
-
 # ensure4j
 
 Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
 dependencies.
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
+![GitHub Release](https://img.shields.io/github/v/release/mangila/ensure4j)
 
 There is also support for functional programming pipelines and Java Streams.
 
@@ -136,7 +137,3 @@ And of course, you can always roll your own, and I have done that in the past, t
 ## Example usage
 
 See the [examples](examples) project
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md)
