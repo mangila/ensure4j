@@ -91,7 +91,7 @@ Ensure4j has supplier functions that can be used to provide a custom exception s
 ```java
 public void placeOrder(Order order) {
     Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
-    Ensure.min(1, order.getAmount(), "Order amount must be greater than zero");
+    Ensure.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
     // do business logic
 }
 ```
