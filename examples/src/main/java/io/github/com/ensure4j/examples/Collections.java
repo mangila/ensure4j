@@ -5,7 +5,14 @@ import io.github.mangila.ensure4j.Ensure;
 import java.util.List;
 
 /**
- * Ensure a domain object collection with a min and a max boundary also check if not null and not empty.
+ * Ensure a domain object collection
+ * <ul>
+ *     <li>not null</li>
+ *     <li>not empty</li>
+ *     <li>has no null elements</li>
+ *     <li>min boundary</li>
+ *     <li>max boundary</li>
+ * </ul>
  */
 public class Collections {
 
@@ -32,6 +39,7 @@ public class Collections {
         public void processCollection(PersonCollection collection) {
             Ensure.notNull(collection, "collection must not be null");
             Ensure.notEmpty(collection.people, "collection must not be empty");
+            Ensure.notContainsNull(collection.people, "collection must not contain null elements");
             Ensure.min(2, collection.size(), "collection must contain at least 2 people");
             Ensure.max(10, collection.size(), "collection must not exceed 10 people");
             // do processing
