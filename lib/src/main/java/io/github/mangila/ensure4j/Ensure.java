@@ -54,13 +54,13 @@ public final class Ensure {
     }
 
     /**
-     * Compares two objects for equality. If they are not equal, a default exception is triggered.
-     * The method delegates to an internal implementation with a pre-defined exception supplier.
+     * Asserts that two objects are equal. If they are not equal, an exception is thrown.
      *
      * @param object the first object to compare
      * @param other  the second object to compare
+     * @throws EnsureException with the message "objects must be equal" - if the objects are not equal
      */
-    public static void equals(Object object, Object other) {
+    public static void equals(Object object, Object other) throws EnsureException {
         equals(object, other, () -> EnsureException.from("objects must be equal"));
     }
 
@@ -99,7 +99,7 @@ public final class Ensure {
      * either created using the provided supplier or thrown directly if the supplier is null.
      *
      * @param collection the collection to validate for non-emptiness
-     * @throws EnsureException if the collection is empty
+     * @throws EnsureException with the message "collection must not be empty" - if the collection is empty
      */
     public static void notEmpty(Collection<?> collection) throws EnsureException {
         notEmpty(collection, "collection must not be empty");
@@ -138,7 +138,7 @@ public final class Ensure {
      * an EnsureException will be thrown with a specified error message.
      *
      * @param map the map to be checked for emptiness; must not be null or empty
-     * @throws EnsureException if the provided map is null or empty
+     * @throws EnsureException with the message "map must not be empty" - if the provided map is null or empty
      */
     public static void notEmpty(Map<?, ?> map) throws EnsureException {
         notEmpty(map, "map must not be empty");
@@ -175,23 +175,22 @@ public final class Ensure {
      * Ensures that the provided array is not empty. If the array is empty, an EnsureException is thrown.
      *
      * @param array the array to be checked
-     * @throws EnsureException if the array is empty
+     * @throws EnsureException with the message "array must not be empty" - if the array is empty
      */
     public static void notEmpty(Object[] array) throws EnsureException {
         notEmpty(array, "array must not be empty");
     }
 
     /**
-     * Ensures that the provided integer value does not exceed the specified maximum.
-     * If the value exceeds the maximum, the provided exception supplier is used to
-     * throw a RuntimeException.
+     * Ensures that the provided number does not exceed the specified maximum value.
+     * If the number exceeds the maximum, a RuntimeException is thrown using the provided supplier.
      *
-     * @param max      the maximum allowable value
-     * @param n        the value to check against the maximum
-     * @param supplier the supplier function that provides the RuntimeException to be thrown
-     *                 if the value exceeds the maximum
+     * @param max the maximum allowable value
+     * @param n the number to be validated
+     * @param supplier a supplier that provides the RuntimeException to be thrown when the validation fails
+     * @throws RuntimeException if the value of {@code n} exceeds {@code max}
      */
-    public static void max(int max, int n, Supplier<RuntimeException> supplier) {
+    public static void max(int max, int n, Supplier<RuntimeException> supplier) throws RuntimeException {
         if (n > max) {
             throw getSupplierOrThrow(supplier);
         }
@@ -214,7 +213,7 @@ public final class Ensure {
      *
      * @param max the maximum allowed value
      * @param n   the value to be checked
-     * @throws EnsureException if the value exceeds the maximum allowed
+     * @throws EnsureException with the message "value must be less than or equal to %d, but was %d" - if the value exceeds the maximum allowed
      */
     public static void max(int max, int n) throws EnsureException {
         max(max, n, "value must be less than or equal to %d, but was %d".formatted(max, n));
@@ -251,7 +250,7 @@ public final class Ensure {
      *
      * @param min the minimum allowable value
      * @param n   the value to be checked against the minimum
-     * @throws EnsureException if the value does not meet the specified minimum requirement
+     * @throws EnsureException with the message "value must be greater than or equal to %d, but was %d" - if the value does not meet the specified minimum requirement
      */
     public static void min(int min, int n) throws EnsureException {
         min(min, n, "value must be greater than or equal to %d, but was %d".formatted(min, n));
@@ -289,7 +288,7 @@ public final class Ensure {
      * Throws an EnsureException if the string does not meet the specified condition.
      *
      * @param s the string to be checked for blankness
-     * @throws EnsureException if the string is blank
+     * @throws EnsureException with the message "string must not be blank" - if the string is blank
      */
     public static void notBlank(String s) throws EnsureException {
         notBlank(s, "string must not be blank");
@@ -351,7 +350,7 @@ public final class Ensure {
      * @param obj the object to be checked for nullity
      * @param <T> the type of the object
      * @return the non-null object passed as input
-     * @throws RuntimeException if the object is null
+     * @throws RuntimeException with the message "object must not be null" - if the object is null
      */
     public static <T> T notNullOrElseThrow(T obj) throws RuntimeException {
         if (isNull(obj)) {
@@ -390,7 +389,7 @@ public final class Ensure {
      * Ensures that the provided object is not null. If the object is null, an {@link EnsureException} is thrown.
      *
      * @param obj the object to be checked for non-nullity
-     * @throws EnsureException if {@code obj} is null
+     * @throws EnsureException with the message "object must not be null" - if {@code obj} is null
      */
     public static void notNull(Object obj) throws EnsureException {
         notNull(obj, "object must not be null");
@@ -429,7 +428,7 @@ public final class Ensure {
      * an {@link EnsureException} with a default message is thrown.
      *
      * @param b the boolean value to check; must be true
-     * @throws EnsureException if the provided value is false
+     * @throws EnsureException with the message "boolean must be true" - if the provided value is false
      */
     public static void isTrue(boolean b) throws EnsureException {
         isTrue(b, "boolean must be true");
@@ -468,7 +467,7 @@ public final class Ensure {
      * an {@link EnsureException} with a default message is thrown.
      *
      * @param b the boolean value to be checked
-     * @throws EnsureException if {@code b} is true
+     * @throws EnsureException with the message "boolean must be false" - if {@code b} is true
      */
     public static void isFalse(boolean b) throws EnsureException {
         isFalse(b, "boolean must be false");
