@@ -1,30 +1,13 @@
 version: '2.1'
-
-jobs:
-  maven-publish-job:
-    docker:
-      - image: cimg/openjdk:21.0.9
-    steps:
-      - checkout
-      - run:
-          name: Create settings.xml
-          command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
-      - run:
-          name: Decode GPG Key
-          command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
-      - run:
-          name: Maven Release Prepare
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B -DdryRun=true release:prepare --settings settings.xml -f lib/pom.xml
-      - run:
-          name: Maven Release Perform
-          command: mvn -B -DdryRun=true release:perform --settings settings.xml -f lib/pom.xml
+setup: true
+orbs:
+  path-filtering: circleci/path-filtering@3.0.0
 
 workflows:
-  main:
-    when:
-      and:
-        - equal: [ main, << pipeline.git.branch >> ]
+  setup-pipeline:
     jobs:
-      - maven-publish-job:
-          context: maven-sonatype
-          name: Build and Publish to Sonatype
+      - path-filtering/filter:
+          base-revision: main
+          config-path: .circleci/continue_config.yml
+          mapping: |
+            lib/src/main.* library-release true
