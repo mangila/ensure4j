@@ -1,18 +1,27 @@
 version: '2.1'
 
+jobs:
+  maven-publish-job:
+    docker:
+      - image: cimg/openjdk:21.0.9
+    steps:
+      - checkout
+      - run:
+          name: Create settings.xml
+          command: echo $MAVEN_SETTINGS_BASE64 | base64 -d -i > settings.xml
+      - run:
+          name: Maven Release Prepare
+          command: mvn -DdryRun=true release:prepare --settings settings.xml -f lib/pom.xml
+      - run:
+          name: Maven Release Perform
+          command: mvn -DdryRun=true release:perform --settings settings.xml -f lib/pom.xml
+
 workflows:
-  publish-on-folder-change:
+  main:
+    when:
+      and:
+        - equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - maven-publish-job:
-          filters:
-            branches:
-              only: main
-            paths:
-              only:
-                - "^lib/.*"
-          docker:
-            - image: cimg/openjdk:21.0.9
-          steps:
-            - checkout
-            - run: java --version
-            - run: mvn clean test -f lib/pom.xml
+          context: maven-sonatype
+          name: Build and Publish to Sonatype
