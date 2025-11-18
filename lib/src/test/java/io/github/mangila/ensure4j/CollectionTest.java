@@ -40,4 +40,45 @@ public class CollectionTest {
                 .hasMessage("list must not be empty");
     }
 
+    @Test
+    @DisplayName("Happy path notContainsNull(Collection)")
+    void notContainsNull() {
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            Ensure.notContainsNull(l);
+        }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            l.add("test1");
+            Ensure.notContainsNull(l);
+        }).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("Sad path notContainsNull(Collection)")
+    void notContainsNull1() {
+        assertThatThrownBy(() -> {
+            var l = new ArrayList<>();
+            l.add(null);
+            l.add("test");
+            Ensure.notContainsNull(l);
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("collection must not contain null elements");
+        assertThatThrownBy(() -> {
+            var l = new ArrayList<>();
+            l.add(null);
+            l.add("test");
+            Ensure.notContainsNull(l, "list must not contain null elements");
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("list must not contain null elements");
+        assertThatThrownBy(() -> {
+            var l = new ArrayList<>();
+            l.add(null);
+            l.add("test");
+            Ensure.notContainsNull(l, () -> new IllegalArgumentException("list must not contain null elements"));
+        }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("list must not contain null elements");
+    }
+
 }

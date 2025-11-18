@@ -1,14 +1,16 @@
 # ensure4j
 
-Ensure4j is an implementation of the precondition pattern in Java.
+Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
+dependencies.
 
 There is also support for functional programming pipelines and Java Streams.
 
-**NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered stable. Yet...**
+**NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered
+stable. Yet...**
 
 ## Get started
 
-To get Ensure4j, you have two options:
+To get **Ensure4j**, you have two options:
 
 - Add a dependency to Ensure4j to your project.
 
@@ -23,18 +25,19 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.6</version>
 </dependency>
 ```
 
 If your project is built using another build tool that uses the Maven Central repository, translate this dependency into
 the format used by your build tool.
 
-Check out the artifact in [Central-Sonatype Overview](https://central.sonatype.com/artifact/io.github.mangila/ensure4j/overview)
+Check out the artifact
+in [Central-Sonatype Overview](https://central.sonatype.com/artifact/io.github.mangila/ensure4j/overview)
 
 ## What is Preconditions?
 
-Preconditions are a design pattern that helps prevent invalid method calls by ensuring that the method arguments meet
+Preconditions is a design pattern that helps prevent invalid method calls by ensuring that the method arguments meet
 certain criteria.
 
 ## Why use Preconditions?
@@ -61,7 +64,7 @@ mechanism, but preconditions are leaning more towards a contract-based approach.
 
 It's a great and simple way to ensure that your code is in a predictable state.
 
-Here's a basic example of what usage of preconditions can look like in the wild
+Here's a basic example of what usage of preconditions can look like in the wild:
 
 ```java
 
@@ -76,7 +79,7 @@ public void placeOrder(Order order) {
 }
 ```
 
-Here's what the same code looks like with Ensure4j
+Here's what the same code looks like with Ensure4j:
 
 ```java
 public void placeOrder(Order order) {
@@ -88,7 +91,8 @@ public void placeOrder(Order order) {
 
 With the exception that Ensure4j throws an `EnsureException` instead of an `IllegalArgumentException`.
 
-Ensure4j has supplier functions that can be used to provide a custom exception suited for the application or use case need.
+Ensure4j has supplier functions that can be used to provide a custom exception suited for the application or use case
+need.
 
 ```java
 public void placeOrder(Order order) {
@@ -98,9 +102,20 @@ public void placeOrder(Order order) {
 }
 ```
 
+Predefined exception messages are builtin in the library if you don't want to provide a custom one.
+
+**NOTE: Use well-defined exception messages. They should be self-explanatory and provide enough context to help
+understand the problem. The default ones might not be enough for your use case.**
+
+```java
+public void placeOrder(Order order) {
+    Ensure.notNull(order); // will throw an EnsureException with the message "object must not be null"
+    Ensure.min(1, order.getAmount()); // will throw an EnsureException with the message "value must be greater than or equal to %d, but was %d"
+}
+```
+
 We have fewer if statements (less cognitive load) and more readable code and also reusable preconditions checks
-throughout the whole
-codebase.
+throughout the whole codebase.
 
 There is some library support for preconditions already in Java, but they are not as comprehensive and direct as
 Ensure4j. Since this is a precondition only library.
@@ -112,8 +127,7 @@ Libs with preconditions support:
 - Spring's Assert class.
 
 Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
-performance penalty that might waste some CPU cycles,
-But this library is very lightweight and has no dependencies.
+performance penalty that might waste some CPU cycles.
 
 And of course, you can always roll your own, and I have done that in the past, that's why I created Ensure4j.
 

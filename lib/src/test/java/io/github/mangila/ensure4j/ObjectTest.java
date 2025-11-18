@@ -20,6 +20,9 @@ public class ObjectTest {
                 .doesNotThrowAnyException();
         assertThatCode(() -> Ensure.equals(1, 1))
                 .doesNotThrowAnyException();
+        // REMINDME: idk... ok?
+        assertThatCode(() -> Ensure.equals(null, null))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -32,6 +35,9 @@ public class ObjectTest {
                 .isInstanceOf(EnsureException.class)
                 .hasMessage("test objects not equal");
         assertThatThrownBy(() -> Ensure.equals(new BigDecimal("1"), new BigInteger("1"), () -> new IllegalArgumentException("test objects not equal")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("test objects not equal");
+        assertThatThrownBy(() -> Ensure.equals(null, new BigInteger("1"), () -> new IllegalArgumentException("test objects not equal")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("test objects not equal");
     }
