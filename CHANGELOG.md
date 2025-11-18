@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.0.5
+
+More methods.
+
+- notEmpty(Collection)
+- notEmpty(Map)
+
 ## 0.0.4
 
 Added more methods.
