@@ -11,10 +11,10 @@ jobs:
           command: echo $MAVEN_SETTINGS_BASE64 | base64 -d -i > settings.xml
       - run:
           name: Maven Release Prepare
-          command: mvn -DdryRun=true release:prepare --settings settings.xml -f lib/pom.xml
+          command: mvn -B -DdryRun=true release:prepare --settings settings.xml -f lib/pom.xml
       - run:
           name: Maven Release Perform
-          command: mvn -DdryRun=true release:perform --settings settings.xml -f lib/pom.xml
+          command: mvn -B -DdryRun=true release:perform --settings settings.xml -f lib/pom.xml
 
 workflows:
   main:
