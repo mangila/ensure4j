@@ -3,15 +3,18 @@ package io.github.mangila.ensure4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class StringTest {
 
     @Test
     @DisplayName("Happy path notBlank")
     void notBlank() {
-        assertThatCode(() -> Ensure.notBlank("test")).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            String s = Ensure.notBlank("test");
+            assertThat(s).isEqualTo("test");
+        })
+                .doesNotThrowAnyException();
         assertThatCode(() -> Ensure.notBlank("test", "test message")).doesNotThrowAnyException();
         assertThatCode(() -> Ensure.notBlank("test", () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
     }

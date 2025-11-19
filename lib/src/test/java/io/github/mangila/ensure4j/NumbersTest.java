@@ -3,8 +3,7 @@ package io.github.mangila.ensure4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class NumbersTest {
 
@@ -12,7 +11,10 @@ public class NumbersTest {
     @Test
     @DisplayName("Happy path min(int)")
     void min() {
-        assertThatCode(() -> Ensure.min(-1, 0))
+        assertThatCode(() -> {
+            int n = Ensure.min(-1, 0);
+            assertThat(n).isEqualTo(0);
+        })
                 .doesNotThrowAnyException();
         assertThatCode(() -> Ensure.min(0, 0, "test message"))
                 .doesNotThrowAnyException();
@@ -37,8 +39,10 @@ public class NumbersTest {
     @Test
     @DisplayName("Happy path max(int)")
     void max() {
-        assertThatCode(() -> Ensure.max(100, -1))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> {
+            int n = Ensure.max(20, 5);
+            assertThat(n).isEqualTo(5);
+        });
         assertThatCode(() -> Ensure.max(0, 0, "test message"))
                 .doesNotThrowAnyException();
         assertThatCode(() -> Ensure.max(1, -1, () -> new IllegalArgumentException("test message")))
