@@ -24,7 +24,7 @@ public class EnsureException extends RuntimeException {
      * @param message the detail message that describes the reason for the exception
      * @return a new {@code EnsureException} instance encapsulating the provided message
      */
-    public static EnsureException from(String message) {
+    public static EnsureException of(String message) {
         return new EnsureException(message);
     }
 }

@@ -50,7 +50,7 @@ public final class Ensure {
      * @throws EnsureException if the objects are not equal
      */
     public static void equals(Object object, Object other, String exceptionMessage) throws EnsureException {
-        equals(object, other, () -> EnsureException.from(exceptionMessage));
+        equals(object, other, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -61,7 +61,7 @@ public final class Ensure {
      * @throws EnsureException with the message "objects must be equal" - if the objects are not equal
      */
     public static void equals(Object object, Object other) throws EnsureException {
-        equals(object, other, () -> EnsureException.from("objects must be equal"));
+        equals(object, other, () -> EnsureException.of("objects must be equal"));
     }
 
     /**
@@ -91,7 +91,7 @@ public final class Ensure {
      * @throws EnsureException if the collection contains null elements
      */
     public static void notContainsNull(Collection<?> collection, String exceptionMessage) throws EnsureException {
-        notContainsNull(collection, () -> EnsureException.from(exceptionMessage));
+        notContainsNull(collection, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -132,7 +132,7 @@ public final class Ensure {
      * @throws EnsureException if the collection is empty
      */
     public static void notEmpty(Collection<?> collection, String exceptionMessage) throws EnsureException {
-        notEmpty(collection, () -> EnsureException.from(exceptionMessage));
+        notEmpty(collection, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -172,7 +172,7 @@ public final class Ensure {
      * @throws EnsureException if the map is null or empty
      */
     public static void notEmpty(Map<?, ?> map, String exceptionMessage) throws EnsureException {
-        notEmpty(map, () -> EnsureException.from(exceptionMessage));
+        notEmpty(map, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -210,7 +210,7 @@ public final class Ensure {
      * @throws EnsureException if the array is empty
      */
     public static void notEmpty(Object[] array, String exceptionMessage) throws EnsureException {
-        notEmpty(array, () -> EnsureException.from(exceptionMessage));
+        notEmpty(array, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -247,7 +247,7 @@ public final class Ensure {
      * @throws EnsureException if the value exceeds the maximum limit
      */
     public static void max(int max, int n, String exceptionMessage) throws EnsureException {
-        max(max, n, () -> EnsureException.from(exceptionMessage));
+        max(max, n, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -284,7 +284,7 @@ public final class Ensure {
      * @throws EnsureException if the value does not meet the minimum requirement.
      */
     public static void min(int min, int n, String exceptionMessage) throws EnsureException {
-        min(min, n, () -> EnsureException.from(exceptionMessage));
+        min(min, n, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -322,7 +322,7 @@ public final class Ensure {
      * @throws EnsureException if the given string is blank
      */
     public static void notBlank(String s, String exceptionMessage) throws EnsureException {
-        notBlank(s, () -> EnsureException.from(exceptionMessage));
+        notBlank(s, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -396,7 +396,7 @@ public final class Ensure {
      */
     public static <T> T notNullOrElseThrow(T obj) throws RuntimeException {
         if (isNull(obj)) {
-            throw getSupplierOrThrow(() -> EnsureException.from("object must not be null"));
+            throw getSupplierOrThrow(() -> EnsureException.of("object must not be null"));
         }
         return obj;
     }
@@ -424,7 +424,7 @@ public final class Ensure {
      * @throws EnsureException if {@code obj} is null
      */
     public static void notNull(Object obj, String message) throws EnsureException {
-        notNull(obj, () -> EnsureException.from(message));
+        notNull(obj, () -> EnsureException.of(message));
     }
 
     /**
@@ -462,7 +462,7 @@ public final class Ensure {
      * @throws EnsureException if {@code expression} evaluates to {@code false}
      */
     public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
-        isTrue(expression, () -> EnsureException.from(exceptionMessage));
+        isTrue(expression, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -501,7 +501,7 @@ public final class Ensure {
      * @throws EnsureException if {@code b} is true
      */
     public static void isFalse(boolean b, String exceptionMessage) throws EnsureException {
-        isFalse(b, () -> EnsureException.from(exceptionMessage));
+        isFalse(b, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
