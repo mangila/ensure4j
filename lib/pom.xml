@@ -7,15 +7,25 @@
     <artifactId>ensure4j</artifactId>
     <version>0.0.7-SNAPSHOT</version>
 
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <organization.url>https://mangila.github.io/ensure4j</organization.url>
+    </properties>
+
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Ensure your java code with preconditions checks</description>
-    <url>https://github.com/mangila/ensure4j</url>
+    <url>https://mangila.github.io/ensure4j</url>
+    <organization>
+        <name>mangila</name>
+        <url>${organization.url}</url>
+    </organization>
     <developers>
         <developer>
             <name>Erik Olsson</name>
             <email>olsson.erik1993@gmail.com</email>
             <organization>mangila</organization>
-            <organizationUrl>https://github.com/mangila</organizationUrl>
+            <organizationUrl>${organization.url}</organizationUrl>
         </developer>
     </developers>
     <licenses>
@@ -31,11 +41,6 @@
         <url>https://github.com/mangila/ensure4j/tree/main</url>
         <tag>HEAD</tag>
     </scm>
-
-    <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.jspecify/jspecify -->
@@ -147,31 +152,56 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.9.0</version>
+            </plugin>
+            <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.12.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
             <plugin>
                 <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.14</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.28.0</version>
                 <configuration>
-                    <!-- github pages -->
-                    <outputDirectory>../docs</outputDirectory>
+                    <failOnViolation>false</failOnViolation>
+                    <printFailingErrors>true</printFailingErrors>
+                    <linkXRef>true</linkXRef>
+                    <rulesets>
+                        <ruleset>/category/java/errorprone.xml</ruleset>
+                        <ruleset>/category/java/bestpractices.xml</ruleset>
+                        <ruleset>/category/java/codestyle.xml</ruleset>
+                        <ruleset>/category/java/design.xml</ruleset>
+                        <ruleset>/category/java/documentation.xml</ruleset>
+                        <ruleset>/category/java/performance.xml</ruleset>
+                        <ruleset>/category/java/security.xml</ruleset>
+                        <ruleset>/category/java/multithreading.xml</ruleset>
+                    </rulesets>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
-    </build>
+    </reporting>
 
 </project>
