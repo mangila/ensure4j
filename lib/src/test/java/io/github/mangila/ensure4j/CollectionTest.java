@@ -61,7 +61,13 @@ public class CollectionTest {
             var l = new ArrayList<>();
             l.add("test");
             l.add("test1");
-            Ensure.notContainsNull(l);
+            Ensure.notContainsNull(l, "test message");
+        }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            l.add("test1");
+            Ensure.notContainsNull(l, () -> new IllegalArgumentException("test message"));
         }).doesNotThrowAnyException();
     }
 
