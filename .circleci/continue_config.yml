@@ -12,7 +12,7 @@ workflows:
   docs:
     when:
       and:
-        - equal: [ true, << pipeline.parameters.update-jacoco >> ]
+        - equal: [ true, << pipeline.parameters.update-site >> ]
     jobs:
       - maven-site-job:
           name: Update Maven Site
