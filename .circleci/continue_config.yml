@@ -32,10 +32,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Set Git User
+          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
+      - run:
           name: Maven Package Site
           command: mvn package site -f lib/pom.xml -DtestFailureIgnore=true
       - run: |
-          git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
           mkdir -p ./docs && cp -r lib/target/site/* ./docs
           git add ./docs && git commit -m "[CircleCI] Updated Maven Site" && git push origin main
   maven-publish-job:
@@ -43,6 +45,9 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - run:
+          name: Set Git User
+          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
       - run:
           name: Create settings.xml
           command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
