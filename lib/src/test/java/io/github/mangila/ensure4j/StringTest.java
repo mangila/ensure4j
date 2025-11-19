@@ -12,6 +12,8 @@ public class StringTest {
     @DisplayName("Happy path notBlank")
     void notBlank() {
         assertThatCode(() -> Ensure.notBlank("test")).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.notBlank("test", "test message")).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.notBlank("test", () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
     }
 
     @Test
