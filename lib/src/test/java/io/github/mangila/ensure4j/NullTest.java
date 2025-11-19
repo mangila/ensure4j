@@ -31,8 +31,7 @@ public class NullTest {
     @Test
     @DisplayName("Happy - notNullOrElseThrow()")
     void notNullOrElseThrow() {
-        String s = Ensure.notNullOrElseThrow("test",
-                () -> new IllegalArgumentException("test"));
+        String s = Ensure.notNullOrElseThrow("test", () -> new IllegalArgumentException("test"));
         assertThat(s).isEqualTo("test");
         s = Ensure.notNullOrElseThrow("test");
         assertThat(s).isEqualTo("test");
