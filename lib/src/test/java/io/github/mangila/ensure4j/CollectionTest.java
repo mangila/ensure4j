@@ -18,6 +18,16 @@ public class CollectionTest {
             l.add("test");
             Ensure.notEmpty(l);
         }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            Ensure.notEmpty(l, "list must not be empty");
+        }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            Ensure.notEmpty(l, () -> new IllegalArgumentException("list must not be empty"));
+        }).doesNotThrowAnyException();
     }
 
     @Test

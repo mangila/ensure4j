@@ -34,7 +34,7 @@ jobs:
       - run: mvn package -f lib/pom.xml -DtestFailureIgnore=true
       - run: |
           git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
-          git add ./jacoco && git commit -m "[CircleCI] Update Jacoco Coverage Report" && git push origin main
+          git add ./docs && git commit -m "[CircleCI] Update Jacoco Coverage Report" && git push origin main
   maven-publish-job:
     docker:
       - image: cimg/openjdk:21.0.9
