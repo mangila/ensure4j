@@ -11,7 +11,7 @@ There is also support for functional programming pipelines and Java Streams.
 **NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered
 stable. Yet...**
 
-The Jacoco coverage report is as deployed GitHub pages.
+The Jacoco coverage report is deployed as the GitHub pages.
 - https://mangila.github.io/ensure4j/
 
 ## Get started
