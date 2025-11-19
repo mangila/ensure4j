@@ -75,6 +75,9 @@ public class CollectionTest {
     @DisplayName("Sad path notContainsNull(Collection)")
     void notContainsNull1() {
         assertThatThrownBy(() -> {
+            Ensure.notContainsNull(null);
+        }).isInstanceOf(EnsureException.class);
+        assertThatThrownBy(() -> {
             var l = new ArrayList<>();
             l.add(null);
             l.add("test");
