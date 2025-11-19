@@ -24,6 +24,8 @@ workflows:
       - maven-publish-job:
           context: maven-sonatype
           name: Build and Release to Sonatype
+      - maven-site-job:
+          name: Update Maven Site
 
 jobs:
   maven-site-job:
