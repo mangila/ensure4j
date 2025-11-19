@@ -50,7 +50,7 @@ public final class Ensure {
      * @throws EnsureException if the objects are not equal
      */
     public static void equals(Object object, Object other, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L53">        equals(object, other, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L53">        equals(object, other, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L54">    }</span>
 
     /**
@@ -61,7 +61,7 @@ public final class Ensure {
      * @throws EnsureException with the message &quot;objects must be equal&quot; - if the objects are not equal
      */
     public static void equals(Object object, Object other) throws EnsureException {
-<span class="fc" id="L64">        equals(object, other, () -&gt; EnsureException.from(&quot;objects must be equal&quot;));</span>
+<span class="fc" id="L64">        equals(object, other, () -&gt; EnsureException.of(&quot;objects must be equal&quot;));</span>
 <span class="fc" id="L65">    }</span>
 
     /**
@@ -91,7 +91,7 @@ public final class Ensure {
      * @throws EnsureException if the collection contains null elements
      */
     public static void notContainsNull(Collection&lt;?&gt; collection, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L94">        notContainsNull(collection, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L94">        notContainsNull(collection, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L95">    }</span>
 
     /**
@@ -132,7 +132,7 @@ public final class Ensure {
      * @throws EnsureException if the collection is empty
      */
     public static void notEmpty(Collection&lt;?&gt; collection, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L135">        notEmpty(collection, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L135">        notEmpty(collection, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L136">    }</span>
 
     /**
@@ -172,7 +172,7 @@ public final class Ensure {
      * @throws EnsureException if the map is null or empty
      */
     public static void notEmpty(Map&lt;?, ?&gt; map, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L175">        notEmpty(map, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L175">        notEmpty(map, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L176">    }</span>
 
     /**
@@ -210,7 +210,7 @@ public final class Ensure {
      * @throws EnsureException if the array is empty
      */
     public static void notEmpty(Object[] array, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L213">        notEmpty(array, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L213">        notEmpty(array, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L214">    }</span>
 
     /**
@@ -247,7 +247,7 @@ public final class Ensure {
      * @throws EnsureException if the value exceeds the maximum limit
      */
     public static void max(int max, int n, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L250">        max(max, n, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L250">        max(max, n, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L251">    }</span>
 
     /**
@@ -284,7 +284,7 @@ public final class Ensure {
      * @throws EnsureException if the value does not meet the minimum requirement.
      */
     public static void min(int min, int n, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L287">        min(min, n, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L287">        min(min, n, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L288">    }</span>
 
     /**
@@ -322,7 +322,7 @@ public final class Ensure {
      * @throws EnsureException if the given string is blank
      */
     public static void notBlank(String s, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L325">        notBlank(s, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L325">        notBlank(s, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L326">    }</span>
 
     /**
@@ -396,7 +396,7 @@ public final class Ensure {
      */
     public static &lt;T&gt; T notNullOrElseThrow(T obj) throws RuntimeException {
 <span class="fc bfc" id="L398" title="All 2 branches covered.">        if (isNull(obj)) {</span>
-<span class="fc" id="L399">            throw getSupplierOrThrow(() -&gt; EnsureException.from(&quot;object must not be null&quot;));</span>
+<span class="fc" id="L399">            throw getSupplierOrThrow(() -&gt; EnsureException.of(&quot;object must not be null&quot;));</span>
         }
 <span class="fc" id="L401">        return obj;</span>
     }
@@ -424,7 +424,7 @@ public final class Ensure {
      * @throws EnsureException if {@code obj} is null
      */
     public static void notNull(Object obj, String message) throws EnsureException {
-<span class="fc" id="L427">        notNull(obj, () -&gt; EnsureException.from(message));</span>
+<span class="fc" id="L427">        notNull(obj, () -&gt; EnsureException.of(message));</span>
 <span class="fc" id="L428">    }</span>
 
     /**
@@ -462,7 +462,7 @@ public final class Ensure {
      * @throws EnsureException if {@code expression} evaluates to {@code false}
      */
     public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L465">        isTrue(expression, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L465">        isTrue(expression, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L466">    }</span>
 
     /**
@@ -501,7 +501,7 @@ public final class Ensure {
      * @throws EnsureException if {@code b} is true
      */
     public static void isFalse(boolean b, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L504">        isFalse(b, () -&gt; EnsureException.from(exceptionMessage));</span>
+<span class="fc" id="L504">        isFalse(b, () -&gt; EnsureException.of(exceptionMessage));</span>
 <span class="fc" id="L505">    }</span>
 
     /**
