@@ -25,15 +25,22 @@ public class BoolTest {
         assertThatThrownBy(() -> Ensure.isTrue(false))
                 .isInstanceOf(EnsureException.class)
                 .hasMessage("boolean must be true");
-        assertThatThrownBy(() -> Ensure.isTrue(false, "test"))
+        assertThatThrownBy(() -> Ensure.isTrue(false, "test message"))
                 .isInstanceOf(EnsureException.class)
-                .hasMessage("test");
+                .hasMessage("test message");
+        assertThatThrownBy(() -> Ensure.isTrue(false, () -> new IllegalArgumentException("test message")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("test message");
     }
 
     @Test
     @DisplayName("Happy path isFalse()")
     void isFalse() {
         assertThatCode(() -> Ensure.isFalse(false))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isFalse(false, "test message"))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isFalse(false, () -> new IllegalArgumentException("test message")))
                 .doesNotThrowAnyException();
     }
 
@@ -43,9 +50,12 @@ public class BoolTest {
         assertThatThrownBy(() -> Ensure.isFalse(true))
                 .isInstanceOf(EnsureException.class)
                 .hasMessage("boolean must be false");
-        assertThatThrownBy(() -> Ensure.isFalse(true, "test"))
+        assertThatThrownBy(() -> Ensure.isFalse(true, "test message"))
                 .isInstanceOf(EnsureException.class)
-                .hasMessage("test");
+                .hasMessage("test message");
+        assertThatThrownBy(() -> Ensure.isFalse(true, () -> new IllegalArgumentException("test message")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("test message");
     }
 
 }
