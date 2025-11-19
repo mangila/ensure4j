@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"io.github.mangila.ensure4j","l":"Ensure"},{"p":"io.github.mangila.ensure4j","l":"EnsureException"}];updateSearchResults();
