@@ -16,6 +16,16 @@ public class MapTest {
             map.put("test", "test");
             Ensure.notEmpty(map);
         }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var map = new java.util.HashMap<>();
+            map.put("test", "test");
+            Ensure.notEmpty(map, "test message");
+        }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var map = new java.util.HashMap<>();
+            map.put("test", "test");
+            Ensure.notEmpty(map, () -> new IllegalArgumentException("test message"));
+        }).doesNotThrowAnyException();
     }
 
     @Test
