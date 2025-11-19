@@ -31,7 +31,7 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
-      - run: mvn clean package -f lib/pom.xml -DtestFailureIgnore=true
+      - run: mvn package -f lib/pom.xml -DtestFailureIgnore=true
       - run: git add ./jacoco && git commit -m "[CircleCI] Update Jacoco Coverage Report" && git push origin main
   maven-publish-job:
     docker:
