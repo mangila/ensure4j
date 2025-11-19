@@ -3,8 +3,6 @@ package io.github.mangila.ensure4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Supplier;
-
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -14,6 +12,10 @@ public class BoolTest {
     @DisplayName("Happy path isTrue()")
     void isTrue() {
         assertThatCode(() -> Ensure.isTrue(true))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isTrue(true, "test message"))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isTrue(true, () -> new IllegalArgumentException("test message")))
                 .doesNotThrowAnyException();
     }
 
