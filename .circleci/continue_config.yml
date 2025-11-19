@@ -4,18 +4,8 @@ parameters:
   library-release:
     type: boolean
     default: false
-  update-site:
-    type: boolean
-    default: false
 
 workflows:
-  docs:
-    when:
-      and:
-        - equal: [ true, << pipeline.parameters.update-site >> ]
-    jobs:
-      - maven-site-job:
-          name: Update Maven Site
   main:
     when:
       and:
@@ -25,6 +15,8 @@ workflows:
           context: maven-sonatype
           name: Build and Release to Sonatype
       - maven-site-job:
+          requires:
+            - Build and Release to Sonatype
           name: Update Maven Site
 
 jobs:
