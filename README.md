@@ -3,7 +3,7 @@
 Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
 dependencies.
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
 ![GitHub Release](https://img.shields.io/github/v/release/mangila/ensure4j)
 
 There is also support for functional programming pipelines and Java Streams.

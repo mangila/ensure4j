@@ -14,9 +14,9 @@ public class NumbersTest {
     void min() {
         assertThatCode(() -> Ensure.min(-1, 0))
                 .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.min(0, 0))
+        assertThatCode(() -> Ensure.min(0, 0, "test message"))
                 .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.min(1, 2))
+        assertThatCode(() -> Ensure.min(1, 2, () -> new IllegalArgumentException("test message")))
                 .doesNotThrowAnyException();
     }
 
@@ -39,9 +39,9 @@ public class NumbersTest {
     void max() {
         assertThatCode(() -> Ensure.max(100, -1))
                 .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.max(0, 0))
+        assertThatCode(() -> Ensure.max(0, 0, "test message"))
                 .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.max(1, -1))
+        assertThatCode(() -> Ensure.max(1, -1, () -> new IllegalArgumentException("test message")))
                 .doesNotThrowAnyException();
     }
 

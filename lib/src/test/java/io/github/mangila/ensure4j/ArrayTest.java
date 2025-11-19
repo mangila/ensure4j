@@ -12,8 +12,9 @@ public class ArrayTest {
     @DisplayName("Happy path notEmpty([])")
     void notEmpty() {
         var array = new String[]{"test"};
-        assertThatCode(() -> Ensure.notEmpty(array))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.notEmpty(array)).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.notEmpty(array, "test message")).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.notEmpty(array, () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
     }
 
     @Test

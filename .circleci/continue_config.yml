@@ -4,8 +4,18 @@ parameters:
   library-release:
     type: boolean
     default: false
+  update-jacoco:
+    type: boolean
+    default: false
 
 workflows:
+  docs:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.update-jacoco >> ]
+    jobs:
+      - update-jacoco-job:
+          name: Update Jacoco Coverage Report
   main:
     when:
       and:
@@ -13,9 +23,16 @@ workflows:
     jobs:
       - maven-publish-job:
           context: maven-sonatype
-          name: Build and Publish to Sonatype
+          name: Build and Release to Sonatype
 
 jobs:
+  update-jacoco-job:
+    docker:
+      - image: cimg/openjdk:21.0.9
+    steps:
+      - checkout
+      - run: mvn clean package -DtestFailureIgnore=true
+      - run: git add ./jacoco && git commit -m "[CircleCI] Update Jacoco Coverage Report" && git push origin main
   maven-publish-job:
     docker:
       - image: cimg/openjdk:21.0.9
@@ -29,7 +46,7 @@ jobs:
           command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
       - run:
           name: Maven Release Prepare
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B -DdryRun=true -DskipTests release:prepare --settings settings.xml -f lib/pom.xml
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:prepare -DskipTests --settings settings.xml -f lib/pom.xml
       - run:
           name: Maven Release Perform
-          command: mvn -B -DdryRun=true release:perform --settings settings.xml -f lib/pom.xml
+          command: mvn -B release:perform --settings settings.xml -f lib/pom.xml

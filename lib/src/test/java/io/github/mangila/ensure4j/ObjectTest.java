@@ -14,15 +14,11 @@ public class ObjectTest {
     @Test
     @DisplayName("Happy path equals(Object)")
     void equals() {
-        assertThatCode(() -> Ensure.equals(
-                new BigDecimal("1"),
-                new BigDecimal("1")))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.equals(1, 1))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.equals(new BigDecimal("1"), new BigDecimal("1"))).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.equals(1, 1, "test message")).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.equals(1, 1, () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
         // REMINDME: idk... ok?
-        assertThatCode(() -> Ensure.equals(null, null))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.equals(null, null)).doesNotThrowAnyException();
     }
 
     @Test
