@@ -20,20 +20,6 @@ workflows:
           name: Update Maven Site
 
 jobs:
-  maven-site-job:
-    docker:
-      - image: cimg/openjdk:21.0.9
-    steps:
-      - checkout
-      - run:
-          name: Set Git User
-          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
-      - run:
-          name: Maven Package Site
-          command: mvn package site -f lib/pom.xml -DtestFailureIgnore=true
-      - run: |
-          mkdir -p ./docs && cp -r lib/target/site/* ./docs
-          git add ./docs && git commit -m "[CircleCI] Updated Maven Site" && git push origin main
   maven-publish-job:
     docker:
       - image: cimg/openjdk:21.0.9
@@ -50,7 +36,22 @@ jobs:
           command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
       - run:
           name: Maven Release Prepare
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:prepare -DskipTests --settings settings.xml -f lib/pom.xml
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:prepare --settings settings.xml -f lib/pom.xml
       - run:
           name: Maven Release Perform
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform --settings settings.xml -f lib/pom.xml
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
+
+  maven-site-job:
+    docker:
+      - image: cimg/openjdk:21.0.9
+    steps:
+      - checkout
+      - run:
+          name: Set Git User
+          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
+      - run:
+          name: Maven Package Site
+          command: mvn package site -f lib/pom.xml -DtestFailureIgnore=true
+      - run: |
+          mkdir -p ./docs && cp -r lib/target/site/* ./docs
+          git add ./docs && git commit -m "[CircleCI] Updated Maven Site" && git push origin main

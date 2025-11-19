@@ -225,116 +225,128 @@ public final class Ensure {
     }
 
     /**
-     * Ensures that the provided number does not exceed the specified maximum value.
-     * If the number exceeds the maximum, a RuntimeException is thrown using the provided supplier.
+     * Compares the provided number with a specified maximum value and throws a runtime exception if the number exceeds the maximum.
      *
      * @param max      the maximum allowable value
-     * @param n        the number to be validated
-     * @param supplier a supplier that provides the RuntimeException to be thrown when the validation fails
-     * @throws RuntimeException if the value of {@code n} exceeds {@code max}
+     * @param n        the number to compare against the maximum
+     * @param supplier a supplier for creating the runtime exception to be thrown if the provided number exceeds the maximum
+     * @return the provided number if it does not exceed the maximum
+     * @throws RuntimeException if the provided number exceeds the maximum value
      */
-    public static void max(int max, int n, Supplier<RuntimeException> supplier) throws RuntimeException {
+    public static int max(int max, int n, Supplier<RuntimeException> supplier) throws RuntimeException {
         if (n > max) {
             throw getSupplierOrThrow(supplier);
         }
+        return n;
     }
 
     /**
-     * Ensures that a given value does not exceed a specified maximum limit.
+     * Determines the maximum value between the specified integer values, and throws an {@code EnsureException}
+     * with the provided message if the conditions are not met.
      *
-     * @param max              the maximum allowable value
-     * @param n                the value to be checked
-     * @param exceptionMessage the message to be used in the exception if the condition is violated
-     * @throws EnsureException if the value exceeds the maximum limit
+     * @param max              the current maximum value to compare against
+     * @param n                the new integer value to be compared
+     * @param exceptionMessage the exception message to be used if the exception is thrown
+     * @return the greater of {@code max} and {@code n}
+     * @throws EnsureException if the conditions for returning the maximum value fail
      */
-    public static void max(int max, int n, String exceptionMessage) throws EnsureException {
-        max(max, n, () -> EnsureException.of(exceptionMessage));
+    public static int max(int max, int n, String exceptionMessage) throws EnsureException {
+        return max(max, n, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
-     * Ensures that a given value does not exceed a specified maximum value.
+     * Compares two integers and ensures the second integer is less than or equal to the first integer.
      *
-     * @param max the maximum allowed value
-     * @param n   the value to be checked
-     * @throws EnsureException with the message "value must be less than or equal to %d, but was %d" - if the value exceeds the maximum allowed
+     * @param max the maximum allowable value
+     * @param n   the value to compare against the maximum
+     * @return the maximum value if the condition is met
+     * @throws EnsureException with the message "value must be less than or equal to %d, but was %d" - if the given value exceeds the maximum allowable value
      */
-    public static void max(int max, int n) throws EnsureException {
-        max(max, n, "value must be less than or equal to %d, but was %d".formatted(max, n));
+    public static int max(int max, int n) throws EnsureException {
+        return max(max, n, "value must be less than or equal to %d, but was %d".formatted(max, n));
     }
 
     /**
-     * Checks if the given number is less than the specified minimum value and throws an exception if the condition is met.
+     * Compares a value against a minimum threshold and throws a supplied exception if the value is less than the threshold.
      *
-     * @param min      the minimum allowable value
-     * @param n        the number to be checked
-     * @param supplier the supplier providing the exception to be thrown if the check fails
-     * @throws RuntimeException if the number is less than the minimum value
+     * @param min      the minimum threshold value
+     * @param n        the value to compare against the minimum
+     * @param supplier the supplier that provides the runtime exception to be thrown if the comparison fails
+     * @return the value of n if it is greater than or equal to the minimum threshold
+     * @throws RuntimeException the exception supplied by the supplier, thrown when the value is less than the minimum threshold
      */
-    public static void min(int min, int n, Supplier<RuntimeException> supplier) throws RuntimeException {
+    public static int min(int min, int n, Supplier<RuntimeException> supplier) throws RuntimeException {
         if (n < min) {
             throw getSupplierOrThrow(supplier);
         }
+        return n;
     }
 
     /**
-     * Ensures that the provided value meets the minimum required value, otherwise throws an exception.
+     * Compares the given integers and ensures that the second integer is not less than the minimum value,
+     * throwing an exception with a specified message if the condition is violated.
      *
-     * @param min              The minimum permissible value.
-     * @param n                The value to check against the minimum.
-     * @param exceptionMessage The message to be used in case an exception is thrown.
-     * @throws EnsureException if the value does not meet the minimum requirement.
+     * @param min              the minimum value to compare against
+     * @param n                the value to be compared to the minimum value
+     * @param exceptionMessage the message to use for the exception if the condition is not met
+     * @return the greater value between the specified minimum value and the provided integer
+     * @throws EnsureException if the provided integer is less than the minimum value
      */
-    public static void min(int min, int n, String exceptionMessage) throws EnsureException {
-        min(min, n, () -> EnsureException.of(exceptionMessage));
+    public static int min(int min, int n, String exceptionMessage) throws EnsureException {
+        return min(min, n, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
-     * Ensures that the given value is greater than or equal to the specified minimum value.
+     * Compares two integers and ensures that the given value is greater than or equal to the defined minimum.
      *
-     * @param min the minimum allowable value
-     * @param n   the value to be checked against the minimum
-     * @throws EnsureException with the message "value must be greater than or equal to %d, but was %d" - if the value does not meet the specified minimum requirement
+     * @param min the minimum allowed value
+     * @param n   the value to compare against the minimum
+     * @return the minimum value, or throws an exception if the condition is not met
+     * @throws EnsureException with the message "value must be greater than or equal to %d, but was %d" - if the value is less than the specified minimum
      */
-    public static void min(int min, int n) throws EnsureException {
-        min(min, n, "value must be greater than or equal to %d, but was %d".formatted(min, n));
+    public static int min(int min, int n) throws EnsureException {
+        return min(min, n, "value must be greater than or equal to %d, but was %d".formatted(min, n));
     }
 
     /**
-     * Validates that the provided string is not blank (not null, not empty, and does not consist solely of whitespace).
-     * If the string is blank, the specified exception is thrown.
+     * Ensures that the provided string is not blank. If the string is blank or null,
+     * the specified exception supplied by the supplier is thrown.
      *
-     * @param s        the string to validate
-     * @param supplier a supplier for the exception to be thrown if the validation fails
-     * @throws RuntimeException if the string is blank
+     * @param s        the string to be validated as not blank
+     * @param supplier the supplier that provides the exception to throw if the string is blank
+     * @return the validated string if it is not blank
+     * @throws RuntimeException if the string is blank or null, provided by the supplier
      */
-    public static void notBlank(String s, Supplier<RuntimeException> supplier) throws RuntimeException {
+    public static String notBlank(String s, Supplier<RuntimeException> supplier) throws RuntimeException {
         notNull(s, supplier);
         if (s.isBlank()) {
             throw getSupplierOrThrow(supplier);
         }
+        return s;
     }
 
     /**
-     * Checks if the provided string is blank (null, empty, or containing only whitespace).
-     * Throws an EnsureException if the string does not meet the specified condition.
+     * Ensures that the provided string is not blank. If the string is blank or null,
+     * an exception is thrown with the provided exception message.
      *
-     * @param s                the string to be checked for blankness
-     * @param exceptionMessage the message to be included in the thrown exception if the string is blank
-     * @throws EnsureException if the given string is blank
+     * @param s                the string to check for being non-blank
+     * @param exceptionMessage the message to include in the thrown exception if the string is blank
+     * @return the original string if it is not blank
+     * @throws EnsureException if the string is blank
      */
-    public static void notBlank(String s, String exceptionMessage) throws EnsureException {
-        notBlank(s, () -> EnsureException.of(exceptionMessage));
+    public static String notBlank(String s, String exceptionMessage) throws EnsureException {
+        return notBlank(s, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
-     * Checks if the provided string is blank (null, empty, or containing only whitespace).
-     * Throws an EnsureException if the string does not meet the specified condition.
+     * Ensures that the provided string is not blank. If the string is blank or null, an exception is thrown with a default message.
      *
-     * @param s the string to be checked for blankness
-     * @throws EnsureException with the message "string must not be blank" - if the string is blank
+     * @param s the string to validate
+     * @return the original string if it is not blank
+     * @throws EnsureException with the message - "string must not be blank" if the string is blank
      */
-    public static void notBlank(String s) throws EnsureException {
-        notBlank(s, "string must not be blank");
+    public static String notBlank(String s) throws EnsureException {
+        return notBlank(s, "string must not be blank");
     }
 
     /**
