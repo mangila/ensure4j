@@ -59,16 +59,16 @@ public class EnsureTest {
                                 .toList();
                         assertPublicMethods(publicMethods);
                         int totalMethods = item.getMethods().size();
-                        assertThat(totalMethods).isEqualTo(39);
+                        assertThat(totalMethods).isEqualTo(42);
                     }
 
                     /**
                      * Sanity test to guard from slippery slopes
                      */
                     private void assertPublicMethods(List<String> publicMethodNames) {
-                        int distinctPublicMethodCount = publicMethodNames.size();
-                        assertThat(distinctPublicMethodCount)
-                                .isEqualTo(37);
+                        int publicMethodsCount = publicMethodNames.size();
+                        assertThat(publicMethodsCount)
+                                .isEqualTo(40);
                         Map<String, Long> counts = publicMethodNames.stream()
                                 .collect(Collectors.groupingBy(
                                         methodName -> methodName,
@@ -89,6 +89,7 @@ public class EnsureTest {
                                 case "notEmpty" -> assertThat(counts.get(methodName)).isEqualTo(9L);
                                 case "notContainsNull" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "equals" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "isInstanceOf" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 default -> throw new IllegalStateException("Unexpected value: " + methodName);
                             }
                         }
