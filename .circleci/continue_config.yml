@@ -53,18 +53,19 @@ jobs:
           when: on_fail
       - persist_to_workspace:
           name: Persist release.properties to workspace
-          root: .
-          paths: lib/release.properties
-      - persist_to_workspace:
-          name: Persist Maven /site to workspace
-          root: .
-          paths: lib/target/site
+          root: lib
+          paths:
+            - release.properties
+            - target/site
 
   maven-upload-site:
     docker:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - attach_workspace:
+          name: Attach Maven Site from Prepare Job
+          at: lib/target
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
@@ -79,7 +80,7 @@ jobs:
           command: mkdir -p ./docs
       - run:
           name: Copy site to /docs
-          command: cp -r tmp/lib/target/site/* ./docs
+          command: cp -r lib/target/site/* ./docs
       - run:
           name: Git add the site folder
           command: git add ./docs
@@ -95,18 +96,15 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - attach_workspace:
+          name: Attach Maven release.properties from Prepare
+          at: lib/release.properties
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
           command: |
             mkdir -p ~/.ssh
             echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
-      - attach_workspace:
-          name: Attach Maven Site from Prepare Job
-          at: tmp/lib/release.properties
-      - run:
-          name: Copy release.properties to /lib
-          command: cp tmp/lib/release.properties lib/release.properties
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
@@ -125,5 +123,3 @@ jobs:
       - run:
           name: Maven Release Perform
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform --settings settings.xml -f lib/pom.xml
-
-
