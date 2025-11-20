@@ -44,16 +44,10 @@ jobs:
           when: on_fail
       - run:
           name: Maven Release Perform
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform --settings settings.xml -f lib/pom.xml
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
       - run:
           name: Copy site to /docs
           command: cp -r lib/target/site/* ./docs
       - run:
-          name: Git add the site folder
-          command: git add ./docs
-      - run:
-          name: Git commit the site folder
-          command: git commit -m "[ci skip] Updated Maven Site"
-      - run:
           name: Git push the site folder
-          command: git push origin main
+          command: git add ./docs && git commit -m "[ci skip] Updated Maven Site" && git push origin main
