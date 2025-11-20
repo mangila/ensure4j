@@ -5,10 +5,12 @@ orbs:
 
 workflows:
   setup-pipeline:
-    when:
-      equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - path-filtering/filter:
+          filters:
+            branches:
+              only:
+                - /release-.*/
           base-revision: main
           config-path: .circleci/continue_config.yml
           mapping: |
