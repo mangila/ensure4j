@@ -56,6 +56,7 @@ jobs:
     docker:
       - image: cimg/openjdk:21.0.9
     steps:
+      - checkout
       - run:
           name: Set Git User
           command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
@@ -81,6 +82,7 @@ jobs:
     docker:
       - image: cimg/openjdk:21.0.9
     steps:
+      - checkout
       - attach_workspace:
           at: tmp/release.properties
       - run:
