@@ -10,21 +10,12 @@ workflows:
     when:
       equal: [ true, << pipeline.parameters.release >> ]
     jobs:
-      - maven-prepare-release:
+      - maven-release:
           context: maven-sonatype
           name: Build and Release to Sonatype
-      - maven-upload-site:
-          name: Upload Maven Site
-          requires:
-            - Build and Release to Sonatype
-      - maven-perform-release:
-          context: maven-sonatype
-          name: Perform Release
-          requires:
-            - Build and Release to Sonatype
 
 jobs:
-  maven-prepare-release:
+  maven-release:
     docker:
       - image: cimg/openjdk:21.0.9
     steps:
@@ -51,33 +42,9 @@ jobs:
           name: Maven Release Rollback
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:rollback --settings settings.xml -f lib/pom.xml
           when: on_fail
-      - persist_to_workspace:
-          name: Persist release.properties and /site to workspace
-          root: lib
-          paths:
-            - release.properties
-            - target/site
-
-  maven-upload-site:
-    docker:
-      - image: cimg/openjdk:21.0.9
-    steps:
-      - checkout
-      - attach_workspace:
-          name: Attach Maven Site from Prepare Job
-          at: lib/target
       - run:
-          # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
-          name: Add Known GitHub Host Keys
-          command: |
-            mkdir -p ~/.ssh
-            echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
-      - run:
-          name: Set Git User
-          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
-      - run:
-          name: Create new staging folder for site "/docs"
-          command: mkdir -p ./docs
+          name: Maven Release Perform
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform --settings settings.xml -f lib/pom.xml
       - run:
           name: Copy site to /docs
           command: cp -r lib/target/site/* ./docs
@@ -90,30 +57,3 @@ jobs:
       - run:
           name: Git push the site folder
           command: git push origin main
-
-  maven-perform-release:
-    docker:
-      - image: cimg/openjdk:21.0.9
-    steps:
-      - checkout
-      - attach_workspace:
-          name: Attach Maven release.properties from Prepare
-          at: lib/release.properties
-      - run:
-          # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
-          name: Add Known GitHub Host Keys
-          command: |
-            mkdir -p ~/.ssh
-            echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
-      - run:
-          name: Set Git User
-          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
-      - run:
-          name: Create settings.xml
-          command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
-      - run:
-          name: Decode GPG Key and Save as Local File
-          command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
-      - run:
-          name: Maven Release Perform
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform --settings settings.xml -f lib/pom.xml
