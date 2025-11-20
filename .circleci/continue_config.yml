@@ -10,16 +10,12 @@ workflows:
     when:
       equal: [ true, << pipeline.parameters.release >> ]
     jobs:
-      - maven-prepare-release:
+      - maven-release:
           context: maven-sonatype
           name: Build and Release to Sonatype
-      - maven-upload-site:
-          name: Upload Maven Site
-          requires:
-            - Build and Release to Sonatype
 
 jobs:
-  maven-prepare-release:
+  maven-release:
     docker:
       - image: cimg/openjdk:21.0.9
     steps:
