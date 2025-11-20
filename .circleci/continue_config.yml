@@ -1,14 +1,14 @@
 version: '2.1'
 
 parameters:
-  library-release:
+  release:
     type: boolean
     default: false
 
 workflows:
   main:
     when:
-      equal: [ true, << pipeline.parameters.library-release >> ]
+      equal: [ true, << pipeline.parameters.release >> ]
     jobs:
       - maven-prepare-release:
           context: maven-sonatype
