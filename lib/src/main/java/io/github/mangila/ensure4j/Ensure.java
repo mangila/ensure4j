@@ -21,6 +21,49 @@ public final class Ensure {
     }
 
     /**
+     * Checks if the given object is an instance of the specified class.
+     * If the object is not an instance of the class, a RuntimeException
+     * provided by the supplier is thrown.
+     *
+     * @param clazz    the class to check the object against
+     * @param obj      the object to verify
+     * @param supplier a supplier that provides the exception to be thrown
+     *                 if the object is not an instance of the specified class
+     * @throws RuntimeException if the object is not an instance of the specified class
+     */
+    public static void isInstanceOf(Class<?> clazz, Object obj, Supplier<RuntimeException> supplier) throws RuntimeException {
+        notNull(clazz, supplier);
+        if (!clazz.isInstance(obj)) {
+            throw getSupplierOrThrow(supplier);
+        }
+    }
+
+    /**
+     * Ensures that the specified object is an instance of the given class.
+     * If the check fails, throws an EnsureException with the provided exception message.
+     *
+     * @param clazz            the class type to check against
+     * @param obj              the object to verify
+     * @param exceptionMessage the message to include in the EnsureException if the check fails
+     * @throws EnsureException if the object is not an instance of the specified class
+     */
+    public static void isInstanceOf(Class<?> clazz, Object obj, String exceptionMessage) throws EnsureException {
+        isInstanceOf(clazz, obj, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Validates that the provided object is an instance of the specified class.
+     *
+     * @param clazz the expected class that the object should be an instance of
+     * @param obj   the object to be checked
+     * @throws EnsureException with the message "object must be an instance of %s" - if the object is not an instance of the specified class
+     */
+    public static void isInstanceOf(Class<?> clazz, Object obj) throws EnsureException {
+        notNull(clazz, "clazz must not be null");
+        isInstanceOf(clazz, obj, "object must be an instance of %s".formatted(clazz.getName()));
+    }
+
+    /**
      * Compares two objects for equality and throws a provided exception if they are not equal.
      * If both objects are the same instance or the first object equals the second, the method returns without exception.
      * If the first object is null or the objects are not equal, a custom exception is thrown.

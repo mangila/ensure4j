@@ -14,4 +14,4 @@ workflows:
           base-revision: main
           config-path: .circleci/continue_config.yml
           mapping: |
-            lib/src/main/.* library-release true
+            lib/src/main/.* release true
