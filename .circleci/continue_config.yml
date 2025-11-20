@@ -29,6 +29,9 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU"
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
@@ -63,6 +66,9 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU"
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
@@ -95,12 +101,9 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
-      - run:
-          # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
-          name: Add Known GitHub Host Keys
-          command: |
-            mkdir -p ~/.ssh
-            echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU"
       - attach_workspace:
           at: tmp/release.properties
       - run:
