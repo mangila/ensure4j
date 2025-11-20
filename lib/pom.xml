@@ -151,7 +151,7 @@
                 <configuration>
                     <scmCommentPrefix>[ci skip] [maven-release-plugin]</scmCommentPrefix>
                     <preparationGoals>
-                        compile site -DskipTests
+                        compile site
                     </preparationGoals>
                 </configuration>
             </plugin>
