@@ -82,6 +82,7 @@ public final class Ensure {
             return;
         }
 
+
         throw getSupplierOrThrow(supplier);
     }
 
