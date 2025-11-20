@@ -51,6 +51,22 @@ jobs:
       - run:
           name: Maven Package Site
           command: mvn package site -f lib/pom.xml -DtestFailureIgnore=true
-      - run: |
-          mkdir -p ./docs && cp -r lib/target/site/* ./docs
-          git pull origin main && git add ./docs && git commit -m "[ci skip] Updated Maven Site" && git push origin main
+      - run:
+          name: Create new folder for site "/docs"
+          command: mkdir -p ./docs
+      - run:
+          name: Copy site to /docs
+          command: cp -r lib/target/site/* ./docs
+      - run:
+          # This is to avoid conflicts after the maven release plugin has run
+          name: Git pull the main branch
+          command: git pull origin main
+      - run:
+          name: Git add the site folder
+          command: git add ./docs
+      - run:
+          name: Git commit the site folder
+          command: git commit -m "[ci skip] Updated Maven Site"
+      - run:
+          name: Git push the site folder
+          command: git push origin main
