@@ -75,8 +75,8 @@ jobs:
           name: Git commit the site folder
           command: git commit -m "[ci skip] Updated Maven Site"
       - run:
-          name: Git push the site folder to site branch
-          command: git push origin site
+          name: Git push the site folder
+          command: git push origin main
 
   maven-perform-release:
     docker:
