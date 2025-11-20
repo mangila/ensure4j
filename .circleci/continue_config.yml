@@ -13,10 +13,6 @@ workflows:
       - maven-publish-job:
           context: maven-sonatype
           name: Build and Release to Sonatype
-      - maven-site-job:
-          requires:
-            - Build and Release to Sonatype
-          name: Update Maven Site
 
 jobs:
   maven-publish-job:
@@ -39,28 +35,6 @@ jobs:
       - run:
           name: Maven Release Perform
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
-
-  maven-site-job:
-    docker:
-      - image: cimg/openjdk:21.0.9
-    steps:
-      - checkout
-      - run:
-          name: Set Git User
-          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
-      - run:
-          name: Maven Package Site
-          command: mvn package site -f lib/pom.xml -DtestFailureIgnore=true
-      - run:
-          name: Create new folder for site "/docs"
-          command: mkdir -p ./docs
-      - run:
-          name: Copy site to /docs
-          command: cp -r lib/target/site/* ./docs
-      - run:
-          # This is to avoid conflicts after the maven release plugin has run
-          name: Git pull the main branch
-          command: git pull origin main
       - run:
           name: Git add the site folder
           command: git add ./docs

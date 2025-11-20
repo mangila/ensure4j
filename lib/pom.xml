@@ -150,6 +150,9 @@
                 <version>3.2.0</version>
                 <configuration>
                     <scmCommentPrefix>[skip ci] [maven-release-plugin]</scmCommentPrefix>
+                    <completionGoals>
+                        compile site -DskipTests
+                    </completionGoals>
                 </configuration>
             </plugin>
             <plugin>
