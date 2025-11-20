@@ -33,13 +33,6 @@ jobs:
           name: Maven Release Prepare
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:prepare --settings settings.xml -f lib/pom.xml
       - run:
-          name: Maven Release Perform
-          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
-      - run:
-          # This is to avoid conflicts after the maven release plugin has run
-          name: Git pull the main branch
-          command: git pull origin main
-      - run:
           name: Create new folder for site "/docs"
           command: mkdir -p ./docs
       - run:
@@ -54,3 +47,6 @@ jobs:
       - run:
           name: Git push the site folder
           command: git push origin main
+      - run:
+          name: Maven Release Perform
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
