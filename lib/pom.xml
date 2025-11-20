@@ -4,7 +4,7 @@
 
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.27-SNAPSHOT</version>
+    <version>0.0.27</version>
 
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
@@ -38,7 +38,7 @@
         <connection>scm:git:https://github.com/mangila/ensure4j.git</connection>
         <developerConnection>scm:git:git@github.com:mangila/ensure4j.git</developerConnection>
         <url>https://github.com/mangila/ensure4j/tree/main</url>
-      <tag>HEAD</tag>
+      <tag>ensure4j-0.0.27</tag>
   </scm>
 
     <dependencies>
