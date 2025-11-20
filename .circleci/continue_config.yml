@@ -8,8 +8,7 @@ parameters:
 workflows:
   main:
     when:
-      and:
-        - equal: [ true, << pipeline.parameters.library-release >> ]
+      equal: [ true, << pipeline.parameters.library-release >> ]
     jobs:
       - maven-publish-job:
           context: maven-sonatype

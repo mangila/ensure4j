@@ -6,8 +6,7 @@ orbs:
 workflows:
   setup-pipeline:
     when:
-      and:
-        - equal: [ main, << pipeline.git.branch >> ]
+      equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - path-filtering/filter:
           base-revision: main
