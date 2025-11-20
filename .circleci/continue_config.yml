@@ -50,4 +50,9 @@ jobs:
           command: cp -r lib/target/site/* ./docs
       - run:
           name: Git push the site folder
-          command: git add ./docs && git commit -m "[ci skip] Updated Maven Site" && git push origin main
+          command: |
+            git checkout main
+            git pull origin main 
+            git add ./docs
+            git commit -m "[ci skip] Updated Maven Site"
+            git push origin main
