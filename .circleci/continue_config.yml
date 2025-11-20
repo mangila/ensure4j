@@ -46,13 +46,12 @@ jobs:
           name: Maven Release Perform
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
       - run:
-          name: Copy site to /docs
-          command: cp -r lib/target/site/* ./docs
-      - run:
-          name: Git push the site folder
+          name: Git push to main site folder and new SNAPSHOT pom.xml
           command: |
             git checkout main
+            cp -r lib/target/site/* ./docs
             git pull origin main 
+            git add lib/pom.xml
             git add ./docs
             git commit -m "[ci skip] Updated Maven Site"
             git push origin main
