@@ -54,4 +54,4 @@ jobs:
           command: mvn package site -f lib/pom.xml -DtestFailureIgnore=true
       - run: |
           mkdir -p ./docs && cp -r lib/target/site/* ./docs
-          git add ./docs && git commit -m "[CircleCI] Updated Maven Site" && git push origin main
+          git add ./docs && git commit -m "[ci skip] Updated Maven Site" && git push origin main
