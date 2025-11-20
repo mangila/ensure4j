@@ -81,8 +81,6 @@ public final class Ensure {
         if (object.equals(other)) {
             return;
         }
-
-
         throw getSupplierOrThrow(supplier);
     }
 
