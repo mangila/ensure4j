@@ -10,12 +10,21 @@ workflows:
     when:
       equal: [ true, << pipeline.parameters.library-release >> ]
     jobs:
-      - maven-publish-job:
+      - maven-prepare-release:
           context: maven-sonatype
           name: Build and Release to Sonatype
+      - maven-upload-site:
+          name: Upload Maven Site
+          requires:
+            - Build and Release to Sonatype
+      - maven-perform-release:
+          context: maven-sonatype
+          name: Perform Release
+          requires:
+            - Build and Release to Sonatype
 
 jobs:
-  maven-publish-job:
+  maven-prepare-release:
     docker:
       - image: cimg/openjdk:21.0.9
     steps:
@@ -33,11 +42,31 @@ jobs:
           name: Maven Release Prepare
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:prepare --settings settings.xml -f lib/pom.xml
       - run:
-          name: Create new folder for site "/docs"
+          name: Maven Release Rollback
+          command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:rollback --settings settings.xml -f lib/pom.xml
+          when: on_fail
+      - persist_to_workspace:
+          root: .
+          paths: release.properties
+      - persist_to_workspace:
+          root: .
+          paths: lib/target/site
+
+  maven-upload-site:
+    docker:
+      - image: cimg/openjdk:21.0.9
+    steps:
+      - run:
+          name: Set Git User
+          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
+      - attach_workspace:
+          at: tmp/lib/target
+      - run:
+          name: Create new staging folder for site "/docs"
           command: mkdir -p ./docs
       - run:
           name: Copy site to /docs
-          command: cp -r lib/target/site/* ./docs
+          command: cp -r tmp/lib/target/site/* ./docs
       - run:
           name: Git add the site folder
           command: git add ./docs
@@ -45,8 +74,26 @@ jobs:
           name: Git commit the site folder
           command: git commit -m "[ci skip] Updated Maven Site"
       - run:
-          name: Git push the site folder
-          command: git push origin main
+          name: Git push the site folder to site branch
+          command: git push origin site
+
+  maven-perform-release:
+    docker:
+      - image: cimg/openjdk:21.0.9
+    steps:
+      - attach_workspace:
+          at: tmp/release.properties
+      - run:
+          name: Set Git User
+          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
+      - run:
+          name: Create settings.xml
+          command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
+      - run:
+          name: Decode GPG Key and Save as Local File
+          command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
       - run:
           name: Maven Release Perform
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
+
+
