@@ -4,7 +4,7 @@
 
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.32-SNAPSHOT</version>
+    <version>0.0.33-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
