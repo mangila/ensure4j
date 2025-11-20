@@ -52,7 +52,7 @@ jobs:
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:rollback --settings settings.xml -f lib/pom.xml
           when: on_fail
       - persist_to_workspace:
-          name: Persist release.properties to workspace
+          name: Persist release.properties and /site to workspace
           root: lib
           paths:
             - release.properties
@@ -99,12 +99,6 @@ jobs:
       - attach_workspace:
           name: Attach Maven release.properties from Prepare
           at: lib/release.properties
-      - run:
-          # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
-          name: Add Known GitHub Host Keys
-          command: |
-            mkdir -p ~/.ssh
-            echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
