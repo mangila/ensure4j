@@ -52,9 +52,11 @@ jobs:
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:rollback --settings settings.xml -f lib/pom.xml
           when: on_fail
       - persist_to_workspace:
+          name: Persist release.properties to workspace
           root: .
-          paths: release.properties
+          paths: lib/release.properties
       - persist_to_workspace:
+          name: Persist Maven /site to workspace
           root: .
           paths: lib/target/site
 
@@ -63,6 +65,9 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - attach_workspace:
+          name: Attach Maven Site from Prepare Job
+          at: tmp/lib/target
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
@@ -72,8 +77,6 @@ jobs:
       - run:
           name: Set Git User
           command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
-      - attach_workspace:
-          at: tmp/lib/target
       - run:
           name: Create new staging folder for site "/docs"
           command: mkdir -p ./docs
@@ -95,14 +98,18 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - attach_workspace:
+          name: Attach Maven Site from Prepare Job
+          at: tmp/lib/release.properties
+      - run:
+          name: Copy release.properties to /lib
+          command: cp tmp/lib/release.properties lib/release.properties
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
           command: |
             mkdir -p ~/.ssh
             echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
-      - attach_workspace:
-          at: tmp/release.properties
       - run:
           name: Set Git User
           command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
