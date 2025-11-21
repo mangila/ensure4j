@@ -43,7 +43,7 @@ jobs:
           name: Base64 Decode and Create settings.xml
           command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
       - run:
-          name: Base64 Decode GPG Key and Save as Local File
+          name: Base64 Decode GPG Key and Create private.asc
           command: echo "$MAVEN_GPG_KEY_BASE64" | base64 -d -i > private.asc
       - run:
           name: Maven Release Prepare
@@ -56,7 +56,8 @@ jobs:
           name: Maven Release Perform
           command: export MAVEN_GPG_KEY=$(cat private.asc) && mvn -B release:perform -DskipTests --settings settings.xml -f lib/pom.xml
       - run:
-          name: Git Push /site to main branch
+          # Maven Release Prepare - step runs a build and site goal as a preparation goal
+          name: Update GitHub Pages with Maven Site
           command: |
             cp -r lib/target/site/* ./docs
             git checkout main
