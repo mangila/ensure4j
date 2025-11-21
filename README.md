@@ -3,16 +3,18 @@
 Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
 dependencies.
 
+https://mangila.github.io/ensure4j/
+
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
-![GitHub Release](https://img.shields.io/github/v/release/mangila/ensure4j)
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.mangila/ensure4j)
 
 There is also support for functional programming pipelines and Java Streams.
 
 **NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered
 stable. Yet...**
 
-- [Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
+- [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 
 ## Get started
 
@@ -31,7 +33,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.22</version>
+    <version>0.0.33</version>
 </dependency>
 ```
 
