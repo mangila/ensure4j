@@ -21,107 +21,149 @@ public final class Ensure {
     }
 
     /**
+     * Checks if the given object is an instance of the specified class.
+     * If the object is not an instance of the class, a RuntimeException
+     * provided by the supplier is thrown.
+     *
+     * @param clazz    the class to check the object against
+     * @param object   the object to verify
+     * @param supplier a supplier that provides the exception to be thrown
+     *                 if the object is not an instance of the specified class
+     * @throws RuntimeException if the object is not an instance of the specified class
+     */
+    public static void isInstanceOf(Class&lt;?&gt; clazz, Object object, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
+<span class="fc" id="L35">        notNull(clazz, supplier);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (!clazz.isInstance(object)) {</span>
+<span class="fc" id="L37">            throw getSupplierOrThrow(supplier);</span>
+        }
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Ensures that the specified object is an instance of the given class.
+     * If the check fails, throws an EnsureException with the provided exception message.
+     *
+     * @param clazz            the class type to check against
+     * @param object           the object to verify
+     * @param exceptionMessage the message to include in the EnsureException if the check fails
+     * @throws EnsureException if the object is not an instance of the specified class
+     */
+    public static void isInstanceOf(Class&lt;?&gt; clazz, Object object, String exceptionMessage) throws EnsureException {
+<span class="fc" id="L51">        isInstanceOf(clazz, object, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L52">    }</span>
+
+    /**
+     * Validates that the provided object is an instance of the specified class.
+     *
+     * @param clazz  the expected class that the object should be an instance of
+     * @param object the object to be checked
+     * @throws EnsureException with the message &quot;object must be an instance of %s&quot; - if the object is not an instance of the specified class
+     */
+    public static void isInstanceOf(Class&lt;?&gt; clazz, Object object) throws EnsureException {
+<span class="fc" id="L62">        notNull(clazz, &quot;clazz must not be null&quot;);</span>
+<span class="fc" id="L63">        isInstanceOf(clazz, object, &quot;object must be an instance of %s&quot;.formatted(clazz.getName()));</span>
+<span class="fc" id="L64">    }</span>
+
+    /**
      * Compares two objects for equality and throws a provided exception if they are not equal.
      * If both objects are the same instance or the first object equals the second, the method returns without exception.
      * If the first object is null or the objects are not equal, a custom exception is thrown.
      *
-     * @param object   the first object to compare, must not be null
-     * @param other    the second object to compare with the first one
-     * @param supplier the supplier providing the exception to be thrown if objects are not equal
+     * @param object                   the first object to compare, must not be null
+     * @param otherObject              the second object to compare with the first one
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if objects are not equal
      * @throws RuntimeException if the first object is null or the objects are not equal
      */
-    public static void equals(Object object, Object other, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (object == other) {</span>
-<span class="fc" id="L35">            return;</span>
+    public static void isEquals(Object object, Object otherObject, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (object == otherObject) {</span>
+<span class="fc" id="L78">            return;</span>
         }
-<span class="fc" id="L37">        notNull(object, supplier);</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (object.equals(other)) {</span>
-<span class="fc" id="L39">            return;</span>
+<span class="fc" id="L80">        notNull(object, runtimeExceptionSupplier);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (object.equals(otherObject)) {</span>
+<span class="fc" id="L82">            return;</span>
         }
-
-<span class="fc" id="L42">        throw getSupplierOrThrow(supplier);</span>
+<span class="fc" id="L84">        throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
     }
 
     /**
      * Compares two objects for equality and throws an EnsureException with the specified message if they are not equal.
      *
      * @param object           the first object to compare
-     * @param other            the second object to compare
+     * @param otherObject      the second object to compare
      * @param exceptionMessage the message to include in the EnsureException if the objects are not equal
      * @throws EnsureException if the objects are not equal
      */
-    public static void equals(Object object, Object other, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L54">        equals(object, other, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L55">    }</span>
+    public static void isEquals(Object object, Object otherObject, String exceptionMessage) throws EnsureException {
+<span class="fc" id="L96">        isEquals(object, otherObject, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L97">    }</span>
 
     /**
      * Asserts that two objects are equal. If they are not equal, an exception is thrown.
      *
-     * @param object the first object to compare
-     * @param other  the second object to compare
+     * @param object      the first object to compare
+     * @param otherObject the second object to compare
      * @throws EnsureException with the message &quot;objects must be equal&quot; - if the objects are not equal
      */
-    public static void equals(Object object, Object other) throws EnsureException {
-<span class="fc" id="L65">        equals(object, other, () -&gt; EnsureException.of(&quot;objects must be equal&quot;));</span>
-<span class="fc" id="L66">    }</span>
+    public static void isEquals(Object object, Object otherObject) throws EnsureException {
+<span class="fc" id="L107">        isEquals(object, otherObject, () -&gt; EnsureException.of(&quot;objects must be equal&quot;));</span>
+<span class="fc" id="L108">    }</span>
 
     /**
-     * Checks if the provided collection does not contain any null elements.
-     * If the collection contains a null element, an exception is thrown using the provided supplier.
+     * Ensures that the provided collection does not contain any null elements.
+     * If the collection contains a null element, an exception is thrown using the provided runtimeExceptionSupplier.
      * &lt;br&gt;
-     * NOTE: No check if the collection is empty is performed.
+     * NOTE: There is no check if the collection is empty.
      *
-     * @param collection the collection to be checked for null elements
-     * @param supplier   the supplier of the exception to be thrown if a null element is found
+     * @param collection               the collection to be checked for null elements
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier of the exception to be thrown if a null element is found
      * @throws EnsureException if the collection contains a null element
      */
-    public static void notContainsNull(Collection&lt;?&gt; collection, Supplier&lt;RuntimeException&gt; supplier) throws EnsureException {
-<span class="fc" id="L79">        notNull(collection, supplier);</span>
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (collection.contains(null)) {</span>
-<span class="fc" id="L81">            throw getSupplierOrThrow(supplier);</span>
+    public static void notContainsNull(Collection&lt;?&gt; collection, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws EnsureException {
+<span class="fc" id="L121">        notNull(collection, runtimeExceptionSupplier);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (collection.contains(null)) {</span>
+<span class="fc" id="L123">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L83">    }</span>
+<span class="fc" id="L125">    }</span>
 
     /**
      * Ensures that the provided collection does not contain any null elements.
      * &lt;br&gt;
-     * NOTE: No check if the collection is empty is performed.
+     * NOTE: There is no check if the collection is empty.
      *
      * @param collection       the collection to be checked for null elements
      * @param exceptionMessage the message to be used in the exception if the condition is violated
      * @throws EnsureException if the collection contains null elements
      */
     public static void notContainsNull(Collection&lt;?&gt; collection, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L95">        notContainsNull(collection, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L137">        notContainsNull(collection, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L138">    }</span>
 
     /**
      * Ensures that the provided collection does not contain any null elements.
      * &lt;br&gt;
-     * NOTE: No check if the collection is empty is performed.
+     * NOTE: There is no check if the collection is empty.
      *
      * @param collection the collection to be checked for null elements
      * @throws EnsureException with the message &quot;collection must not contain null elements&quot; - if the collection contains a null element
      */
     public static void notContainsNull(Collection&lt;?&gt; collection) throws EnsureException {
-<span class="fc" id="L107">        notContainsNull(collection, &quot;collection must not contain null elements&quot;);</span>
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L149">        notContainsNull(collection, &quot;collection must not contain null elements&quot;);</span>
+<span class="fc" id="L150">    }</span>
 
     /**
      * Validates that the provided collection is not null and not empty.
      * If the collection is null or empty, a RuntimeException is thrown, which is
-     * either created using the provided supplier or thrown directly if the supplier is null.
+     * either created using the provided runtimeExceptionSupplier or thrown directly if the runtimeExceptionSupplier is null.
      *
-     * @param collection the collection to be validated
-     * @param supplier   the supplier providing the RuntimeException to be thrown if the collection is null or empty
+     * @param collection               the collection to be validated
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the RuntimeException to be thrown if the collection is null or empty
      * @throws RuntimeException if the collection is null or empty
      */
-    public static void notEmpty(Collection&lt;?&gt; collection, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc" id="L120">        notNull(collection, supplier);</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (collection.isEmpty()) {</span>
-<span class="fc" id="L122">            throw getSupplierOrThrow(supplier);</span>
+    public static void notEmpty(Collection&lt;?&gt; collection, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc" id="L162">        notNull(collection, runtimeExceptionSupplier);</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (collection.isEmpty()) {</span>
+<span class="fc" id="L164">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L124">    }</span>
+<span class="fc" id="L166">    }</span>
 
     /**
      * Validates that the provided collection is not null and not empty.
@@ -133,8 +175,8 @@ public final class Ensure {
      * @throws EnsureException if the collection is empty
      */
     public static void notEmpty(Collection&lt;?&gt; collection, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L136">        notEmpty(collection, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L137">    }</span>
+<span class="fc" id="L178">        notEmpty(collection, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L179">    }</span>
 
     /**
      * Validates that the provided collection is not null and not empty.
@@ -145,24 +187,24 @@ public final class Ensure {
      * @throws EnsureException with the message &quot;collection must not be empty&quot; - if the collection is empty
      */
     public static void notEmpty(Collection&lt;?&gt; collection) throws EnsureException {
-<span class="fc" id="L148">        notEmpty(collection, &quot;collection must not be empty&quot;);</span>
-<span class="fc" id="L149">    }</span>
+<span class="fc" id="L190">        notEmpty(collection, &quot;collection must not be empty&quot;);</span>
+<span class="fc" id="L191">    }</span>
 
     /**
      * Validates that the provided map is not empty. If the map is null or empty,
-     * the exception provided by the supplied {@code supplier} is thrown.
+     * the exception provided by the supplied {@code runtimeExceptionSupplier} is thrown.
      *
-     * @param map      the map to be validated
-     * @param supplier the supplier that provides the exception to be thrown if
-     *                 the validation fails
+     * @param map                      the map to be validated
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides the exception to be thrown if
+     *                                 the validation fails
      * @throws RuntimeException if the map is null or empty
      */
-    public static void notEmpty(Map&lt;?, ?&gt; map, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc" id="L161">        notNull(map, supplier);</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (map.isEmpty()) {</span>
-<span class="fc" id="L163">            throw getSupplierOrThrow(supplier);</span>
+    public static void notEmpty(Map&lt;?, ?&gt; map, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc" id="L203">        notNull(map, runtimeExceptionSupplier);</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        if (map.isEmpty()) {</span>
+<span class="fc" id="L205">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L165">    }</span>
+<span class="fc" id="L207">    }</span>
 
     /**
      * Ensures that the provided map is not empty. If the map is null or empty,
@@ -173,8 +215,8 @@ public final class Ensure {
      * @throws EnsureException if the map is null or empty
      */
     public static void notEmpty(Map&lt;?, ?&gt; map, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L176">        notEmpty(map, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L177">    }</span>
+<span class="fc" id="L218">        notEmpty(map, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L219">    }</span>
 
     /**
      * Validates that the provided map is not empty. If the map is null or empty,
@@ -184,23 +226,23 @@ public final class Ensure {
      * @throws EnsureException with the message &quot;map must not be empty&quot; - if the provided map is null or empty
      */
     public static void notEmpty(Map&lt;?, ?&gt; map) throws EnsureException {
-<span class="fc" id="L187">        notEmpty(map, &quot;map must not be empty&quot;);</span>
-<span class="fc" id="L188">    }</span>
+<span class="fc" id="L229">        notEmpty(map, &quot;map must not be empty&quot;);</span>
+<span class="fc" id="L230">    }</span>
 
     /**
      * Validates that the given array is not empty. If the array is null or empty,
-     * the provided supplier is used to throw an exception.
+     * the provided runtimeExceptionSupplier is used to throw an exception.
      *
-     * @param array    the array to check for non-emptiness
-     * @param supplier the supplier providing the exception to be thrown if validation fails
+     * @param array                    the array to check for non-emptiness
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if validation fails
      * @throws RuntimeException if the array is null or empty
      */
-    public static void notEmpty(Object[] array, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc" id="L199">        notNull(array, supplier);</span>
-<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (array.length == 0) {</span>
-<span class="fc" id="L201">            throw getSupplierOrThrow(supplier);</span>
+    public static void notEmpty(Object[] array, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc" id="L241">        notNull(array, runtimeExceptionSupplier);</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (array.length == 0) {</span>
+<span class="fc" id="L243">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L203">    }</span>
+<span class="fc" id="L245">    }</span>
 
     /**
      * Checks if the provided array is not empty. If the array is empty,
@@ -211,8 +253,8 @@ public final class Ensure {
      * @throws EnsureException if the array is empty
      */
     public static void notEmpty(Object[] array, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L214">        notEmpty(array, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L215">    }</span>
+<span class="fc" id="L256">        notEmpty(array, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L257">    }</span>
 
     /**
      * Ensures that the provided array is not empty. If the array is empty, an EnsureException is thrown.
@@ -221,250 +263,250 @@ public final class Ensure {
      * @throws EnsureException with the message &quot;array must not be empty&quot; - if the array is empty
      */
     public static void notEmpty(Object[] array) throws EnsureException {
-<span class="fc" id="L224">        notEmpty(array, &quot;array must not be empty&quot;);</span>
-<span class="fc" id="L225">    }</span>
+<span class="fc" id="L266">        notEmpty(array, &quot;array must not be empty&quot;);</span>
+<span class="fc" id="L267">    }</span>
 
     /**
      * Compares the provided number with a specified maximum value and throws a runtime exception if the number exceeds the maximum.
      *
-     * @param max      the maximum allowable value
-     * @param n        the number to compare against the maximum
-     * @param supplier a supplier for creating the runtime exception to be thrown if the provided number exceeds the maximum
+     * @param boundary                 the maximum allowable value
+     * @param value                    the number to compare against the maximum
+     * @param runtimeExceptionSupplier a runtimeExceptionSupplier for creating the runtime exception to be thrown if the provided number exceeds the maximum
      * @return the provided number if it does not exceed the maximum
      * @throws RuntimeException if the provided number exceeds the maximum value
      */
-    public static int max(int max, int n, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L237" title="All 2 branches covered.">        if (n &gt; max) {</span>
-<span class="fc" id="L238">            throw getSupplierOrThrow(supplier);</span>
+    public static int max(int boundary, int value, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        if (value &gt; boundary) {</span>
+<span class="fc" id="L280">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L240">        return n;</span>
+<span class="fc" id="L282">        return value;</span>
     }
 
     /**
      * Determines the maximum value between the specified integer values, and throws an {@code EnsureException}
      * with the provided message if the conditions are not met.
      *
-     * @param max              the current maximum value to compare against
-     * @param n                the new integer value to be compared
+     * @param boundary         the current maximum value to compare against
+     * @param value            the new integer value to be compared
      * @param exceptionMessage the exception message to be used if the exception is thrown
-     * @return the greater of {@code max} and {@code n}
+     * @return the greater of {@code boundary} and {@code value}
      * @throws EnsureException if the conditions for returning the maximum value fail
      */
-    public static int max(int max, int n, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L254">        return max(max, n, () -&gt; EnsureException.of(exceptionMessage));</span>
+    public static int max(int boundary, int value, String exceptionMessage) throws EnsureException {
+<span class="fc" id="L296">        return max(boundary, value, () -&gt; EnsureException.of(exceptionMessage));</span>
     }
 
     /**
      * Compares two integers and ensures the second integer is less than or equal to the first integer.
      *
-     * @param max the maximum allowable value
-     * @param n   the value to compare against the maximum
+     * @param boundary the maximum allowable value
+     * @param value    the value to compare against the maximum
      * @return the maximum value if the condition is met
      * @throws EnsureException with the message &quot;value must be less than or equal to %d, but was %d&quot; - if the given value exceeds the maximum allowable value
      */
-    public static int max(int max, int n) throws EnsureException {
-<span class="fc" id="L266">        return max(max, n, &quot;value must be less than or equal to %d, but was %d&quot;.formatted(max, n));</span>
+    public static int max(int boundary, int value) throws EnsureException {
+<span class="fc" id="L308">        return max(boundary, value, &quot;value must be less than or equal to %d, but was %d&quot;.formatted(boundary, value));</span>
     }
 
     /**
      * Compares a value against a minimum threshold and throws a supplied exception if the value is less than the threshold.
      *
-     * @param min      the minimum threshold value
-     * @param n        the value to compare against the minimum
-     * @param supplier the supplier that provides the runtime exception to be thrown if the comparison fails
-     * @return the value of n if it is greater than or equal to the minimum threshold
-     * @throws RuntimeException the exception supplied by the supplier, thrown when the value is less than the minimum threshold
+     * @param boundary                 the minimum threshold value
+     * @param value                    the value to compare against the minimum
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides the runtime exception to be thrown if the comparison fails
+     * @return the value of value if it is greater than or equal to the minimum threshold
+     * @throws RuntimeException the exception supplied by the runtimeExceptionSupplier, thrown when the value is less than the minimum threshold
      */
-    public static int min(int min, int n, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L279" title="All 2 branches covered.">        if (n &lt; min) {</span>
-<span class="fc" id="L280">            throw getSupplierOrThrow(supplier);</span>
+    public static int min(int boundary, int value, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L321" title="All 2 branches covered.">        if (value &lt; boundary) {</span>
+<span class="fc" id="L322">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L282">        return n;</span>
+<span class="fc" id="L324">        return value;</span>
     }
 
     /**
      * Compares the given integers and ensures that the second integer is not less than the minimum value,
      * throwing an exception with a specified message if the condition is violated.
      *
-     * @param min              the minimum value to compare against
-     * @param n                the value to be compared to the minimum value
+     * @param boundary         the minimum value to compare against
+     * @param value            the value to be compared to the minimum value
      * @param exceptionMessage the message to use for the exception if the condition is not met
      * @return the greater value between the specified minimum value and the provided integer
      * @throws EnsureException if the provided integer is less than the minimum value
      */
-    public static int min(int min, int n, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L296">        return min(min, n, () -&gt; EnsureException.of(exceptionMessage));</span>
+    public static int min(int boundary, int value, String exceptionMessage) throws EnsureException {
+<span class="fc" id="L338">        return min(boundary, value, () -&gt; EnsureException.of(exceptionMessage));</span>
     }
 
     /**
      * Compares two integers and ensures that the given value is greater than or equal to the defined minimum.
      *
-     * @param min the minimum allowed value
-     * @param n   the value to compare against the minimum
+     * @param boundary the minimum allowed value
+     * @param value    the value to compare against the minimum
      * @return the minimum value, or throws an exception if the condition is not met
      * @throws EnsureException with the message &quot;value must be greater than or equal to %d, but was %d&quot; - if the value is less than the specified minimum
      */
-    public static int min(int min, int n) throws EnsureException {
-<span class="fc" id="L308">        return min(min, n, &quot;value must be greater than or equal to %d, but was %d&quot;.formatted(min, n));</span>
+    public static int min(int boundary, int value) throws EnsureException {
+<span class="fc" id="L350">        return min(boundary, value, &quot;value must be greater than or equal to %d, but was %d&quot;.formatted(boundary, value));</span>
     }
 
     /**
      * Ensures that the provided string is not blank. If the string is blank or null,
-     * the specified exception supplied by the supplier is thrown.
+     * the specified exception supplied by the runtimeExceptionSupplier is thrown.
      *
-     * @param s        the string to be validated as not blank
-     * @param supplier the supplier that provides the exception to throw if the string is blank
+     * @param string                   the string to be validated as not blank
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides the exception to throw if the string is blank
      * @return the validated string if it is not blank
-     * @throws RuntimeException if the string is blank or null, provided by the supplier
+     * @throws RuntimeException if the string is blank or null, provided by the runtimeExceptionSupplier
      */
-    public static String notBlank(String s, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc" id="L321">        notNull(s, supplier);</span>
-<span class="fc bfc" id="L322" title="All 2 branches covered.">        if (s.isBlank()) {</span>
-<span class="fc" id="L323">            throw getSupplierOrThrow(supplier);</span>
+    public static String notBlank(String string, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc" id="L363">        notNull(string, runtimeExceptionSupplier);</span>
+<span class="fc bfc" id="L364" title="All 2 branches covered.">        if (string.isBlank()) {</span>
+<span class="fc" id="L365">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L325">        return s;</span>
+<span class="fc" id="L367">        return string;</span>
     }
 
     /**
      * Ensures that the provided string is not blank. If the string is blank or null,
      * an exception is thrown with the provided exception message.
      *
-     * @param s                the string to check for being non-blank
+     * @param string           the string to check for being non-blank
      * @param exceptionMessage the message to include in the thrown exception if the string is blank
      * @return the original string if it is not blank
      * @throws EnsureException if the string is blank
      */
-    public static String notBlank(String s, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L338">        return notBlank(s, () -&gt; EnsureException.of(exceptionMessage));</span>
+    public static String notBlank(String string, String exceptionMessage) throws EnsureException {
+<span class="fc" id="L380">        return notBlank(string, () -&gt; EnsureException.of(exceptionMessage));</span>
     }
 
     /**
      * Ensures that the provided string is not blank. If the string is blank or null, an exception is thrown with a default message.
      *
-     * @param s the string to validate
+     * @param string the string to validate
      * @return the original string if it is not blank
      * @throws EnsureException with the message - &quot;string must not be blank&quot; if the string is blank
      */
-    public static String notBlank(String s) throws EnsureException {
-<span class="fc" id="L349">        return notBlank(s, &quot;string must not be blank&quot;);</span>
+    public static String notBlank(String string) throws EnsureException {
+<span class="fc" id="L391">        return notBlank(string, &quot;string must not be blank&quot;);</span>
     }
 
     /**
      * Returns the given object if it is not null; otherwise, it evaluates and returns the result from the supplied {@link Supplier}.
-     * If the supplier is null or produces a null value, it throws an {@link EnsureException}.
+     * If the fallbackSupplier is null or produces a null value, it throws an {@link EnsureException}.
      *
-     * @param &lt;T&gt;      the type of the object being checked
-     * @param obj      the object to check for non-nullity
-     * @param supplier the supplier to provide an alternative object if {@code obj} is null
-     * @return the non-null {@code obj}, or the value provided by the {@code supplier} if {@code obj} is null
-     * @throws EnsureException if the {@code supplier} is null or produces a null value
+     * @param &lt;T&gt;              the type of the object being checked
+     * @param object           the object to check for non-nullity
+     * @param fallbackSupplier the fallbackSupplier to provide an alternative object if {@code object} is null
+     * @return the non-null {@code object}, or the value provided by the {@code fallbackSupplier} if {@code object} is null
+     * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
      */
-    public static &lt;T&gt; T notNullOrElseGet(T obj, Supplier&lt;T&gt; supplier) throws EnsureException {
-<span class="fc bfc" id="L363" title="All 2 branches covered.">        if (isNull(obj)) {</span>
-<span class="fc" id="L364">            return getSupplierOrThrow(supplier);</span>
+    public static &lt;T&gt; T notNullOrElseGet(T object, Supplier&lt;T&gt; fallbackSupplier) throws EnsureException {
+<span class="fc bfc" id="L405" title="All 2 branches covered.">        if (isNull(object)) {</span>
+<span class="fc" id="L406">            return getSupplierOrThrow(fallbackSupplier);</span>
         }
-<span class="fc" id="L366">        return obj;</span>
+<span class="fc" id="L408">        return object;</span>
     }
 
     /**
      * Returns the provided object if it is not null; otherwise, returns the given default object.
      *
-     * @param &lt;T&gt;        the type of the objects being evaluated
-     * @param obj        the object to check for nullity
-     * @param defaultObj the default object to return if {@code obj} is null
-     * @return {@code obj} if it is not null, otherwise {@code defaultObj}
+     * @param &lt;T&gt;           the type of the objects being evaluated
+     * @param object        the object to check for nullity
+     * @param defaultObject the default object to return if {@code object} is null
+     * @return {@code object} if it is not null, otherwise {@code defaultObject}
      */
-    public static &lt;T&gt; T notNullOrElse(T obj, T defaultObj) {
-<span class="fc bfc" id="L378" title="All 2 branches covered.">        if (isNull(obj)) {</span>
-<span class="fc" id="L379">            return defaultObj;</span>
+    public static &lt;T&gt; T notNullOrElse(T object, T defaultObject) {
+<span class="fc bfc" id="L420" title="All 2 branches covered.">        if (isNull(object)) {</span>
+<span class="fc" id="L421">            return defaultObject;</span>
         }
-<span class="fc" id="L381">        return obj;</span>
+<span class="fc" id="L423">        return object;</span>
     }
 
     /**
      * Ensures that the specified object is not null. If the object is null, a RuntimeException
-     * provided by the given supplier is thrown.
+     * provided by the given runtimeExceptionSupplier is thrown.
      *
-     * @param &lt;T&gt;      the type of the object being checked
-     * @param obj      the object to check for nullity
-     * @param supplier the supplier that provides a RuntimeException to be thrown if the object is null
+     * @param &lt;T&gt;                      the type of the object being checked
+     * @param object                   the object to check for nullity
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides a RuntimeException to be thrown if the object is null
      * @return the non-null object
-     * @throws RuntimeException if the object is null and the supplier provides an exception
+     * @throws RuntimeException if the object is null and the runtimeExceptionSupplier provides an exception
      */
-    public static &lt;T&gt; T notNullOrElseThrow(T obj, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L395" title="All 2 branches covered.">        if (isNull(obj)) {</span>
-<span class="fc" id="L396">            throw getSupplierOrThrow(supplier);</span>
+    public static &lt;T&gt; T notNullOrElseThrow(T object, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L437" title="All 2 branches covered.">        if (isNull(object)) {</span>
+<span class="fc" id="L438">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L398">        return obj;</span>
+<span class="fc" id="L440">        return object;</span>
     }
 
     /**
      * Ensures that the given object is not null, and returns the object if it is non-null.
      * If the object is null, this method throws a {@link RuntimeException}.
      *
-     * @param obj the object to be checked for nullity
-     * @param &lt;T&gt; the type of the object
+     * @param object the object to be checked for nullity
+     * @param &lt;T&gt;    the type of the object
      * @return the non-null object passed as input
      * @throws RuntimeException with the message &quot;object must not be null&quot; - if the object is null
      */
-    public static &lt;T&gt; T notNullOrElseThrow(T obj) throws RuntimeException {
-<span class="fc bfc" id="L411" title="All 2 branches covered.">        if (isNull(obj)) {</span>
-<span class="fc" id="L412">            throw getSupplierOrThrow(() -&gt; EnsureException.of(&quot;object must not be null&quot;));</span>
+    public static &lt;T&gt; T notNullOrElseThrow(T object) throws RuntimeException {
+<span class="fc bfc" id="L453" title="All 2 branches covered.">        if (isNull(object)) {</span>
+<span class="fc" id="L454">            throw getSupplierOrThrow(() -&gt; EnsureException.of(&quot;object must not be null&quot;));</span>
         }
-<span class="fc" id="L414">        return obj;</span>
+<span class="fc" id="L456">        return object;</span>
     }
 
     /**
      * Ensures that the provided object is not null. If the object is null, a {@link RuntimeException}
      * provided by the given {@link Supplier} is thrown.
      *
-     * @param obj      the object to be checked for non-nullity
-     * @param supplier the supplier responsible for providing the {@link RuntimeException} to be thrown if {@code obj} is null
-     * @throws RuntimeException if {@code obj} is null, with the exception derived from the {@code supplier}
+     * @param object                   the object to be checked for non-nullity
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException} to be thrown if {@code object} is null
+     * @throws RuntimeException if {@code object} is null, with the exception derived from the {@code runtimeExceptionSupplier}
      */
-    public static void notNull(Object obj, Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L426" title="All 2 branches covered.">        if (isNull(obj)) {</span>
-<span class="fc" id="L427">            throw getSupplierOrThrow(supplier);</span>
+    public static void notNull(Object object, Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L468" title="All 2 branches covered.">        if (isNull(object)) {</span>
+<span class="fc" id="L469">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L429">    }</span>
+<span class="fc" id="L471">    }</span>
 
     /**
      * Ensures that the provided object is not null. If the object is null, an {@link EnsureException}
      * with the given message is thrown.
      *
-     * @param obj     the object to be checked for non-nullity
-     * @param message the exception message to be included if {@code obj} is null
-     * @throws EnsureException if {@code obj} is null
+     * @param object  the object to be checked for non-nullity
+     * @param message the exception message to be included if {@code object} is null
+     * @throws EnsureException if {@code object} is null
      */
-    public static void notNull(Object obj, String message) throws EnsureException {
-<span class="fc" id="L440">        notNull(obj, () -&gt; EnsureException.of(message));</span>
-<span class="fc" id="L441">    }</span>
+    public static void notNull(Object object, String message) throws EnsureException {
+<span class="fc" id="L482">        notNull(object, () -&gt; EnsureException.of(message));</span>
+<span class="fc" id="L483">    }</span>
 
     /**
      * Ensures that the provided object is not null. If the object is null, an {@link EnsureException} is thrown.
      *
-     * @param obj the object to be checked for non-nullity
-     * @throws EnsureException with the message &quot;object must not be null&quot; - if {@code obj} is null
+     * @param object the object to be checked for non-nullity
+     * @throws EnsureException with the message &quot;object must not be null&quot; - if {@code object} is null
      */
-    public static void notNull(Object obj) throws EnsureException {
-<span class="fc" id="L450">        notNull(obj, &quot;object must not be null&quot;);</span>
-<span class="fc" id="L451">    }</span>
+    public static void notNull(Object object) throws EnsureException {
+<span class="fc" id="L492">        notNull(object, &quot;object must not be null&quot;);</span>
+<span class="fc" id="L493">    }</span>
 
     /**
      * Validates that the given boolean expression is true. If the expression evaluates to false,
      * a {@link RuntimeException} provided by the specified {@link Supplier} is thrown.
      *
-     * @param expression the boolean expression to be evaluated
-     * @param supplier   the supplier responsible for providing the {@link RuntimeException}
-     *                   to be thrown if {@code expression} evaluates to false
-     * @throws RuntimeException if {@code expression} evaluates to false, with the exception derived from the {@code supplier}
+     * @param expression               the boolean expression to be evaluated
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException}
+     *                                 to be thrown if {@code expression} evaluates to false
+     * @throws RuntimeException if {@code expression} evaluates to false, with the exception derived from the {@code runtimeExceptionSupplier}
      */
     public static void isTrue(boolean expression,
-                              Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L464" title="All 2 branches covered.">        if (!expression) {</span>
-<span class="fc" id="L465">            throw getSupplierOrThrow(supplier);</span>
+                              Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L506" title="All 2 branches covered.">        if (!expression) {</span>
+<span class="fc" id="L507">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L467">    }</span>
+<span class="fc" id="L509">    }</span>
 
     /**
      * Ensures that the provided expression evaluates to {@code true}. If the expression evaluates to {@code false},
@@ -475,58 +517,58 @@ public final class Ensure {
      * @throws EnsureException if {@code expression} evaluates to {@code false}
      */
     public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L478">        isTrue(expression, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L479">    }</span>
+<span class="fc" id="L520">        isTrue(expression, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L521">    }</span>
 
     /**
      * Ensures that the provided boolean value is true. If the value is false,
      * an {@link EnsureException} with a default message is thrown.
      *
-     * @param b the boolean value to check; must be true
+     * @param expression the boolean value to check; must be true
      * @throws EnsureException with the message &quot;boolean must be true&quot; - if the provided value is false
      */
-    public static void isTrue(boolean b) throws EnsureException {
-<span class="fc" id="L489">        isTrue(b, &quot;boolean must be true&quot;);</span>
-<span class="fc" id="L490">    }</span>
+    public static void isTrue(boolean expression) throws EnsureException {
+<span class="fc" id="L531">        isTrue(expression, &quot;boolean must be true&quot;);</span>
+<span class="fc" id="L532">    }</span>
 
     /**
      * Ensures that the provided boolean value is false. If the value is true, a {@link RuntimeException}
      * provided by the given {@link Supplier} is thrown.
      *
-     * @param b        the boolean value to check
-     * @param supplier the supplier responsible for providing the {@link RuntimeException}
-     *                 to be thrown if {@code b} is true
-     * @throws RuntimeException if {@code b} is true, with the exception derived from the {@code supplier}
+     * @param expression               the boolean value to check
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException}
+     *                                 to be thrown if {@code expression} is true
+     * @throws RuntimeException if {@code expression} is true, with the exception derived from the {@code runtimeExceptionSupplier}
      */
-    public static void isFalse(boolean b,
-                               Supplier&lt;RuntimeException&gt; supplier) throws RuntimeException {
-<span class="fc bfc" id="L503" title="All 2 branches covered.">        if (b) {</span>
-<span class="fc" id="L504">            throw getSupplierOrThrow(supplier);</span>
+    public static void isFalse(boolean expression,
+                               Supplier&lt;RuntimeException&gt; runtimeExceptionSupplier) throws RuntimeException {
+<span class="fc bfc" id="L545" title="All 2 branches covered.">        if (expression) {</span>
+<span class="fc" id="L546">            throw getSupplierOrThrow(runtimeExceptionSupplier);</span>
         }
-<span class="fc" id="L506">    }</span>
+<span class="fc" id="L548">    }</span>
 
     /**
      * Ensures that the provided boolean value is false. If the value is true,
      * an {@link EnsureException} with the provided exception message is thrown.
      *
-     * @param b                the boolean value to be checked
-     * @param exceptionMessage the exception message to include if {@code b} is true
-     * @throws EnsureException if {@code b} is true
+     * @param expression       the boolean value to be checked
+     * @param exceptionMessage the exception message to include if {@code expression} is true
+     * @throws EnsureException if {@code expression} is true
      */
-    public static void isFalse(boolean b, String exceptionMessage) throws EnsureException {
-<span class="fc" id="L517">        isFalse(b, () -&gt; EnsureException.of(exceptionMessage));</span>
-<span class="fc" id="L518">    }</span>
+    public static void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
+<span class="fc" id="L559">        isFalse(expression, () -&gt; EnsureException.of(exceptionMessage));</span>
+<span class="fc" id="L560">    }</span>
 
     /**
      * Ensures that the provided boolean value is false. If the value is true,
      * an {@link EnsureException} with a default message is thrown.
      *
-     * @param b the boolean value to be checked
-     * @throws EnsureException with the message &quot;boolean must be false&quot; - if {@code b} is true
+     * @param expression the boolean value to be checked
+     * @throws EnsureException with the message &quot;boolean must be false&quot; - if {@code expression} is true
      */
-    public static void isFalse(boolean b) throws EnsureException {
-<span class="fc" id="L528">        isFalse(b, &quot;boolean must be false&quot;);</span>
-<span class="fc" id="L529">    }</span>
+    public static void isFalse(boolean expression) throws EnsureException {
+<span class="fc" id="L570">        isFalse(expression, &quot;boolean must be false&quot;);</span>
+<span class="fc" id="L571">    }</span>
 
     /**
      * Retrieves the value provided by the given {@link Supplier}. If the supplier is null or the supplied
@@ -539,24 +581,24 @@ public final class Ensure {
      */
     @NonNull
     private static &lt;T&gt; T getSupplierOrThrow(Supplier&lt;T&gt; supplier) {
-<span class="fc bfc" id="L542" title="All 2 branches covered.">        if (supplier == null) {</span>
-<span class="fc" id="L543">            throw new EnsureException(&quot;supplier was null&quot;);</span>
+<span class="fc bfc" id="L584" title="All 2 branches covered.">        if (supplier == null) {</span>
+<span class="fc" id="L585">            throw new EnsureException(&quot;supplier was null&quot;);</span>
         }
-<span class="fc" id="L545">        T t = supplier.get();</span>
-<span class="fc bfc" id="L546" title="All 2 branches covered.">        if (t == null) {</span>
-<span class="fc" id="L547">            throw new EnsureException(&quot;supplier was given a null value&quot;);</span>
+<span class="fc" id="L587">        final T t = supplier.get();</span>
+<span class="fc bfc" id="L588" title="All 2 branches covered.">        if (t == null) {</span>
+<span class="fc" id="L589">            throw new EnsureException(&quot;supplier was given a null value&quot;);</span>
         }
-<span class="fc" id="L549">        return t;</span>
+<span class="fc" id="L591">        return t;</span>
     }
 
     /**
      * Checks whether the given object is null.
      *
-     * @param obj the object to check for nullity
+     * @param object the object to check for nullity
      * @return true if the given object is null, false otherwise
      */
-    private static boolean isNull(Object obj) {
-<span class="fc bfc" id="L559" title="All 2 branches covered.">        return obj == null;</span>
+    private static boolean isNull(Object object) {
+<span class="fc bfc" id="L601" title="All 2 branches covered.">        return object == null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
