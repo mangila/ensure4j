@@ -15,6 +15,9 @@ jobs:
       - image: cimg/openjdk:21.0.9
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:qAN+L+9L9b3kBCnCCJqtehNUqXTyruqx6FwpQTYkdRA"
       - run:
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           name: Add Known GitHub Host Keys
@@ -22,8 +25,20 @@ jobs:
             mkdir -p ~/.ssh
             echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
       - run:
-          name: Set Git User
-          command: git config --global user.email "olsson.erik1993@gmail.com" && git config --global user.name "CircleCI"
+          name: Configure Git User
+          command: |
+            git config --global user.email "olsson.erik1993@gmail.com"
+            git config --global user.name "CircleCI"
+            
+            SSH_PUBKEY_PATH=$(ls ~/.ssh/*.pub | head -1)
+
+            if [ -z "$SSH_PUBKEY_PATH" ]; then
+              echo "Public key file not found. Check if the key was added correctly."
+              exit 1
+            fi
+            git config gpg.format ssh
+            git config user.signingkey "$SSH_PUBKEY_PATH"
+            git config commit.gpgsign true
       - run:
           name: Base64 Decode and Create settings.xml
           command: echo "$MAVEN_SETTINGS_BASE64" | base64 -d -i > settings.xml
