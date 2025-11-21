@@ -88,7 +88,7 @@ public class EnsureTest {
                                 case "notBlankOrElse" -> assertThat(counts.get(methodName)).isEqualTo(1L);
                                 case "notEmpty" -> assertThat(counts.get(methodName)).isEqualTo(9L);
                                 case "notContainsNull" -> assertThat(counts.get(methodName)).isEqualTo(3L);
-                                case "equals" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "isEquals" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "isInstanceOf" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 default -> throw new IllegalStateException("Unexpected value: " + methodName);
                             }
