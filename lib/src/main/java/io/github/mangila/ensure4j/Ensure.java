@@ -64,6 +64,43 @@ public final class Ensure {
     }
 
     /**
+     * Compares two enum values for equality and throws an exception if they are not equal.
+     *
+     * @param enum1                    the first enum value to compare
+     * @param enum2                    the second enum value to compare
+     * @param runtimeExceptionSupplier a supplier that provides a RuntimeException to be thrown if the enum values are not equal
+     * @throws EnsureException if the enum values are not equal and the supplied exception is thrown
+     */
+    public static void isEquals(Enum<?> enum1, Enum<?> enum2, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
+        if (enum1 != enum2) {
+            throw runtimeExceptionSupplier.get();
+        }
+    }
+
+    /**
+     * Compares two Enum values for equality and throws an EnsureException if they are not equal.
+     *
+     * @param enum1            The first Enum value to compare.
+     * @param enum2            The second Enum value to compare.
+     * @param exceptionMessage The message to include in the EnsureException if the values are not equal.
+     * @throws EnsureException if the two Enum values are not equal.
+     */
+    public static void isEquals(Enum<?> enum1, Enum<?> enum2, String exceptionMessage) throws EnsureException {
+        isEquals(enum1, enum2, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Compares two enum values for equality and throws an exception if they are not equal.
+     *
+     * @param enum1 the first Enum value to compare
+     * @param enum2 the second Enum value to compare
+     * @throws EnsureException with the message "enums must be equal" - if the two Enum values are not equal
+     */
+    public static void isEquals(Enum<?> enum1, Enum<?> enum2) throws EnsureException {
+        isEquals(enum1, enum2, "enums must be equal");
+    }
+
+    /**
      * Compares two objects for equality and throws a provided exception if they are not equal.
      * If both objects are the same instance or the first object equals the second, the method returns without exception.
      * If the first object is null or the objects are not equal, a custom exception is thrown.

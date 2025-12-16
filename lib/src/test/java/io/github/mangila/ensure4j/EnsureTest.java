@@ -10,6 +10,7 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -25,6 +26,7 @@ public class EnsureTest {
         Constructor<?> constructor = Ensure.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         assertThatThrownBy(constructor::newInstance)
+                .isInstanceOf(InvocationTargetException.class)
                 .hasCauseInstanceOf(IllegalStateException.class)
                 .hasRootCauseMessage("Utility class");
     }
@@ -39,6 +41,13 @@ public class EnsureTest {
                 .hasMessage("supplier was given a null value");
     }
 
+    /**
+     * Sanity test to guard from slippery slopes
+     * Just something that will obviously fail if not handled and to think one more time before releasing
+     * Not much but just to keep the sanity in check.
+     * Is it necessary? Maybe not,
+     * but during a big change it's nice to have some safeguard when new methods are introduced into the library.
+     */
     @Test
     void archTest() {
         String javaPackage = "io.github.mangila.ensure4j";
@@ -59,16 +68,13 @@ public class EnsureTest {
                                 .toList();
                         assertPublicMethods(publicMethods);
                         int totalMethods = item.getMethods().size();
-                        assertThat(totalMethods).isEqualTo(42);
+                        assertThat(totalMethods).isEqualTo(45);
                     }
 
-                    /**
-                     * Sanity test to guard from slippery slopes
-                     */
                     private void assertPublicMethods(List<String> publicMethodNames) {
                         int publicMethodsCount = publicMethodNames.size();
                         assertThat(publicMethodsCount)
-                                .isEqualTo(40);
+                                .isEqualTo(43);
                         Map<String, Long> counts = publicMethodNames.stream()
                                 .collect(Collectors.groupingBy(
                                         methodName -> methodName,
@@ -88,7 +94,7 @@ public class EnsureTest {
                                 case "notBlankOrElse" -> assertThat(counts.get(methodName)).isEqualTo(1L);
                                 case "notEmpty" -> assertThat(counts.get(methodName)).isEqualTo(9L);
                                 case "notContainsNull" -> assertThat(counts.get(methodName)).isEqualTo(3L);
-                                case "isEquals" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "isEquals" -> assertThat(counts.get(methodName)).isEqualTo(6L);
                                 case "isInstanceOf" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 default -> throw new IllegalStateException("Unexpected value: " + methodName);
                             }

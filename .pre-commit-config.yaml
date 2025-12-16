@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: lib-dir-test
         name: Test ensure4j
-        entry: cmd.exe /c mvnw.cmd
+        entry: ./mvnw
         args: [ "-f", "lib/pom.xml", "clean", "test" ]
         language: system
         files: ^lib/src

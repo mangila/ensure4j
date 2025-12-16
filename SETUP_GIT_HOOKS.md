@@ -9,3 +9,5 @@ Install the requirements.
 Set up pre-commit hooks.
 
 `pre-commit install`
+
+Change pre-commit-config.yaml to run the maven wrapper after the OS-specific commands.
