@@ -27,7 +27,7 @@ public class ObjectInitialization {
         int number;
 
         // Run some preconditions in the class constructor
-        // and fallback with a default value if the precondition fails
+        // and fall back with a default value if the precondition fails
         // Eager Initialization
         EnsuredObject1(String key, String value, int number) {
             this.key = Ensure.notNullOrElse(key, "default_key");
@@ -42,8 +42,8 @@ public class ObjectInitialization {
         int number;
 
         // Run some preconditions in the class constructor
-        // and fallback with a default value if the precondition fails
-        // run with a Supplier instead. Lazy Initialization
+        // and fall back with a default value if the precondition fails
+        //  to run with a Supplier instead. Lazy Initialization
         EnsuredObject2(String key, String value, int number) {
             this.key = Ensure.notNullOrElseGet(key, () -> "default_key");
             this.value = Ensure.notNullOrElseGet(value, () -> "default_value");

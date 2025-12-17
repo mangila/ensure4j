@@ -13,6 +13,7 @@ There is also support for functional programming pipelines and Java Streams.
 **NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered
 stable. Yet...**
 
+- Compiled in Java 21
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
 - [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 
@@ -33,7 +34,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.33</version>
+    <version>0.0.34</version>
 </dependency>
 ```
 
@@ -126,18 +127,18 @@ We have fewer if statements (less cognitive load) and more readable code and als
 throughout the whole codebase.
 
 There is some library support for preconditions already in Java, but they are not as comprehensive and direct as
-Ensure4j. Since this is a precondition only library.
+Ensure4j. Since this is a precondition-only library.
 
 Libs with preconditions support:
 
 - Guava's Preconditions
 - Java's builtin Objects
-- Spring's Assert class.
+- Spring's Assert class
 
 Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
 performance penalty that might waste some CPU cycles.
 
-And of course, you can always roll your own, and I have done that in the past, that's why I created Ensure4j.
+And of course, you can always roll your own or do explicit checks, and I have done that in the past; that's why I created Ensure4j.
 
 ## Example usage
 

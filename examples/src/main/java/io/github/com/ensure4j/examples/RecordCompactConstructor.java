@@ -15,7 +15,6 @@ public class RecordCompactConstructor {
         }
     }
 
-
     static class PersonException extends RuntimeException {
         public PersonException(String message) {
             super(message);
