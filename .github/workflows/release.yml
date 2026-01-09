@@ -6,6 +6,11 @@ on:
 jobs:
   release:
     name: Release
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+      actions: read
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,6 +43,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "olsson.erik1993@gmail.com"
           mvn -B --file pom.xml release:prepare release:perform
+          git push origin main --tags
       # Upload pages
 
       - name: Upload Pages Artifact
