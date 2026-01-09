@@ -26,12 +26,15 @@ jobs:
 
       - name: Setup Java
         uses: actions/setup-java@v4
+        env:
+          SONAR_USERNAME: ${{ secrets.SONAR_USERNAME }}
+          SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
         with:
           java-version: 21
           distribution: 'zulu'
           server-id: central
-          server-username: ${{ secrets.SONAR_USERNAME }}
-          server-password: ${{ secrets.SONAR_PASSWORD }}
+          server-username: SONAR_USERNAME
+          server-password: SONAR_PASSWORD
           cache: maven
       # Post JARs to Maven Central
       - name: Release to Maven Central
@@ -42,7 +45,8 @@ jobs:
           export GPG_TTY=$(tty)
           git config --global user.name "GitHub Actions"
           git config --global user.email "olsson.erik1993@gmail.com"
-          mvn -B --file pom.xml release:prepare release:perform -DskipTests
+          mvn -B --file pom.xml release:prepare -DskipTests
+          mvn -B --file pom.xml release:perform -DskipTests
           git push origin main --tags
       # Upload pages
 
