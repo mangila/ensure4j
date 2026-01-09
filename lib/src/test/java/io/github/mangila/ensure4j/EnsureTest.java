@@ -68,13 +68,13 @@ public class EnsureTest {
                                 .toList();
                         assertPublicMethods(publicMethods);
                         int totalMethods = item.getMethods().size();
-                        assertThat(totalMethods).isEqualTo(45);
+                        assertThat(totalMethods).isEqualTo(51);
                     }
 
                     private void assertPublicMethods(List<String> publicMethodNames) {
                         int publicMethodsCount = publicMethodNames.size();
                         assertThat(publicMethodsCount)
-                                .isEqualTo(43);
+                                .isEqualTo(49);
                         Map<String, Long> counts = publicMethodNames.stream()
                                 .collect(Collectors.groupingBy(
                                         methodName -> methodName,
@@ -88,8 +88,8 @@ public class EnsureTest {
                                 case "notNullOrElseThrow" -> assertThat(counts.get(methodName)).isEqualTo(2L);
                                 case "isTrue" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "isFalse" -> assertThat(counts.get(methodName)).isEqualTo(3L);
-                                case "max" -> assertThat(counts.get(methodName)).isEqualTo(3L);
-                                case "min" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "max" -> assertThat(counts.get(methodName)).isEqualTo(6L);
+                                case "min" -> assertThat(counts.get(methodName)).isEqualTo(6L);
                                 case "notBlank" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "notBlankOrElse" -> assertThat(counts.get(methodName)).isEqualTo(1L);
                                 case "notEmpty" -> assertThat(counts.get(methodName)).isEqualTo(9L);

@@ -5,7 +5,6 @@ dependencies.
 
 https://mangila.github.io/ensure4j/
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mangila/ensure4j/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/mangila/ensure4j/tree/main)
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.mangila/ensure4j)
 
 There is also support for functional programming pipelines and Java Streams.
@@ -138,7 +137,8 @@ Libs with preconditions support:
 Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
 performance penalty that might waste some CPU cycles.
 
-And of course, you can always roll your own or do explicit checks, and I have done that in the past; that's why I created Ensure4j.
+And of course, you can always roll your own or do explicit checks, and I have done that in the past; that's why I
+created Ensure4j.
 
 ## Example usage
 
