@@ -5,7 +5,7 @@
 
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.34-SNAPSHOT</version>
+    <version>0.0.35-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
@@ -150,9 +150,8 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <preparationGoals>
-                        package site
-                    </preparationGoals>
+                    <signTag>true</signTag>
+                    <preparationGoals>package site</preparationGoals>
                 </configuration>
             </plugin>
             <plugin>

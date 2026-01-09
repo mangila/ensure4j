@@ -21,7 +21,6 @@ public class Collections {
             Ensure.notBlank(name, "name must not be blank");
             Ensure.min(0, age, "age must be greater than or equal to 0");
         }
-
     }
 
     record PersonCollection(List<Person> people) {

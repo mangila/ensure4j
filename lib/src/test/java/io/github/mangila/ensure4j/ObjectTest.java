@@ -18,7 +18,7 @@ public class ObjectTest {
         assertThatCode(() -> Ensure.isEquals(1, 1, "test message")).doesNotThrowAnyException();
         assertThatCode(() -> Ensure.isEquals(1, 1, () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
         // REMINDME: idk... ok?
-        assertThatCode(() -> Ensure.isEquals(null, null)).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isEquals((Object) null, null)).doesNotThrowAnyException();
     }
 
     @Test
@@ -36,6 +36,34 @@ public class ObjectTest {
         assertThatThrownBy(() -> Ensure.isEquals(null, new BigInteger("1"), () -> new IllegalArgumentException("test objects not equal")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("test objects not equal");
+    }
+
+    enum TestEnum {
+        A, B, C
+    }
+
+    @Test
+    @DisplayName("Happy path equals(Enum)")
+    void equals2() {
+        assertThatCode(() -> Ensure.isEquals(TestEnum.A, TestEnum.A)).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isEquals(TestEnum.A, TestEnum.A, "test message")).doesNotThrowAnyException();
+        assertThatCode(() -> Ensure.isEquals(TestEnum.A, TestEnum.A, () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
+        // REMINDME: idk... ok?
+        assertThatCode(() -> Ensure.isEquals((Enum<?>) null, null)).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("Sad path equals(Enum)")
+    void equals3() {
+        assertThatThrownBy(() -> Ensure.isEquals(TestEnum.A, TestEnum.B))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("enums must be equal");
+        assertThatThrownBy(() -> Ensure.isEquals(TestEnum.A, TestEnum.B, "test enums not equal"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("test enums not equal");
+        assertThatThrownBy(() -> Ensure.isEquals(TestEnum.A, TestEnum.B, () -> new IllegalArgumentException("test enums not equal")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("test enums not equal");
     }
 
     @Test

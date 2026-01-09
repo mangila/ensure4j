@@ -64,6 +64,43 @@ public final class Ensure {
     }
 
     /**
+     * Compares two enum values for equality and throws an exception if they are not equal.
+     *
+     * @param enum1                    the first enum value to compare
+     * @param enum2                    the second enum value to compare
+     * @param runtimeExceptionSupplier a supplier that provides a RuntimeException to be thrown if the enum values are not equal
+     * @throws EnsureException if the enum values are not equal and the supplied exception is thrown
+     */
+    public static void isEquals(Enum<?> enum1, Enum<?> enum2, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
+        if (enum1 != enum2) {
+            throw runtimeExceptionSupplier.get();
+        }
+    }
+
+    /**
+     * Compares two Enum values for equality and throws an EnsureException if they are not equal.
+     *
+     * @param enum1            The first Enum value to compare.
+     * @param enum2            The second Enum value to compare.
+     * @param exceptionMessage The message to include in the EnsureException if the values are not equal.
+     * @throws EnsureException if the two Enum values are not equal.
+     */
+    public static void isEquals(Enum<?> enum1, Enum<?> enum2, String exceptionMessage) throws EnsureException {
+        isEquals(enum1, enum2, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Compares two enum values for equality and throws an exception if they are not equal.
+     *
+     * @param enum1 the first Enum value to compare
+     * @param enum2 the second Enum value to compare
+     * @throws EnsureException with the message "enums must be equal" - if the two Enum values are not equal
+     */
+    public static void isEquals(Enum<?> enum1, Enum<?> enum2) throws EnsureException {
+        isEquals(enum1, enum2, "enums must be equal");
+    }
+
+    /**
      * Compares two objects for equality and throws a provided exception if they are not equal.
      * If both objects are the same instance or the first object equals the second, the method returns without exception.
      * If the first object is null or the objects are not equal, a custom exception is thrown.
@@ -232,6 +269,7 @@ public final class Ensure {
     /**
      * Validates that the given array is not empty. If the array is null or empty,
      * the provided runtimeExceptionSupplier is used to throw an exception.
+     * NOTE: Also check if null
      *
      * @param array                    the array to check for non-emptiness
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if validation fails
@@ -247,10 +285,11 @@ public final class Ensure {
     /**
      * Checks if the provided array is not empty. If the array is empty,
      * throws an EnsureException with the provided exception message.
+     * NOTE: Also check if null
      *
      * @param array            the array to check for non-emptiness
      * @param exceptionMessage the message to include in the exception if the array is empty
-     * @throws EnsureException if the array is empty
+     * @throws EnsureException if the array is null or empty
      */
     public static void notEmpty(Object[] array, String exceptionMessage) throws EnsureException {
         notEmpty(array, () -> EnsureException.of(exceptionMessage));
@@ -258,12 +297,56 @@ public final class Ensure {
 
     /**
      * Ensures that the provided array is not empty. If the array is empty, an EnsureException is thrown.
+     * NOTE: Also check if null
      *
      * @param array the array to be checked
      * @throws EnsureException with the message "array must not be empty" - if the array is empty
      */
     public static void notEmpty(Object[] array) throws EnsureException {
         notEmpty(array, "array must not be empty");
+    }
+
+    /**
+     * Returns the given value if it is less than or equal to the specified boundary.
+     * If the value exceeds the boundary, the provided RuntimeException is thrown.
+     *
+     * @param boundary                 the maximum allowed value
+     * @param value                    the value to be checked against the boundary
+     * @param runtimeExceptionSupplier the supplier of the RuntimeException to be thrown if the value exceeds the boundary
+     * @return the value if it is less than or equal to the boundary
+     * @throws RuntimeException if the value exceeds the specified boundary
+     */
+    public static long max(long boundary, long value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value > boundary) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the given value does not exceed the specified boundary.
+     * If the value exceeds the boundary, an exception with the provided message is thrown.
+     *
+     * @param boundary         the maximum allowable value
+     * @param value            the value to be checked
+     * @param exceptionMessage the message to be used in the exception if the boundary is exceeded
+     * @return the value if it does not exceed the boundary
+     * @throws EnsureException if the value exceeds the boundary
+     */
+    public static long max(long boundary, long value, String exceptionMessage) throws EnsureException {
+        return max(boundary, value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Returns the maximum of the boundary and value. If the value exceeds the boundary, an EnsureException is thrown.
+     *
+     * @param boundary the upper limit that the value must not exceed
+     * @param value    the value to compare against the boundary
+     * @return the maximum of the boundary and the value
+     * @throws EnsureException with the message "value must be less than or equal to %d, but was %d" - if the given value exceeds the maximum allowable value
+     */
+    public static long max(long boundary, long value) throws EnsureException {
+        return max(boundary, value, "value must be less than or equal to %d, but was %d".formatted(boundary, value));
     }
 
     /**
@@ -306,6 +389,51 @@ public final class Ensure {
      */
     public static int max(int boundary, int value) throws EnsureException {
         return max(boundary, value, "value must be less than or equal to %d, but was %d".formatted(boundary, value));
+    }
+
+    /**
+     * Ensures that the provided value is greater than or equal to the specified boundary.
+     * If the value is less than the boundary, the provided exception supplier is used
+     * to generate and throw a RuntimeException.
+     *
+     * @param boundary                 the minimum allowable value
+     * @param value                    the value to be checked
+     * @param runtimeExceptionSupplier a supplier that provides the RuntimeException to be thrown if the value is invalid
+     * @return the provided value if it meets or exceeds the boundary
+     * @throws RuntimeException if the value is less than the boundary, based on the supplied exception
+     */
+    public static long min(long boundary, long value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value < boundary) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that a given value meets or exceeds a specified boundary.
+     * If the value is less than the boundary, an exception with the specified message is thrown.
+     *
+     * @param boundary         the minimum permissible value
+     * @param value            the value to be validated
+     * @param exceptionMessage the message to be included in the exception if the validation fails
+     * @return the validated value if it meets or exceeds the boundary
+     * @throws EnsureException if the value is less than the boundary
+     */
+    public static long min(long boundary, long value, String exceptionMessage) throws EnsureException {
+        return min(boundary, value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Determines the minimum value constrained by a specified boundary.
+     * If the given value is smaller than the boundary, an exception will be thrown.
+     *
+     * @param boundary the lower boundary that the value must meet or exceed
+     * @param value    the value to be compared against the boundary
+     * @return the value if it is greater than or equal to the boundary
+     * @throws EnsureException with the message "value must be greater than or equal to %d, but was %d" - if the value is less than the specified minimum
+     */
+    public static long min(long boundary, long value) throws EnsureException {
+        return min(boundary, value, "value must be greater than or equal to %d, but was %d".formatted(boundary, value));
     }
 
     /**
