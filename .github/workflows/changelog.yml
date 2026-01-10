@@ -22,4 +22,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ensure4j-0.0.42
           body: ${{steps.github_release.outputs.changelog}}
