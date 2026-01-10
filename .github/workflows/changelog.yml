@@ -1,9 +1,7 @@
 name: Generate Changelog
 
 on:
-  push:
-    tags:
-      - "ensure4j-*.*.*"
+  workflow_dispatch:
 
 jobs:
   build:
