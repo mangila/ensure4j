@@ -80,7 +80,7 @@ jobs:
               "categories": [
                 {
                     "title": "## 💬 Other",
-                    "labels": ["other", "documentation", "docs" ]
+                    "labels": ["other", "docs" ]
                 },
                 {
                     "title": "## 🚀 Features",
