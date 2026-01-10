@@ -89,7 +89,7 @@ jobs:
                 {
                     "title": "## 🐛 Bugfixes",
                     "labels": ["bug"]
-                },
+                }
               ]
             }
         env:
