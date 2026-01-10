@@ -1,4 +1,4 @@
-name: release
+name: Release and Upload Pages
 
 on:
   workflow_dispatch:
@@ -46,7 +46,6 @@ jobs:
           git push origin main --tags
       # Upload GitHub pages
       - name: Upload Pages Artifact
-        id: deployment
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./lib/target/site
