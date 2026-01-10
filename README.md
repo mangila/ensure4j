@@ -1,3 +1,5 @@
+[![Release and Upload Pages](https://github.com/mangila/ensure4j/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/mangila/ensure4j/actions/workflows/release.yml)
+
 # ensure4j
 
 Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
