@@ -1,5 +1,0 @@
-release:
-  github:
-    owner: mangila
-    name: ensure4j
-    overwrite: true
