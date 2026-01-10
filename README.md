@@ -1,4 +1,5 @@
 [![Release and Upload Pages](https://github.com/mangila/ensure4j/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/mangila/ensure4j/actions/workflows/release.yml)
+[![Hits](https://hits.sh/github.com/mangila/ensure4j.svg)](https://hits.sh/github.com/mangila/ensure4j/)
 
 # ensure4j
 
@@ -35,7 +36,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.41</version>
+    <version>0.0.44</version>
 </dependency>
 ```
 
