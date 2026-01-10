@@ -83,12 +83,12 @@ jobs:
                     "labels": ["other", "docs" ]
                 },
                 {
-                    "title": "## 🚀 Features",
-                    "labels": ["feature"]
+                    "title": "## 🚀 New Methods",
+                    "labels": ["method"]
                 },
                 {
                     "title": "## 🐛 Bugfixes",
-                    "labels": ["bug", "bugfix"]
+                    "labels": ["bug"]
                 },
               ]
             }
