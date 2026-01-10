@@ -74,21 +74,26 @@ jobs:
           fromTag: "${{ steps.old_tag.outputs.tag }}"
           toTag: "${{ steps.new_tag.outputs.tag }}"
           mode: "PR"
+          # language=JSON
           configurationJson: |
             {
               "template": "## 📝 Release Notes\n\n#{{CHANGELOG}}",
               "categories": [
                 {
-                    "title": "## 💬 Other",
-                    "labels": ["other", "docs" ]
+                  "title": "## 🚀 New Methods",
+                  "labels": [
+                    "method"]
                 },
                 {
-                    "title": "## 🚀 New Methods",
-                    "labels": ["method"]
+                  "title": "## 🐛 Bugfixes",
+                  "labels": [
+                    "bug"]
                 },
                 {
-                    "title": "## 🐛 Bugfixes",
-                    "labels": ["bug"]
+                  "title": "## 💬 Other",
+                  "labels": [
+                    "other",
+                    "docs"]
                 }
               ]
             }
