@@ -44,14 +44,12 @@ jobs:
           mvn -B --file pom.xml release:prepare
           mvn -B --file pom.xml release:perform
           git push origin main --tags
-      - name: debug
-        run: |
-          ls -la
       # Upload GitHub pages
       - name: Upload Pages Artifact
+        id: deployment
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./target/site
+          path: ./lib/target/site
       # Deploy GitHub pages
       - name: Deploy to GitHub Pages
         id: deployment
