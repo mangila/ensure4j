@@ -1,6 +1,8 @@
 [![Release and Upload Pages](https://github.com/mangila/ensure4j/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/mangila/ensure4j/actions/workflows/release.yml)
 [![Hits](https://hits.sh/github.com/mangila/ensure4j.svg)](https://hits.sh/github.com/mangila/ensure4j/)
 
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+
 # ensure4j
 
 Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
