@@ -36,4 +36,27 @@ public class StringTest {
                 .hasMessage("test value must not be blank");
     }
 
+    @Test
+    @DisplayName("Happy notBlankOrElse")
+    void notBlankOrElse() {
+        assertThat(Ensure.notBlankOrElse("test", "default")).isEqualTo("test");
+        assertThat(Ensure.notBlankOrElse("", "default")).isEqualTo("default");
+        assertThat(Ensure.notBlankOrElse("  ", "default")).isEqualTo("default");
+    }
+
+    @Test
+    @DisplayName("Sad notBlankOrElse")
+    void notBlankOrElse1() {
+        assertThatThrownBy(() -> Ensure.notBlankOrElse(null, "default"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("object must not be null");
+    }
+
+    @Test
+    @DisplayName("Happy notBlankOrElseGet")
+    void notBlankOrElseGet() {
+        assertThat(Ensure.notBlankOrElseGet("test", () -> "default")).isEqualTo("test");
+        assertThat(Ensure.notBlankOrElseGet("", () -> "default")).isEqualTo("default");
+        assertThat(Ensure.notBlankOrElseGet("  ", () -> "default")).isEqualTo("default");
+    }
 }

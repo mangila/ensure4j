@@ -479,6 +479,38 @@ public final class Ensure {
     }
 
     /**
+     * Returns the provided string if it is not blank (non-null and containing non-whitespace characters),
+     * otherwise retrieves and returns a value from the provided fallback supplier.
+     *
+     * @param string           the string to check for blankness
+     * @param fallbackSupplier the supplier to retrieve an alternative value if the string is blank
+     * @return the original string if it is not blank, or the value supplied by the fallback supplier if the string is blank
+     */
+    public static String notBlankOrElseGet(String string, Supplier<String> fallbackSupplier) {
+        notNull(string);
+        if (isBlank(string)) {
+            return fallbackSupplier.get();
+        }
+        return string;
+    }
+
+    /**
+     * Returns the given string if it is not blank; otherwise, returns the specified fallback value.
+     * A string is considered blank if it is null, empty, or contains only whitespace characters.
+     *
+     * @param string        the input string to check
+     * @param fallbackValue the fallback value to return if the input string is blank
+     * @return the input string if it is not blank; otherwise, the fallback value
+     */
+    public static String notBlankOrElse(String string, String fallbackValue) {
+        notNull(string);
+        if (isBlank(string)) {
+            return fallbackValue;
+        }
+        return string;
+    }
+
+    /**
      * Ensures that the provided string is not blank. If the string is blank or null,
      * the specified exception supplied by the runtimeExceptionSupplier is thrown.
      *
@@ -489,7 +521,7 @@ public final class Ensure {
      */
     public static String notBlank(String string, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         notNull(string, runtimeExceptionSupplier);
-        if (string.isBlank()) {
+        if (isBlank(string)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return string;
@@ -727,5 +759,16 @@ public final class Ensure {
      */
     private static boolean isNull(Object object) {
         return object == null;
+    }
+
+    /**
+     * Checks if the provided string is blank. A string is considered blank if it is empty
+     * or contains only white-space characters.
+     *
+     * @param string the input string to check for blankness
+     * @return true if the string is blank, false otherwise
+     */
+    private static boolean isBlank(@NonNull String string) {
+        return string.isBlank();
     }
 }
