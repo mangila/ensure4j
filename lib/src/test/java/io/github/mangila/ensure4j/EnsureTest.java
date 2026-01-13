@@ -42,11 +42,7 @@ public class EnsureTest {
     }
 
     /**
-     * Sanity test to guard from slippery slopes
-     * Just something that will obviously fail if not handled and to think one more time before releasing
-     * Not much but just to keep the sanity in check.
-     * Is it necessary? Maybe not,
-     * but during a big change it's nice to have some safeguard when new methods are introduced into the library.
+     * Verifies public method counts and signatures via architecture test
      */
     @Test
     void archTest() {
@@ -54,6 +50,7 @@ public class EnsureTest {
         ArchRuleDefinition.classes()
                 .that()
                 .areAssignableFrom(Ensure.class)
+                // Defines and checks architecture rules for `Ensure` class
                 .should(new ArchCondition<>("") {
                     @Override
                     public void check(JavaClass item, ConditionEvents events) {
@@ -68,19 +65,20 @@ public class EnsureTest {
                                 .toList();
                         assertPublicMethods(publicMethods);
                         int totalMethods = item.getMethods().size();
-                        assertThat(totalMethods).isEqualTo(54);
+                        assertThat(totalMethods).isEqualTo(57);
                     }
 
                     private void assertPublicMethods(List<String> publicMethodNames) {
                         int publicMethodsCount = publicMethodNames.size();
                         assertThat(publicMethodsCount)
-                                .isEqualTo(51);
+                                .isEqualTo(54);
                         Map<String, Long> counts = publicMethodNames.stream()
                                 .collect(Collectors.groupingBy(
                                         methodName -> methodName,
                                         Collectors.counting()
                                 ));
                         for (String methodName : publicMethodNames) {
+                            // Asserts expected counts for each public method
                             switch (methodName) {
                                 case "notNull" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "notNullOrElse" -> assertThat(counts.get(methodName)).isEqualTo(1L);
@@ -95,6 +93,7 @@ public class EnsureTest {
                                 case "notBlankOrElseGet" -> assertThat(counts.get(methodName)).isEqualTo(1L);
                                 case "notEmpty" -> assertThat(counts.get(methodName)).isEqualTo(9L);
                                 case "notContainsNull" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "containsElement" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "isEquals" -> assertThat(counts.get(methodName)).isEqualTo(6L);
                                 case "isInstanceOf" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 default -> throw new IllegalStateException("Unexpected value: " + methodName);

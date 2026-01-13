@@ -14,9 +14,6 @@ https://mangila.github.io/ensure4j/
 
 There is also support for functional programming pipelines and Java Streams.
 
-**NOTE: This is an initial development cycle. Anything MAY change at any time. The public API SHOULD NOT be considered
-stable. Yet...**
-
 - Compiled in Java 21
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
 - [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
@@ -38,7 +35,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>0.0.45</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

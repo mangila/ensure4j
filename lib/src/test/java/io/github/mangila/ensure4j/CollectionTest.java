@@ -100,4 +100,45 @@ public class CollectionTest {
                 .hasMessage("list must not contain null elements");
     }
 
+    @Test
+    @DisplayName("Happy path containsElement(Collection)")
+    void containsElement() {
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("element");
+            Ensure.containsElement(l, "element");
+        }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("element");
+            Ensure.containsElement(l, "element", "test exception message");
+        }).doesNotThrowAnyException();
+        assertThatCode(() -> {
+            var l = new ArrayList<>();
+            l.add("element");
+            Ensure.containsElement(l, "element", () -> new IllegalArgumentException("test exception message"));
+        }).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("Sad path containsElement(Collection)")
+    void containsElement1() {
+        assertThatThrownBy(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            Ensure.containsElement(l, "fail");
+        });
+        assertThatThrownBy(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            Ensure.containsElement(l, "fail", "test exception message");
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("test exception message");
+        assertThatThrownBy(() -> {
+            var l = new ArrayList<>();
+            l.add("test");
+            Ensure.containsElement(l, "fail", () -> new IllegalArgumentException("test exception message"));
+        }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("test exception message");
+    }
 }

@@ -141,7 +141,49 @@ public final class Ensure {
      * @throws EnsureException with the message "objects must be equal" - if the objects are not equal
      */
     public static void isEquals(Object object, Object otherObject) throws EnsureException {
-        isEquals(object, otherObject, () -> EnsureException.of("objects must be equal"));
+        isEquals(object, otherObject, "objects must be equal");
+    }
+
+    /**
+     * Checks if the specified collection contains the given element. If the element is not found,
+     * the provided runtime exception supplier is used to throw an exception.
+     *
+     * @param collection               the collection to be checked for the presence of the element
+     * @param element                  the element to look for within the collection
+     * @param runtimeExceptionSupplier the supplier that provides the runtime exception to be thrown
+     *                                 if the element is not found in the collection
+     * @throws RuntimeException if the element is not found in the collection
+     */
+    public static void containsElement(Collection<?> collection, Object element, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        notNull(collection, runtimeExceptionSupplier);
+        if (!collection.contains(element)) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+    }
+
+    /**
+     * Checks if the specified collection contains the given element.
+     * If the element is not found within the collection, a RuntimeException is thrown with the provided exception message.
+     *
+     * @param collection       the collection to be searched for the specified element
+     * @param element          the element to be checked for presence in the collection
+     * @param exceptionMessage the message to be included in the RuntimeException if the element is not found
+     * @throws RuntimeException if the specified element is not found in the collection
+     */
+    public static void containsElement(Collection<?> collection, Object element, String exceptionMessage) throws RuntimeException {
+        containsElement(collection, element, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Checks if the specified collection contains the given element. If the element
+     * is not found in the collection, a RuntimeException is thrown.
+     *
+     * @param collection the collection in which to search for the element
+     * @param element    the element to search for within the collection
+     * @throws RuntimeException with the message "collection must contain element %s" - if the element is not found in the collection
+     */
+    public static void containsElement(Collection<?> collection, Object element) throws RuntimeException {
+        containsElement(collection, element, String.format("collection must contain element '%s'", element));
     }
 
     /**
