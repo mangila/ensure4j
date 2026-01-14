@@ -24,8 +24,9 @@ public class JavaStream {
     }
 
     void min1() {
+        int start = 1;
         Stream.of(1, 2, 3, 11, 0)
-                .reduce(0, (a, b) -> {
+                .reduce(Ensure.min(0, start), (a, b) -> {
                     Ensure.min(1, a);
                     Ensure.min(1, b);
                     return a + b;
