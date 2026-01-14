@@ -30,12 +30,13 @@ jobs:
           server-username: SONAR_USERNAME
           server-password: SONAR_PASSWORD
           cache: maven
-      - name: Set the old tag
-        id: old_tag
+      # Set previous Git tag
+      - name: Set previous Git tag
+        id: previous_tag
         run: |
-          OLD_TAG=$(git describe --tags --abbrev=0)
-          echo "Old tag: $OLD_TAG"
-          echo "tag=$OLD_TAG" >> $GITHUB_OUTPUT
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0)
+          echo "PREVIOUS_TAG: PREVIOUS_TAG"
+          echo "tag=PREVIOUS_TAG" >> $GITHUB_OUTPUT
       # Post JARs to Maven Central
       - name: Release to Maven Central
         env:
@@ -60,19 +61,19 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         # Set the new tag
-      - name: Set the new tag
-        id: new_tag
+      - name: Set the Current Git tag
+        id: current_tag
         run: |
-          NEW_TAG=$(git describe --tags --abbrev=0)
-          echo "New tag: $NEW_TAG"
-          echo "tag=$NEW_TAG" >> $GITHUB_OUTPUT
+          CURRENT_TAG=$(git describe --tags --abbrev=0)
+          echo "CURRENT_TAG: CURRENT_TAG"
+          echo "tag=CURRENT_TAG" >> $GITHUB_OUTPUT
       # Build Github Changelog
       - name: Build Github Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v6
         with:
-          fromTag: "${{ steps.old_tag.outputs.tag }}"
-          toTag: "${{ steps.new_tag.outputs.tag }}"
+          fromTag: "${{ steps.previous_tag.outputs.tag }}"
+          toTag: "${{ steps.current_tag.outputs.tag }}"
           mode: "PR"
           # language=JSON
           configurationJson: |
@@ -103,5 +104,5 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.new_tag.outputs.tag }}
+          tag_name: ${{ steps.current_tag.outputs.tag }}
           body: ${{steps.github_release.outputs.changelog}}
