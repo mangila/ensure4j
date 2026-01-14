@@ -23,6 +23,15 @@ public class JavaStream {
                 .forEach(System.out::println);
     }
 
+    void min1() {
+        Stream.of(1, 2, 3, 11, 0)
+                .reduce(0, (a, b) -> {
+                    Ensure.min(1, a);
+                    Ensure.min(1, b);
+                    return a + b;
+                });
+    }
+
     void notNullOrElseThrow() {
         Stream.of("aa", "abc", null)
                 .map(Ensure::notNullOrElseThrow)
