@@ -105,4 +105,4 @@ New features should ideally be accompanied by an example in the `examples` modul
 
 ### Review
 
-After a successful session write to an .md file called CHANGES.md with what you changed togheter with a "Findings" section where you give suggestions
+After a successful session write to an .md file called CHANGES.md with what you changed togheter with a "Findings" section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.
