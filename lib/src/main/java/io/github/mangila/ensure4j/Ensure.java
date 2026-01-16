@@ -640,7 +640,7 @@ public final class Ensure {
     public static String notBlankOrElseGet(String string, Supplier<String> fallbackSupplier) {
         notNull(string);
         if (isBlank(string)) {
-            return fallbackSupplier.get();
+            return getSupplierOrThrow(fallbackSupplier);
         }
         return string;
     }

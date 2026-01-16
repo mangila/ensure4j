@@ -33,10 +33,11 @@ jobs:
       # Set previous Git tag
       - name: Set previous Git tag
         id: previous_tag
+        # language=bash
         run: |
           PREVIOUS_TAG=$(git describe --tags --abbrev=0)
-          echo "PREVIOUS_TAG: PREVIOUS_TAG"
-          echo "tag=PREVIOUS_TAG" >> $GITHUB_OUTPUT
+          echo "PREVIOUS_TAG: $PREVIOUS_TAG"
+          echo "tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
       # Post JARs to Maven Central
       - name: Release to Maven Central
         env:
@@ -44,6 +45,7 @@ jobs:
           SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
           MAVEN_GPG_KEY: ${{ secrets.GPG_KEY }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        # language=bash
         run: |
           export GPG_TTY=$(tty)
           git config --global user.name "GitHub Actions"
@@ -63,10 +65,11 @@ jobs:
         # Set the new tag
       - name: Set the Current Git tag
         id: current_tag
+        # language=bash
         run: |
           CURRENT_TAG=$(git describe --tags --abbrev=0)
-          echo "CURRENT_TAG: CURRENT_TAG"
-          echo "tag=CURRENT_TAG" >> $GITHUB_OUTPUT
+          echo "CURRENT_TAG: $CURRENT_TAG"
+          echo "tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
       # Build Github Changelog
       - name: Build Github Changelog
         id: github_release
