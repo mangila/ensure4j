@@ -84,7 +84,13 @@ public class MyNewTest {
 - **Method Consistency**: Most methods in `Ensure` come in three variants:
     1. `method(value)`: Uses default `EnsureException` and default message.
     2. `method(value, String message)`: Uses default `EnsureException` with custom a message.
-    3. `method(value, Supplier<RuntimeException> supplier)`: Uses a custom exception provided by the supplier.
+    3. `method(value, Supplier<RuntimeException> supplier)`: Uses a custom exception provided by the supplier. Use the
+       private static utility method `getSupplierOrThrow` to get the value from the
+       supplier.
+    4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met.
+    5. `methodOrElseGet(value, Supplier<T> supplier)`: Return a default value computed by the supplier if the
+       condition is not met. Use the private static utility method `getSupplierOrThrow` to get the value from the
+       supplier.
 - **Fluent API**: Methods should return the validated value whenever possible to support fluent usage and stream
   pipelines.
 - **Javadoc**: All public methods should have clear Javadoc.
