@@ -1,50 +1,72 @@
 package io.github.com.ensure4j.examples;
 
 import io.github.mangila.ensure4j.Ensure;
-
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
- * Ensure a Java Stream
+ * Demonstrates how Ensure4j integrates seamlessly with Java Streams.
+ * <p>
+ * The library is designed to support functional pipelines by returning
+ * the validated value, making it ideal for use in `.map()`.
  */
 public class JavaStream {
 
-    void notBlank() {
-        Stream.of("a", "b", "c", "")
+    /**
+     * Cleans up a list of strings, ensuring no blank entries are processed.
+     */
+    public void processStringStream(List<String> inputs) {
+        System.out.println("Processing strings...");
+        List<String> result = inputs.stream()
+                // Use Ensure::notBlank as a mapper to fail fast on invalid input
                 .map(Ensure::notBlank)
+                .map(String::trim)
                 .map(String::toUpperCase)
-                .forEach(System.out::println);
+                .toList();
+        
+        System.out.println("Result: " + result);
     }
 
-
-    void min() {
-        Stream.of(1, 2, 3, 11)
-                .map(integer -> Ensure.min(integer, 10))
-                .forEach(System.out::println);
+    /**
+     * Demonstrates using Ensure within a stream to enforce numeric boundaries.
+     */
+    public void processNumericStream(List<Integer> ages) {
+        System.out.println("Processing ages...");
+        List<Integer> validatedAges = ages.stream()
+                // Enforce minimum age of 18
+                .map(age -> Ensure.min(18, age, "Must be an adult"))
+                .toList();
+        
+        System.out.println("Validated ages: " + validatedAges);
     }
 
-    void min1() {
-        int start = 1;
-        Stream.of(1, 2, 3, 11, 0)
-                .reduce(Ensure.min(0, start), (a, b) -> {
-                    Ensure.min(1, a);
-                    Ensure.min(1, b);
-                    return a + b;
-                });
-    }
-
-    void notNullOrElseThrow() {
-        Stream.of("aa", "abc", null)
+    /**
+     * Demonstrates using notNullOrElseThrow to handle potential nulls in a stream.
+     */
+    public void handleNullsInStream(List<String> names) {
+        System.out.println("Handling nulls...");
+        List<String> upperNames = names.stream()
                 .map(Ensure::notNullOrElseThrow)
                 .map(String::toUpperCase)
-                .forEach(System.out::println);
-
-        Stream.of("aa", "abc", null)
-                .map(string -> {
-                    Ensure.notNull(string, "String cannot be null");
-                    return string.toUpperCase();
-                })
-                .forEach(System.out::println);
+                .toList();
+        
+        System.out.println("Upper names: " + upperNames);
     }
 
+    public static void main(String[] args) {
+        JavaStream examples = new JavaStream();
+
+        try {
+            examples.processStringStream(List.of("  hello  ", "world", ""));
+        } catch (RuntimeException e) {
+            System.err.println("String stream failed as expected: " + e.getMessage());
+        }
+
+        try {
+            examples.processNumericStream(List.of(20, 25, 15));
+        } catch (RuntimeException e) {
+            System.err.println("Numeric stream failed as expected: " + e.getMessage());
+        }
+    }
 }

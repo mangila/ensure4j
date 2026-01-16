@@ -3,27 +3,43 @@ package io.github.com.ensure4j.examples;
 import io.github.mangila.ensure4j.Ensure;
 
 /**
- * Domain object instantiation pre-condition within a compact record constructor.
- * And throw a custom domain exception if the pre-condition fails.
+ * Demonstrates using Ensure4j in a compact record constructor with custom exceptions.
+ * <p>
+ * This is a powerful pattern for ensuring domain objects are always in a valid state
+ * upon creation, while using domain-specific exceptions.
  */
 public class RecordCompactConstructor {
 
-    record Person(String name, int age) {
-        public Person {
-            Ensure.notBlank(name, () -> new PersonException("name must not be blank"));
-            Ensure.min(0, age, () -> new PersonException("age must be greater than or equal to 0"));
+    public record User(String username, int age) {
+        public User {
+            // Using a supplier to throw a domain-specific exception
+            Ensure.notBlank(username, () -> new DomainException("Username cannot be empty"));
+            
+            // Ensuring age is within reasonable bounds
+            Ensure.min(13, age, () -> new DomainException("User must be at least 13 years old"));
+            Ensure.max(120, age, () -> new DomainException("Age exceeds maximum limit"));
         }
     }
 
-    static class PersonException extends RuntimeException {
-        public PersonException(String message) {
+    /**
+     * A custom exception representing a violation of domain rules.
+     */
+    public static class DomainException extends RuntimeException {
+        public DomainException(String message) {
             super(message);
         }
     }
 
     public static void main(String[] args) {
-        var person = new Person("John", -1);
-        System.out.println(person);
-    }
+        // Valid user
+        User user = new User("alice_java", 25);
+        System.out.println("Created user: " + user);
 
+        // Invalid user (too young)
+        try {
+            new User("child", 10);
+        } catch (DomainException e) {
+            System.err.println("Domain violation: " + e.getMessage());
+        }
+    }
 }

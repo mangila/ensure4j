@@ -1,57 +1,56 @@
 package io.github.com.ensure4j.examples;
 
 import io.github.mangila.ensure4j.Ensure;
-
 import java.util.List;
 
 /**
- * Ensure a domain object collection
- * <ul>
- *     <li>not null</li>
- *     <li>not empty</li>
- *     <li>has no null elements</li>
- *     <li>min boundary</li>
- *     <li>max boundary</li>
- * </ul>
+ * Demonstrates validation of collections and their elements.
+ * <p>
+ * This example shows how to ensure a collection is not null, not empty,
+ * contains no nulls, and has a specific size range.
  */
 public class Collections {
 
-    record Person(String name, int age) {
-        Person {
-            Ensure.notBlank(name, "name must not be blank");
-            Ensure.min(0, age, "age must be greater than or equal to 0");
-        }
-    }
-
-    record PersonCollection(List<Person> people) {
-        PersonCollection {
-            Ensure.notNull(people, "people collection must not be null");
-            Ensure.max(10, people.size(), "people must not exceed 10");
-        }
-
-        int size() {
-            return people.size();
-        }
-    }
-
-    static class ServiceLayer {
-        public void processCollection(PersonCollection collection) {
-            Ensure.notNull(collection, "collection must not be null");
-            Ensure.notEmpty(collection.people, "collection must not be empty");
-            Ensure.notContainsNull(collection.people, "collection must not contain null elements");
-            Ensure.min(2, collection.size(), "collection must contain at least 2 people");
-            Ensure.max(10, collection.size(), "collection must not exceed 10 people");
-            // do processing
+    public record Team(String name, List<String> members) {
+        public Team {
+            // Validate basic fields
+            Ensure.notBlank(name, "Team name required");
+            
+            // Validate collection integrity
+            Ensure.notNull(members, "Member list cannot be null");
+            Ensure.notEmpty(members, "Team must have at least one member");
+            Ensure.notContainsNull(members, "Team members cannot be null");
+            
+            // Validate size constraints
+            Ensure.min(2, members.size(), "Team must have at least 2 members to compete");
+            Ensure.max(5, members.size(), "Team cannot have more than 5 members");
         }
     }
 
     public static void main(String[] args) {
-        var service = new ServiceLayer();
-        var collection = new PersonCollection(
-                List.of(new Person("John", 18),
-                        new Person("Jane", 25))
-        );
-        service.processCollection(collection);
-    }
+        // Valid team
+        Team validTeam = new Team("The Coders", List.of("Alice", "Bob", "Charlie"));
+        System.out.println("Created team: " + validTeam.name());
 
+        // Invalid: Empty list
+        try {
+            new Team("Solo", List.of());
+        } catch (RuntimeException e) {
+            System.err.println("Expected failure (empty): " + e.getMessage());
+        }
+
+        // Invalid: Contains null
+        try {
+            new Team("Ghost Team", List.of("Alice", null));
+        } catch (RuntimeException e) {
+            System.err.println("Expected failure (null element): " + e.getMessage());
+        }
+
+        // Invalid: Too many members
+        try {
+            new Team("Large Team", List.of("1", "2", "3", "4", "5", "6"));
+        } catch (RuntimeException e) {
+            System.err.println("Expected failure (too many): " + e.getMessage());
+        }
+    }
 }

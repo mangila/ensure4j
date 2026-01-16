@@ -2,28 +2,36 @@ package io.github.com.ensure4j.examples;
 
 import io.github.mangila.ensure4j.Ensure;
 
+/**
+ * Demonstrates best practices when checking multiple boolean conditions.
+ * <p>
+ * It is recommended to keep each condition on its own line with a descriptive message
+ * to make it clear which specific condition failed.
+ */
 public class MultipleBoolCheck {
 
+    public record UserPermissions(boolean canRead, boolean canWrite, boolean isAdmin) {
+    }
+
+    public void performSensitiveOperation(UserPermissions permissions) {
+        // Clearer than combine into one if statement:
+        // if (!canRead || !canWrite) { ... }
+        
+        Ensure.isTrue(permissions.canRead(), "User lacks read permission");
+        Ensure.isTrue(permissions.canWrite(), "User lacks write permission");
+        
+        System.out.println("Sensitive operation performed!");
+    }
+
     public static void main(String[] args) {
-        // Good practice is to keep one pre-condition per line.
-        // It's easier to know which pre-condition failed when it fails
-        // with a well-defined error message.
-        Ensure.isTrue(isFullMoon(), "no full moon");
-        Ensure.isTrue(hasGarlicBread(), "no garlic bread");
+        MultipleBoolCheck example = new MultipleBoolCheck();
+        
+        UserPermissions readOnly = new UserPermissions(true, false, false);
+        
+        try {
+            example.performSensitiveOperation(readOnly);
+        } catch (RuntimeException e) {
+            System.err.println("Operation blocked: " + e.getMessage());
+        }
     }
-
-    /**
-     * Calculate if full moon
-     */
-    private static boolean isFullMoon() {
-        return false;
-    }
-
-    /**
-     * Calculate garlic if bread or bread is garlic
-     */
-    private static boolean hasGarlicBread() {
-        return true;
-    }
-
 }
