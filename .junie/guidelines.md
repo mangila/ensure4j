@@ -87,10 +87,11 @@ public class MyNewTest {
     3. `method(value, Supplier<RuntimeException> supplier)`: Uses a custom exception provided by the supplier. Use the
        private static utility method `getSupplierOrThrow` to get the value from the
        supplier.
-    4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met.
+    4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met. **Optional** if the method
+       could not be implemented with a default value.
     5. `methodOrElseGet(value, Supplier<T> supplier)`: Return a default value computed by the supplier if the
        condition is not met. Use the private static utility method `getSupplierOrThrow` to get the value from the
-       supplier.
+       supplier. **Optional** if the method could not be implemented with a default value.
 - **Fluent API**: Methods should return the validated value whenever possible to support fluent usage and stream
   pipelines.
 - **Javadoc**: All public methods should have clear Javadoc.
