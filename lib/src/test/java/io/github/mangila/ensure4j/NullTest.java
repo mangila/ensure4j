@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.*;
 public class NullTest {
 
     @Test
-    @DisplayName("Happy path notNullOrElseGet()")
+    @DisplayName("Should return object when not null (OrElseGet)")
     void notNullOrElseGet() {
         String s = Ensure.notNullOrElseGet("happy", () -> "test");
         assertThat(s).isEqualTo("happy");
@@ -17,7 +17,7 @@ public class NullTest {
     }
 
     @Test
-    @DisplayName("Happy path notNullOrElse()")
+    @DisplayName("Should return object when not null (OrElse)")
     void notNullOrElse() {
         String s = Ensure.notNullOrElse("happy", "test");
         assertThat(s).isEqualTo("happy");
@@ -29,7 +29,7 @@ public class NullTest {
     }
 
     @Test
-    @DisplayName("Happy - notNullOrElseThrow()")
+    @DisplayName("Should return object when not null (OrElseThrow)")
     void notNullOrElseThrow() {
         String s = Ensure.notNullOrElseThrow("test", () -> new IllegalArgumentException("test"));
         assertThat(s).isEqualTo("test");
@@ -38,7 +38,7 @@ public class NullTest {
     }
 
     @Test
-    @DisplayName("Sad - notNullOrElseThrow()")
+    @DisplayName("Should throw exception when null (OrElseThrow)")
     void notNullOrElseThrow1() {
         assertThatThrownBy(() -> Ensure.notNullOrElseThrow(null, () -> new IllegalArgumentException("test")))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -49,12 +49,16 @@ public class NullTest {
     }
 
     @Test
+    @DisplayName("Should pass when object is not null")
     void notNull() {
-        assertThatCode(() -> Ensure.notNull("test"))
-                .doesNotThrowAnyException();
+        String test = "test";
+        assertThat(Ensure.notNull(test)).isSameAs(test);
+        assertThat(Ensure.notNull(test, "test")).isSameAs(test);
+        assertThat(Ensure.notNull(test, () -> new IllegalArgumentException("test"))).isSameAs(test);
     }
 
     @Test
+    @DisplayName("Should throw exception when object is null")
     void notNullSadPath() {
         assertThatThrownBy(() -> Ensure.notNull(null))
                 .isInstanceOf(EnsureException.class)

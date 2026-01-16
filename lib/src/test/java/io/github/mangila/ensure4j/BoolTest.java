@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class BoolTest {
 
     @Test
-    @DisplayName("Happy path isTrue()")
+    @DisplayName("Should pass when expression is true")
     void isTrue() {
         assertThatCode(() -> Ensure.isTrue(true))
                 .doesNotThrowAnyException();
@@ -20,7 +20,7 @@ public class BoolTest {
     }
 
     @Test
-    @DisplayName("Sad path isTrue()")
+    @DisplayName("Should throw exception when expression is false")
     void isTrue1() {
         assertThatThrownBy(() -> Ensure.isTrue(false))
                 .isInstanceOf(EnsureException.class)
@@ -34,7 +34,7 @@ public class BoolTest {
     }
 
     @Test
-    @DisplayName("Happy path isFalse()")
+    @DisplayName("Should pass when expression is false")
     void isFalse() {
         assertThatCode(() -> Ensure.isFalse(false))
                 .doesNotThrowAnyException();
@@ -45,7 +45,7 @@ public class BoolTest {
     }
 
     @Test
-    @DisplayName("Sad path isFalse()")
+    @DisplayName("Should throw exception when expression is true")
     void isFalse1() {
         assertThatThrownBy(() -> Ensure.isFalse(true))
                 .isInstanceOf(EnsureException.class)

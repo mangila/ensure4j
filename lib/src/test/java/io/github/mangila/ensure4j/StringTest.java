@@ -8,19 +8,16 @@ import static org.assertj.core.api.Assertions.*;
 public class StringTest {
 
     @Test
-    @DisplayName("Happy path notBlank")
+    @DisplayName("Should pass when string is not blank")
     void notBlank() {
-        assertThatCode(() -> {
-            String s = Ensure.notBlank("test");
-            assertThat(s).isEqualTo("test");
-        })
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.notBlank("test", "test message")).doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.notBlank("test", () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
+        String test = "test";
+        assertThat(Ensure.notBlank(test)).isSameAs(test);
+        assertThat(Ensure.notBlank(test, "test message")).isSameAs(test);
+        assertThat(Ensure.notBlank(test, () -> new IllegalArgumentException("test message"))).isSameAs(test);
     }
 
     @Test
-    @DisplayName("Sad path notBlank")
+    @DisplayName("Should throw exception when string is blank")
     void notBlank1() {
         assertThatThrownBy(() -> Ensure.notBlank(null))
                 .isInstanceOf(EnsureException.class)
@@ -37,7 +34,7 @@ public class StringTest {
     }
 
     @Test
-    @DisplayName("Happy notBlankOrElse")
+    @DisplayName("Should return string when not blank (OrElse)")
     void notBlankOrElse() {
         assertThat(Ensure.notBlankOrElse("test", "default")).isEqualTo("test");
         assertThat(Ensure.notBlankOrElse("", "default")).isEqualTo("default");
@@ -45,7 +42,7 @@ public class StringTest {
     }
 
     @Test
-    @DisplayName("Sad notBlankOrElse")
+    @DisplayName("Should throw exception when null (OrElse)")
     void notBlankOrElse1() {
         assertThatThrownBy(() -> Ensure.notBlankOrElse(null, "default"))
                 .isInstanceOf(EnsureException.class)
@@ -53,7 +50,7 @@ public class StringTest {
     }
 
     @Test
-    @DisplayName("Happy notBlankOrElseGet")
+    @DisplayName("Should return string when not blank (OrElseGet)")
     void notBlankOrElseGet() {
         assertThat(Ensure.notBlankOrElseGet("test", () -> "default")).isEqualTo("test");
         assertThat(Ensure.notBlankOrElseGet("", () -> "default")).isEqualTo("default");

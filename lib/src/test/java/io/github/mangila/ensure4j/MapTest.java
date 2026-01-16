@@ -3,33 +3,23 @@ package io.github.mangila.ensure4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class MapTest {
 
     @Test
-    @DisplayName("Happy path notEmpty(Map)")
+    @DisplayName("Should pass when map is not empty")
     void notEmpty() {
-        assertThatCode(() -> {
-            var map = new java.util.HashMap<>();
-            map.put("test", "test");
-            Ensure.notEmpty(map);
-        }).doesNotThrowAnyException();
-        assertThatCode(() -> {
-            var map = new java.util.HashMap<>();
-            map.put("test", "test");
-            Ensure.notEmpty(map, "test message");
-        }).doesNotThrowAnyException();
-        assertThatCode(() -> {
-            var map = new java.util.HashMap<>();
-            map.put("test", "test");
-            Ensure.notEmpty(map, () -> new IllegalArgumentException("test message"));
-        }).doesNotThrowAnyException();
+        var map = Map.of("test", "test");
+        assertThat(Ensure.notEmpty(map)).isSameAs(map);
+        assertThat(Ensure.notEmpty(map, "test message")).isSameAs(map);
+        assertThat(Ensure.notEmpty(map, () -> new IllegalArgumentException("test message"))).isSameAs(map);
     }
 
     @Test
-    @DisplayName("Sad path notEmpty(Map)")
+    @DisplayName("Should throw exception when map is empty")
     void notEmpty1() {
         assertThatThrownBy(() -> {
             var map = new java.util.HashMap<>();
