@@ -19,7 +19,7 @@ There is also support for functional programming pipelines and Java Streams.
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
 - [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 
-Using Ensure4j with vibe coding is a great way to safeguard the integrity of your code. This library will help the agent to act more defensively.
+Using Ensure4j with vibe coding is a great way to safeguard the integrity of your code. This library will help the agent to act more defensive.
 
 ## Get started
 
