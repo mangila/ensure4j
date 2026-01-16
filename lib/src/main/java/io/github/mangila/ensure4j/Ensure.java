@@ -25,79 +25,94 @@ public final class Ensure {
      * If the object is not an instance of the class, a RuntimeException
      * provided by the supplier is thrown.
      *
+     * @param <T>      the type of the object
      * @param clazz    the class to check the object against
      * @param object   the object to verify
      * @param supplier a supplier that provides the exception to be thrown
      *                 if the object is not an instance of the specified class
+     * @return the non-null object passed as input
      * @throws RuntimeException if the object is not an instance of the specified class
      */
-    public static void isInstanceOf(Class<?> clazz, Object object, Supplier<RuntimeException> supplier) throws RuntimeException {
+    @SuppressWarnings("unchecked")
+    public static <T> T isInstanceOf(Class<T> clazz, Object object, Supplier<RuntimeException> supplier) throws RuntimeException {
         notNull(clazz, supplier);
         if (!clazz.isInstance(object)) {
             throw getSupplierOrThrow(supplier);
         }
+        return (T) object;
     }
 
     /**
      * Ensures that the specified object is an instance of the given class.
      * If the check fails, throws an EnsureException with the provided exception message.
      *
+     * @param <T>              the type of the object
      * @param clazz            the class type to check against
      * @param object           the object to verify
      * @param exceptionMessage the message to include in the EnsureException if the check fails
+     * @return the non-null object passed as input
      * @throws EnsureException if the object is not an instance of the specified class
      */
-    public static void isInstanceOf(Class<?> clazz, Object object, String exceptionMessage) throws EnsureException {
-        isInstanceOf(clazz, object, () -> EnsureException.of(exceptionMessage));
+    public static <T> T isInstanceOf(Class<T> clazz, Object object, String exceptionMessage) throws EnsureException {
+        return isInstanceOf(clazz, object, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
      * Validates that the provided object is an instance of the specified class.
      *
+     * @param <T>    the type of the object
      * @param clazz  the expected class that the object should be an instance of
      * @param object the object to be checked
+     * @return the non-null object passed as input
      * @throws EnsureException with the message "object must be an instance of %s" - if the object is not an instance of the specified class
      */
-    public static void isInstanceOf(Class<?> clazz, Object object) throws EnsureException {
+    public static <T> T isInstanceOf(Class<T> clazz, Object object) throws EnsureException {
         notNull(clazz, "clazz must not be null");
-        isInstanceOf(clazz, object, "object must be an instance of %s".formatted(clazz.getName()));
+        return isInstanceOf(clazz, object, "object must be an instance of %s".formatted(clazz.getName()));
     }
 
     /**
      * Compares two enum values for equality and throws an exception if they are not equal.
      *
+     * @param <T>                      the type of the enum
      * @param enum1                    the first enum value to compare
      * @param enum2                    the second enum value to compare
      * @param runtimeExceptionSupplier a supplier that provides a RuntimeException to be thrown if the enum values are not equal
+     * @return the first enum value if equal
      * @throws EnsureException if the enum values are not equal and the supplied exception is thrown
      */
-    public static void isEquals(Enum<?> enum1, Enum<?> enum2, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
+    public static <T extends Enum<T>> T isEquals(T enum1, T enum2, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
         if (enum1 != enum2) {
             throw runtimeExceptionSupplier.get();
         }
+        return enum1;
     }
 
     /**
      * Compares two Enum values for equality and throws an EnsureException if they are not equal.
      *
+     * @param <T>              the type of the enum
      * @param enum1            The first Enum value to compare.
      * @param enum2            The second Enum value to compare.
      * @param exceptionMessage The message to include in the EnsureException if the values are not equal.
+     * @return the first enum value if equal
      * @throws EnsureException if the two Enum values are not equal.
      */
-    public static void isEquals(Enum<?> enum1, Enum<?> enum2, String exceptionMessage) throws EnsureException {
-        isEquals(enum1, enum2, () -> EnsureException.of(exceptionMessage));
+    public static <T extends Enum<T>> T isEquals(T enum1, T enum2, String exceptionMessage) throws EnsureException {
+        return isEquals(enum1, enum2, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
      * Compares two enum values for equality and throws an exception if they are not equal.
      *
+     * @param <T>   the type of the enum
      * @param enum1 the first Enum value to compare
      * @param enum2 the second Enum value to compare
+     * @return the first enum value if equal
      * @throws EnsureException with the message "enums must be equal" - if the two Enum values are not equal
      */
-    public static void isEquals(Enum<?> enum1, Enum<?> enum2) throws EnsureException {
-        isEquals(enum1, enum2, "enums must be equal");
+    public static <T extends Enum<T>> T isEquals(T enum1, T enum2) throws EnsureException {
+        return isEquals(enum1, enum2, "enums must be equal");
     }
 
     /**
@@ -105,18 +120,20 @@ public final class Ensure {
      * If both objects are the same instance or the first object equals the second, the method returns without exception.
      * If the first object is null or the objects are not equal, a custom exception is thrown.
      *
+     * @param <T>                      the type of the object
      * @param object                   the first object to compare, must not be null
      * @param otherObject              the second object to compare with the first one
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if objects are not equal
+     * @return the first object if equal
      * @throws RuntimeException if the first object is null or the objects are not equal
      */
-    public static void isEquals(Object object, Object otherObject, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+    public static <T> T isEquals(T object, Object otherObject, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         if (object == otherObject) {
-            return;
+            return object;
         }
         notNull(object, runtimeExceptionSupplier);
         if (object.equals(otherObject)) {
-            return;
+            return object;
         }
         throw getSupplierOrThrow(runtimeExceptionSupplier);
     }
@@ -124,83 +141,150 @@ public final class Ensure {
     /**
      * Compares two objects for equality and throws an EnsureException with the specified message if they are not equal.
      *
+     * @param <T>              the type of the object
      * @param object           the first object to compare
      * @param otherObject      the second object to compare
      * @param exceptionMessage the message to include in the EnsureException if the objects are not equal
+     * @return the first object if equal
      * @throws EnsureException if the objects are not equal
      */
-    public static void isEquals(Object object, Object otherObject, String exceptionMessage) throws EnsureException {
-        isEquals(object, otherObject, () -> EnsureException.of(exceptionMessage));
+    public static <T> T isEquals(T object, Object otherObject, String exceptionMessage) throws EnsureException {
+        return isEquals(object, otherObject, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
      * Asserts that two objects are equal. If they are not equal, an exception is thrown.
      *
+     * @param <T>         the type of the object
      * @param object      the first object to compare
      * @param otherObject the second object to compare
+     * @return the first object if equal
      * @throws EnsureException with the message "objects must be equal" - if the objects are not equal
      */
-    public static void isEquals(Object object, Object otherObject) throws EnsureException {
-        isEquals(object, otherObject, "objects must be equal");
+    public static <T> T isEquals(T object, Object otherObject) throws EnsureException {
+        return isEquals(object, otherObject, "objects must be equal");
     }
 
     /**
      * Checks if the specified collection contains the given element. If the element is not found,
      * the provided runtime exception supplier is used to throw an exception.
      *
+     * @param <T>                      the type of the collection
      * @param collection               the collection to be checked for the presence of the element
      * @param element                  the element to look for within the collection
      * @param runtimeExceptionSupplier the supplier that provides the runtime exception to be thrown
      *                                 if the element is not found in the collection
+     * @return the collection passed as input
      * @throws RuntimeException if the element is not found in the collection
      */
-    public static void containsElement(Collection<?> collection, Object element, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+    public static <T extends Collection<?>> T containsElement(T collection, Object element, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         notNull(collection, runtimeExceptionSupplier);
         if (!collection.contains(element)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
+        return collection;
     }
 
     /**
      * Checks if the specified collection contains the given element.
      * If the element is not found within the collection, a RuntimeException is thrown with the provided exception message.
      *
+     * @param <T>              the type of the collection
      * @param collection       the collection to be searched for the specified element
      * @param element          the element to be checked for presence in the collection
      * @param exceptionMessage the message to be included in the RuntimeException if the element is not found
+     * @return the collection passed as input
      * @throws RuntimeException if the specified element is not found in the collection
      */
-    public static void containsElement(Collection<?> collection, Object element, String exceptionMessage) throws RuntimeException {
-        containsElement(collection, element, () -> EnsureException.of(exceptionMessage));
+    public static <T extends Collection<?>> T containsElement(T collection, Object element, String exceptionMessage) throws RuntimeException {
+        return containsElement(collection, element, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
      * Checks if the specified collection contains the given element. If the element
      * is not found in the collection, a RuntimeException is thrown.
      *
+     * @param <T>        the type of the collection
      * @param collection the collection in which to search for the element
      * @param element    the element to search for within the collection
+     * @return the collection passed as input
      * @throws RuntimeException with the message "collection must contain element %s" - if the element is not found in the collection
      */
-    public static void containsElement(Collection<?> collection, Object element) throws RuntimeException {
-        containsElement(collection, element, String.format("collection must contain element '%s'", element));
+    public static <T extends Collection<?>> T containsElement(T collection, Object element) throws RuntimeException {
+        return containsElement(collection, element, String.format("collection must contain element '%s'", element));
     }
 
     /**
      * Ensures that the provided collection does not contain any null elements.
      * If the collection contains a null element, an exception is thrown using the provided runtimeExceptionSupplier.
      * <br>
+     * NOTE: This method will perform a null check on each element of the collection. Using a foreach loop
      * NOTE: There is no check if the collection is empty.
      *
+     * @param <T>                      the type of the collection
      * @param collection               the collection to be checked for null elements
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier of the exception to be thrown if a null element is found
+     * @return the collection passed as input
      * @throws EnsureException if the collection contains a null element
      */
-    public static void notContainsNull(Collection<?> collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
+    public static <T extends Collection<?>> T notContainsNullLegacy(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
+        notNull(collection, runtimeExceptionSupplier);
+        for (Object element : collection) {
+            if (isNull(element)) {
+                throw getSupplierOrThrow(runtimeExceptionSupplier);
+            }
+        }
+        return collection;
+    }
+
+    /**
+     * Ensures that the provided collection does not contain any null elements.
+     * <br>
+     * NOTE: There is no check if the collection is empty.
+     *
+     * @param <T>              the type of the collection
+     * @param collection       the collection to be checked for null elements
+     * @param exceptionMessage the message to be used in the exception if the condition is violated
+     * @return the collection passed as input
+     * @throws EnsureException if the collection contains null elements
+     */
+    public static <T extends Collection<?>> T notContainsNullLegacy(T collection, String exceptionMessage) throws EnsureException {
+        return notContainsNullLegacy(collection, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided collection does not contain any null elements.
+     * <br>
+     * NOTE: There is no check if the collection is empty.
+     *
+     * @param <T>        the type of the collection
+     * @param collection the collection to be checked for null elements
+     * @return the collection passed as input
+     * @throws EnsureException with the message "collection must not contain null elements" - if the collection contains a null element
+     */
+    public static <T extends Collection<?>> T notContainsNullLegacy(T collection) throws EnsureException {
+        return notContainsNullLegacy(collection, "collection must not contain null elements");
+    }
+
+    /**
+     * Ensures that the provided collection does not contain any null elements.
+     * If the collection contains a null element, an exception is thrown using the provided runtimeExceptionSupplier.
+     * <br>
+     * NOTE: This method will perform a null check using the built-in {@link Collection#contains(Object)} method.
+     * NOTE: There is no check if the collection is empty.
+     *
+     * @param <T>                      the type of the collection
+     * @param collection               the collection to be checked for null elements
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier of the exception to be thrown if a null element is found
+     * @return the collection passed as input
+     * @throws RuntimeException if the collection contains a null element
+     */
+    public static <T extends Collection<?>> T notContainsNull(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         notNull(collection, runtimeExceptionSupplier);
         if (collection.contains(null)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
+        return collection;
     }
 
     /**
@@ -208,12 +292,14 @@ public final class Ensure {
      * <br>
      * NOTE: There is no check if the collection is empty.
      *
+     * @param <T>              the type of the collection
      * @param collection       the collection to be checked for null elements
      * @param exceptionMessage the message to be used in the exception if the condition is violated
+     * @return the collection passed as input
      * @throws EnsureException if the collection contains null elements
      */
-    public static void notContainsNull(Collection<?> collection, String exceptionMessage) throws EnsureException {
-        notContainsNull(collection, () -> EnsureException.of(exceptionMessage));
+    public static <T extends Collection<?>> T notContainsNull(T collection, String exceptionMessage) throws EnsureException {
+        return notContainsNull(collection, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -221,11 +307,13 @@ public final class Ensure {
      * <br>
      * NOTE: There is no check if the collection is empty.
      *
+     * @param <T>        the type of the collection
      * @param collection the collection to be checked for null elements
+     * @return the collection passed as input
      * @throws EnsureException with the message "collection must not contain null elements" - if the collection contains a null element
      */
-    public static void notContainsNull(Collection<?> collection) throws EnsureException {
-        notContainsNull(collection, "collection must not contain null elements");
+    public static <T extends Collection<?>> T notContainsNull(T collection) throws EnsureException {
+        return notContainsNull(collection, "collection must not contain null elements");
     }
 
     /**
@@ -233,15 +321,18 @@ public final class Ensure {
      * If the collection is null or empty, a RuntimeException is thrown, which is
      * either created using the provided runtimeExceptionSupplier or thrown directly if the runtimeExceptionSupplier is null.
      *
+     * @param <T>                      the type of the collection
      * @param collection               the collection to be validated
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the RuntimeException to be thrown if the collection is null or empty
+     * @return the collection passed as input
      * @throws RuntimeException if the collection is null or empty
      */
-    public static void notEmpty(Collection<?> collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+    public static <T extends Collection<?>> T notEmpty(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         notNull(collection, runtimeExceptionSupplier);
         if (collection.isEmpty()) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
+        return collection;
     }
 
     /**
@@ -249,12 +340,14 @@ public final class Ensure {
      * If the collection is null or empty, an EnsureException is thrown, which is
      * either created using the provided supplier or thrown directly if the supplier is null.
      *
+     * @param <T>              the type of the collection
      * @param collection       the collection to check for non-emptiness
      * @param exceptionMessage the exception message to use if the collection is empty
+     * @return the collection passed as input
      * @throws EnsureException if the collection is empty
      */
-    public static void notEmpty(Collection<?> collection, String exceptionMessage) throws EnsureException {
-        notEmpty(collection, () -> EnsureException.of(exceptionMessage));
+    public static <T extends Collection<?>> T notEmpty(T collection, String exceptionMessage) throws EnsureException {
+        return notEmpty(collection, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -262,50 +355,59 @@ public final class Ensure {
      * If the collection is null or empty, an EnsureException is thrown, which is
      * either created using the provided supplier or thrown directly if the supplier is null.
      *
+     * @param <T>        the type of the collection
      * @param collection the collection to validate for non-emptiness
+     * @return the collection passed as input
      * @throws EnsureException with the message "collection must not be empty" - if the collection is empty
      */
-    public static void notEmpty(Collection<?> collection) throws EnsureException {
-        notEmpty(collection, "collection must not be empty");
+    public static <T extends Collection<?>> T notEmpty(T collection) throws EnsureException {
+        return notEmpty(collection, "collection must not be empty");
     }
 
     /**
      * Validates that the provided map is not empty. If the map is null or empty,
      * the exception provided by the supplied {@code runtimeExceptionSupplier} is thrown.
      *
+     * @param <T>                      the type of the map
      * @param map                      the map to be validated
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides the exception to be thrown if
      *                                 the validation fails
+     * @return the map passed as input
      * @throws RuntimeException if the map is null or empty
      */
-    public static void notEmpty(Map<?, ?> map, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+    public static <T extends Map<?, ?>> T notEmpty(T map, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         notNull(map, runtimeExceptionSupplier);
         if (map.isEmpty()) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
+        return map;
     }
 
     /**
      * Ensures that the provided map is not empty. If the map is null or empty,
      * throws an EnsureException with the specified exception message.
      *
+     * @param <T>              the type of the map
      * @param map              the map to check for emptiness
      * @param exceptionMessage the message to include in the exception if the map is empty
+     * @return the map passed as input
      * @throws EnsureException if the map is null or empty
      */
-    public static void notEmpty(Map<?, ?> map, String exceptionMessage) throws EnsureException {
-        notEmpty(map, () -> EnsureException.of(exceptionMessage));
+    public static <T extends Map<?, ?>> T notEmpty(T map, String exceptionMessage) throws EnsureException {
+        return notEmpty(map, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
      * Validates that the provided map is not empty. If the map is null or empty,
      * an EnsureException will be thrown with a specified error message.
      *
+     * @param <T> the type of the map
      * @param map the map to be checked for emptiness; must not be null or empty
+     * @return the map passed as input
      * @throws EnsureException with the message "map must not be empty" - if the provided map is null or empty
      */
-    public static void notEmpty(Map<?, ?> map) throws EnsureException {
-        notEmpty(map, "map must not be empty");
+    public static <T extends Map<?, ?>> T notEmpty(T map) throws EnsureException {
+        return notEmpty(map, "map must not be empty");
     }
 
     /**
@@ -313,15 +415,18 @@ public final class Ensure {
      * the provided runtimeExceptionSupplier is used to throw an exception.
      * NOTE: Also check if null
      *
+     * @param <T>                      the type of the array
      * @param array                    the array to check for non-emptiness
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if validation fails
+     * @return the array passed as input
      * @throws RuntimeException if the array is null or empty
      */
-    public static void notEmpty(Object[] array, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+    public static <T> T[] notEmpty(T[] array, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         notNull(array, runtimeExceptionSupplier);
         if (array.length == 0) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
+        return array;
     }
 
     /**
@@ -329,23 +434,27 @@ public final class Ensure {
      * throws an EnsureException with the provided exception message.
      * NOTE: Also check if null
      *
+     * @param <T>              the type of the array
      * @param array            the array to check for non-emptiness
      * @param exceptionMessage the message to include in the exception if the array is empty
+     * @return the array passed as input
      * @throws EnsureException if the array is null or empty
      */
-    public static void notEmpty(Object[] array, String exceptionMessage) throws EnsureException {
-        notEmpty(array, () -> EnsureException.of(exceptionMessage));
+    public static <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
+        return notEmpty(array, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
      * Ensures that the provided array is not empty. If the array is empty, an EnsureException is thrown.
      * NOTE: Also check if null
      *
+     * @param <T>   the type of the array
      * @param array the array to be checked
+     * @return the array passed as input
      * @throws EnsureException with the message "array must not be empty" - if the array is empty
      */
-    public static void notEmpty(Object[] array) throws EnsureException {
-        notEmpty(array, "array must not be empty");
+    public static <T> T[] notEmpty(T[] array) throws EnsureException {
+        return notEmpty(array, "array must not be empty");
     }
 
     /**
@@ -636,62 +745,63 @@ public final class Ensure {
      * @throws RuntimeException if the object is null and the runtimeExceptionSupplier provides an exception
      */
     public static <T> T notNullOrElseThrow(T object, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        if (isNull(object)) {
-            throw getSupplierOrThrow(runtimeExceptionSupplier);
-        }
-        return object;
+        return notNull(object, runtimeExceptionSupplier);
     }
 
     /**
      * Ensures that the given object is not null, and returns the object if it is non-null.
      * If the object is null, this method throws a {@link RuntimeException}.
      *
-     * @param object the object to be checked for nullity
      * @param <T>    the type of the object
+     * @param object the object to be checked for nullity
      * @return the non-null object passed as input
      * @throws RuntimeException with the message "object must not be null" - if the object is null
      */
     public static <T> T notNullOrElseThrow(T object) throws RuntimeException {
-        if (isNull(object)) {
-            throw getSupplierOrThrow(() -> EnsureException.of("object must not be null"));
-        }
-        return object;
+        return notNull(object, () -> EnsureException.of("object must not be null"));
     }
 
     /**
      * Ensures that the provided object is not null. If the object is null, a {@link RuntimeException}
      * provided by the given {@link Supplier} is thrown.
      *
+     * @param <T>                      the type of the object
      * @param object                   the object to be checked for non-nullity
      * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException} to be thrown if {@code object} is null
+     * @return the non-null object
      * @throws RuntimeException if {@code object} is null, with the exception derived from the {@code runtimeExceptionSupplier}
      */
-    public static void notNull(Object object, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+    public static <T> T notNull(T object, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
         if (isNull(object)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
+        return object;
     }
 
     /**
      * Ensures that the provided object is not null. If the object is null, an {@link EnsureException}
      * with the given message is thrown.
      *
+     * @param <T>     the type of the object
      * @param object  the object to be checked for non-nullity
      * @param message the exception message to be included if {@code object} is null
+     * @return the non-null object
      * @throws EnsureException if {@code object} is null
      */
-    public static void notNull(Object object, String message) throws EnsureException {
-        notNull(object, () -> EnsureException.of(message));
+    public static <T> T notNull(T object, String message) throws EnsureException {
+        return notNull(object, () -> EnsureException.of(message));
     }
 
     /**
      * Ensures that the provided object is not null. If the object is null, an {@link EnsureException} is thrown.
      *
+     * @param <T>    the type of the object
      * @param object the object to be checked for non-nullity
+     * @return the non-null object
      * @throws EnsureException with the message "object must not be null" - if {@code object} is null
      */
-    public static void notNull(Object object) throws EnsureException {
-        notNull(object, "object must not be null");
+    public static <T> T notNull(T object) throws EnsureException {
+        return notNull(object, "object must not be null");
     }
 
     /**

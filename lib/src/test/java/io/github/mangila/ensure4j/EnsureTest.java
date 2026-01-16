@@ -7,6 +7,7 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class EnsureTest {
 
     @Test
+    @DisplayName("Should pass when utility class is instantiated via reflection and throw IllegalStateException")
     void test() throws Exception {
         Constructor<?> constructor = Ensure.class.getDeclaredConstructor();
         constructor.setAccessible(true);
@@ -32,6 +34,7 @@ public class EnsureTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when supplier is null or returns null")
     void testSupplier() {
         assertThatThrownBy(() -> Ensure.notNull(null, (Supplier<RuntimeException>) null))
                 .isInstanceOf(EnsureException.class)
@@ -65,13 +68,13 @@ public class EnsureTest {
                                 .toList();
                         assertPublicMethods(publicMethods);
                         int totalMethods = item.getMethods().size();
-                        assertThat(totalMethods).isEqualTo(57);
+                        assertThat(totalMethods).isEqualTo(60);
                     }
 
                     private void assertPublicMethods(List<String> publicMethodNames) {
                         int publicMethodsCount = publicMethodNames.size();
                         assertThat(publicMethodsCount)
-                                .isEqualTo(54);
+                                .isEqualTo(57);
                         Map<String, Long> counts = publicMethodNames.stream()
                                 .collect(Collectors.groupingBy(
                                         methodName -> methodName,
@@ -93,6 +96,7 @@ public class EnsureTest {
                                 case "notBlankOrElseGet" -> assertThat(counts.get(methodName)).isEqualTo(1L);
                                 case "notEmpty" -> assertThat(counts.get(methodName)).isEqualTo(9L);
                                 case "notContainsNull" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "notContainsNullLegacy" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "containsElement" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "isEquals" -> assertThat(counts.get(methodName)).isEqualTo(6L);
                                 case "isInstanceOf" -> assertThat(counts.get(methodName)).isEqualTo(3L);

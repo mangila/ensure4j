@@ -6,23 +6,23 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class ObjectTest {
 
     @Test
-    @DisplayName("Happy path equals(Object)")
+    @DisplayName("Should pass when objects are equal")
     void equals() {
-        assertThatCode(() -> Ensure.isEquals(new BigDecimal("1"), new BigDecimal("1"))).doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.isEquals(1, 1, "test message")).doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.isEquals(1, 1, () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
+        BigDecimal val = new BigDecimal("1");
+        assertThat(Ensure.isEquals(val, new BigDecimal("1"))).isSameAs(val);
+        assertThat(Ensure.isEquals(1, 1, "test message")).isEqualTo(1);
+        assertThat(Ensure.isEquals(1, 1, () -> new IllegalArgumentException("test message"))).isEqualTo(1);
         // REMINDME: idk... ok?
-        assertThatCode(() -> Ensure.isEquals((Object) null, null)).doesNotThrowAnyException();
+        assertThat(Ensure.isEquals((Object) null, null)).isNull();
     }
 
     @Test
-    @DisplayName("Sad path equals(Object)")
+    @DisplayName("Should throw exception when objects are not equal")
     void equals1() {
         assertThatThrownBy(() -> Ensure.isEquals(new BigDecimal("1"), new BigInteger("1")))
                 .isInstanceOf(EnsureException.class)
@@ -43,17 +43,17 @@ public class ObjectTest {
     }
 
     @Test
-    @DisplayName("Happy path equals(Enum)")
+    @DisplayName("Should pass when enums are equal")
     void equals2() {
-        assertThatCode(() -> Ensure.isEquals(TestEnum.A, TestEnum.A)).doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.isEquals(TestEnum.A, TestEnum.A, "test message")).doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.isEquals(TestEnum.A, TestEnum.A, () -> new IllegalArgumentException("test message"))).doesNotThrowAnyException();
+        assertThat(Ensure.isEquals(TestEnum.A, TestEnum.A)).isSameAs(TestEnum.A);
+        assertThat(Ensure.isEquals(TestEnum.A, TestEnum.A, "test message")).isSameAs(TestEnum.A);
+        assertThat(Ensure.isEquals(TestEnum.A, TestEnum.A, () -> new IllegalArgumentException("test message"))).isSameAs(TestEnum.A);
         // REMINDME: idk... ok?
-        assertThatCode(() -> Ensure.isEquals((Enum<?>) null, null)).doesNotThrowAnyException();
+        assertThat(Ensure.isEquals((TestEnum) null, null)).isNull();
     }
 
     @Test
-    @DisplayName("Sad path equals(Enum)")
+    @DisplayName("Should throw exception when enums are not equal")
     void equals3() {
         assertThatThrownBy(() -> Ensure.isEquals(TestEnum.A, TestEnum.B))
                 .isInstanceOf(EnsureException.class)
@@ -67,18 +67,18 @@ public class ObjectTest {
     }
 
     @Test
-    @DisplayName("Happy path isInstanceOf(Class)")
+    @DisplayName("Should pass when object is instance of class")
     void isInstanceOf() {
-        assertThatCode(() -> Ensure.isInstanceOf(String.class, "test"))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.isInstanceOf(Integer.class, 1, "test message"))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.isInstanceOf(Float.class, 32.00f, () -> new IllegalArgumentException("test message")))
-                .doesNotThrowAnyException();
+        String test = "test";
+        assertThat(Ensure.isInstanceOf(String.class, test)).isSameAs(test);
+        Integer val = 1;
+        assertThat(Ensure.isInstanceOf(Integer.class, val, "test message")).isSameAs(val);
+        Float f = 32.00f;
+        assertThat(Ensure.isInstanceOf(Float.class, f, () -> new IllegalArgumentException("test message"))).isSameAs(f);
     }
 
     @Test
-    @DisplayName("Sad path isInstanceOf(Class)")
+    @DisplayName("Should throw exception when object is not instance of class")
     void isInstanceOf1() {
         assertThatThrownBy(() -> Ensure.isInstanceOf(null, "test"))
                 .isInstanceOf(EnsureException.class)

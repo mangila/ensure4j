@@ -9,21 +9,16 @@ public class NumbersTest {
 
 
     @Test
-    @DisplayName("Happy path min(int)")
+    @DisplayName("Should pass when int value is greater than or equal to min")
     void min() {
-        assertThatCode(() -> {
-            int n = Ensure.min(-1, 0);
-            assertThat(n).isEqualTo(0);
-        })
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.min(0, 0, "test message"))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.min(1, 2, () -> new IllegalArgumentException("test message")))
-                .doesNotThrowAnyException();
+        int n = Ensure.min(-1, 0);
+        assertThat(n).isEqualTo(0);
+        assertThat(Ensure.min(0, 0, "test message")).isEqualTo(0);
+        assertThat(Ensure.min(1, 2, () -> new IllegalArgumentException("test message"))).isEqualTo(2);
     }
 
     @Test
-    @DisplayName("Sad path min(int)")
+    @DisplayName("Should throw exception when int value is less than min")
     void min1() {
         assertThatThrownBy(() -> Ensure.min(1, -10))
                 .isInstanceOf(EnsureException.class)
@@ -37,20 +32,16 @@ public class NumbersTest {
     }
 
     @Test
-    @DisplayName("Happy path max(int)")
+    @DisplayName("Should pass when int value is less than or equal to max")
     void max() {
-        assertThatCode(() -> {
-            int n = Ensure.max(20, 5);
-            assertThat(n).isEqualTo(5);
-        });
-        assertThatCode(() -> Ensure.max(0, 0, "test message"))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.max(1, -1, () -> new IllegalArgumentException("test message")))
-                .doesNotThrowAnyException();
+        int n = Ensure.max(20, 5);
+        assertThat(n).isEqualTo(5);
+        assertThat(Ensure.max(0, 0, "test message")).isEqualTo(0);
+        assertThat(Ensure.max(1, -1, () -> new IllegalArgumentException("test message"))).isEqualTo(-1);
     }
 
     @Test
-    @DisplayName("Sad path max(int)")
+    @DisplayName("Should throw exception when int value is greater than max")
     void max1() {
         assertThatThrownBy(() -> Ensure.max(100, 101))
                 .isInstanceOf(EnsureException.class)
@@ -64,21 +55,16 @@ public class NumbersTest {
     }
 
     @Test
-    @DisplayName("Happy path min(long)")
+    @DisplayName("Should pass when long value is greater than or equal to min")
     void minLong() {
-        assertThatCode(() -> {
-            long n = Ensure.min(-1L, 0L);
-            assertThat(n).isEqualTo(0);
-        })
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.min(0L, 0L, "test message"))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.min(1L, 2L, () -> new IllegalArgumentException("test message")))
-                .doesNotThrowAnyException();
+        long n = Ensure.min(-1L, 0L);
+        assertThat(n).isEqualTo(0);
+        assertThat(Ensure.min(0L, 0L, "test message")).isEqualTo(0);
+        assertThat(Ensure.min(1L, 2L, () -> new IllegalArgumentException("test message"))).isEqualTo(2);
     }
 
     @Test
-    @DisplayName("Sad path min(long)")
+    @DisplayName("Should throw exception when long value is less than min")
     void minLong1() {
         assertThatThrownBy(() -> Ensure.min(1L, -10L))
                 .isInstanceOf(EnsureException.class)
@@ -92,20 +78,16 @@ public class NumbersTest {
     }
 
     @Test
-    @DisplayName("Happy path max(long)")
+    @DisplayName("Should pass when long value is less than or equal to max")
     void maxLong() {
-        assertThatCode(() -> {
-            long n = Ensure.max(20L, 5L);
-            assertThat(n).isEqualTo(5);
-        });
-        assertThatCode(() -> Ensure.max(0L, 0L, "test message"))
-                .doesNotThrowAnyException();
-        assertThatCode(() -> Ensure.max(1L, -1L, () -> new IllegalArgumentException("test message")))
-                .doesNotThrowAnyException();
+        long n = Ensure.max(20L, 5L);
+        assertThat(n).isEqualTo(5);
+        assertThat(Ensure.max(0L, 0L, "test message")).isEqualTo(0);
+        assertThat(Ensure.max(1L, -1L, () -> new IllegalArgumentException("test message"))).isEqualTo(-1);
     }
 
     @Test
-    @DisplayName("Sad path max(long)")
+    @DisplayName("Should throw exception when long value is greater than max")
     void maxLong1() {
         assertThatThrownBy(() -> Ensure.max(100L, 101L))
                 .isInstanceOf(EnsureException.class)
