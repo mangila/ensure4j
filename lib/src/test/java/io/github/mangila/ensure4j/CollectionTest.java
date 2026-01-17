@@ -4,9 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CollectionTest {
 
@@ -23,10 +25,14 @@ public class CollectionTest {
     @DisplayName("Should throw exception when collection is empty")
     void notEmpty1() {
         assertThatThrownBy(() -> {
+            Ensure.notEmpty((Collection<?>) null);
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("collection must not be empty or null");
+        assertThatThrownBy(() -> {
             var l = new ArrayList<>();
             Ensure.notEmpty(l);
         }).isInstanceOf(EnsureException.class)
-                .hasMessage("collection must not be empty");
+                .hasMessage("collection must not be empty or null");
         assertThatThrownBy(() -> {
             var l = new ArrayList<>();
             Ensure.notEmpty(l, "list must not be empty");
@@ -128,10 +134,15 @@ public class CollectionTest {
     @DisplayName("Should throw exception when collection does not contain element")
     void containsElement1() {
         assertThatThrownBy(() -> {
+            Ensure.containsElement(null, "fail");
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("collection must contain element 'fail'");
+        assertThatThrownBy(() -> {
             var l = new ArrayList<>();
             l.add("test");
             Ensure.containsElement(l, "fail");
-        });
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("collection must contain element 'fail'");
         assertThatThrownBy(() -> {
             var l = new ArrayList<>();
             l.add("test");

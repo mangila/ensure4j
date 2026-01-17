@@ -42,7 +42,8 @@ Use the Maven wrapper (`./mvnw`) to run tests.
 
 - Use descriptive `@DisplayName` where it adds clarity.
 - For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
-- If adding new public methods to `Ensure.java`, DO NOT update the `EnsureTest.archTest()` this will handled by me. The test should FAIL, and you can move on.
+- If adding new public methods to `Ensure.java`, DO NOT update the `EnsureTest.archTest()` this will handled by me. The
+  test should FAIL, and you can move on.
 - Test files are organized by data type or feature (e.g., `StringTest.java`, `CollectionTest.java`).
 
 ### Simple Test Example
@@ -84,13 +85,14 @@ public class MyNewTest {
     1. `method(value)`: Uses default `EnsureException` and default message.
     2. `method(value, String message)`: Uses default `EnsureException` with custom a message.
     3. `method(value, Supplier<RuntimeException> supplier)`: Uses a custom exception provided by the supplier. Use the
-       private static utility method `getSupplierOrThrow` to get the value from the
-       supplier.
+       private static utility method `getSupplierOrThrow` to get the value from the supplier.
     4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met. **Optional** if the method
        could not be implemented with a default value.
     5. `methodOrElseGet(value, Supplier<T> supplier)`: Return a default value computed by the supplier if the
        condition is not met. Use the private static utility method `getSupplierOrThrow` to get the value from the
        supplier. **Optional** if the method could not be implemented with a default value.
+    6. `methodOrElseThrow(value, Supplier<RuntimeException> supplier)` : Throws a custom exception if the condition is
+       not met.
 - **Fluent API**: Methods should return the validated value whenever possible to support fluent usage and stream
   pipelines.
 - **Javadoc**: All public methods should have clear Javadoc.
@@ -99,10 +101,9 @@ public class MyNewTest {
 
 Avoid heavy operations inside `Ensure` methods as they are often used in performance-critical paths.
 
-### Examples
-
-New features should ideally be accompanied by an example in the `examples` module.
-
 ### Review
 
-After a successful session write to an .md file called CHANGES.md with what you changed togheter with a "Findings" section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.
+New methods should be added to the `examples` project
+
+After a successful session write to an .md file called CHANGES.md with what you changed togheter with a "Findings"
+section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.

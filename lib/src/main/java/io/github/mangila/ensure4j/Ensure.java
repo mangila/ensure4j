@@ -35,8 +35,7 @@ public final class Ensure {
      */
     @SuppressWarnings("unchecked")
     public static <T> T isInstanceOf(Class<T> clazz, Object object, Supplier<RuntimeException> supplier) throws RuntimeException {
-        notNull(clazz, supplier);
-        if (!clazz.isInstance(object)) {
+        if (isNull(clazz) || !clazz.isInstance(object)) {
             throw getSupplierOrThrow(supplier);
         }
         return (T) object;
@@ -67,7 +66,7 @@ public final class Ensure {
      * @throws EnsureException with the message "object must be an instance of %s" - if the object is not an instance of the specified class
      */
     public static <T> T isInstanceOf(Class<T> clazz, Object object) throws EnsureException {
-        notNull(clazz, "clazz must not be null");
+        notNull(clazz, "class must not be null");
         return isInstanceOf(clazz, object, "object must be an instance of %s".formatted(clazz.getName()));
     }
 
@@ -131,7 +130,9 @@ public final class Ensure {
         if (object == otherObject) {
             return object;
         }
-        notNull(object, runtimeExceptionSupplier);
+        if (isNull(object)) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
         if (object.equals(otherObject)) {
             return object;
         }
@@ -178,8 +179,7 @@ public final class Ensure {
      * @throws RuntimeException if the element is not found in the collection
      */
     public static <T extends Collection<?>> T containsElement(T collection, Object element, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        notNull(collection, runtimeExceptionSupplier);
-        if (!collection.contains(element)) {
+        if (isNull(collection) || !collection.contains(element)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return collection;
@@ -228,7 +228,9 @@ public final class Ensure {
      * @throws EnsureException if the collection contains a null element
      */
     public static <T extends Collection<?>> T notContainsNullLegacy(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
-        notNull(collection, runtimeExceptionSupplier);
+        if (isNull(collection)) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
         for (Object element : collection) {
             if (isNull(element)) {
                 throw getSupplierOrThrow(runtimeExceptionSupplier);
@@ -240,6 +242,7 @@ public final class Ensure {
     /**
      * Ensures that the provided collection does not contain any null elements.
      * <br>
+     * NOTE: This method will perform a null check on each element of the collection. Using a foreach loop
      * NOTE: There is no check if the collection is empty.
      *
      * @param <T>              the type of the collection
@@ -255,6 +258,7 @@ public final class Ensure {
     /**
      * Ensures that the provided collection does not contain any null elements.
      * <br>
+     * NOTE: This method will perform a null check on each element of the collection. Using a foreach loop
      * NOTE: There is no check if the collection is empty.
      *
      * @param <T>        the type of the collection
@@ -280,8 +284,7 @@ public final class Ensure {
      * @throws RuntimeException if the collection contains a null element
      */
     public static <T extends Collection<?>> T notContainsNull(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        notNull(collection, runtimeExceptionSupplier);
-        if (collection.contains(null)) {
+        if (isNull(collection) || collection.contains(null)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return collection;
@@ -290,6 +293,7 @@ public final class Ensure {
     /**
      * Ensures that the provided collection does not contain any null elements.
      * <br>
+     * NOTE: This method will perform a null check using the built-in {@link Collection#contains(Object)} method.
      * NOTE: There is no check if the collection is empty.
      *
      * @param <T>              the type of the collection
@@ -305,6 +309,7 @@ public final class Ensure {
     /**
      * Ensures that the provided collection does not contain any null elements.
      * <br>
+     * NOTE: This method will perform a null check using the built-in {@link Collection#contains(Object)} method.
      * NOTE: There is no check if the collection is empty.
      *
      * @param <T>        the type of the collection
@@ -328,8 +333,7 @@ public final class Ensure {
      * @throws RuntimeException if the collection is null or empty
      */
     public static <T extends Collection<?>> T notEmpty(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        notNull(collection, runtimeExceptionSupplier);
-        if (collection.isEmpty()) {
+        if (isNull(collection) || collection.isEmpty()) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return collection;
@@ -358,10 +362,10 @@ public final class Ensure {
      * @param <T>        the type of the collection
      * @param collection the collection to validate for non-emptiness
      * @return the collection passed as input
-     * @throws EnsureException with the message "collection must not be empty" - if the collection is empty
+     * @throws EnsureException with the message "collection must not be empty or null" - if the collection is empty
      */
     public static <T extends Collection<?>> T notEmpty(T collection) throws EnsureException {
-        return notEmpty(collection, "collection must not be empty");
+        return notEmpty(collection, "collection must not be empty or null");
     }
 
     /**
@@ -376,8 +380,7 @@ public final class Ensure {
      * @throws RuntimeException if the map is null or empty
      */
     public static <T extends Map<?, ?>> T notEmpty(T map, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        notNull(map, runtimeExceptionSupplier);
-        if (map.isEmpty()) {
+        if (isNull(map) || map.isEmpty()) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return map;
@@ -404,10 +407,10 @@ public final class Ensure {
      * @param <T> the type of the map
      * @param map the map to be checked for emptiness; must not be null or empty
      * @return the map passed as input
-     * @throws EnsureException with the message "map must not be empty" - if the provided map is null or empty
+     * @throws EnsureException with the message "map must not be empty or null" - if the provided map is null or empty
      */
     public static <T extends Map<?, ?>> T notEmpty(T map) throws EnsureException {
-        return notEmpty(map, "map must not be empty");
+        return notEmpty(map, "map must not be empty or null");
     }
 
     /**
@@ -422,8 +425,7 @@ public final class Ensure {
      * @throws RuntimeException if the array is null or empty
      */
     public static <T> T[] notEmpty(T[] array, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        notNull(array, runtimeExceptionSupplier);
-        if (array.length == 0) {
+        if (isNull(array) || array.length == 0) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return array;
@@ -638,8 +640,7 @@ public final class Ensure {
      * @return the original string if it is not blank, or the value supplied by the fallback supplier if the string is blank
      */
     public static String notBlankOrElseGet(String string, Supplier<String> fallbackSupplier) {
-        notNull(string);
-        if (isBlank(string)) {
+        if (isNull(string) || isBlank(string)) {
             return getSupplierOrThrow(fallbackSupplier);
         }
         return string;
@@ -654,8 +655,7 @@ public final class Ensure {
      * @return the input string if it is not blank; otherwise, the fallback value
      */
     public static String notBlankOrElse(String string, String fallbackValue) {
-        notNull(string);
-        if (isBlank(string)) {
+        if (isNull(string) || isBlank(string)) {
             return fallbackValue;
         }
         return string;
@@ -671,8 +671,7 @@ public final class Ensure {
      * @throws RuntimeException if the string is blank or null, provided by the runtimeExceptionSupplier
      */
     public static String notBlank(String string, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        notNull(string, runtimeExceptionSupplier);
-        if (isBlank(string)) {
+        if (isNull(string) || isBlank(string)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
         return string;
@@ -883,6 +882,261 @@ public final class Ensure {
     }
 
     /**
+     * Ensures that the provided string has a minimum length.
+     *
+     * @param min                      the minimum length allowed
+     * @param string                   the string to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the string length is less than the minimum
+     * @return the input string if its length is greater than or equal to the minimum
+     * @throws RuntimeException if the string length is less than the minimum
+     */
+    public static String minLength(int min, String string, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (isNull(string) || string.length() < min) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return string;
+    }
+
+    /**
+     * Ensures that the provided string has a minimum length.
+     *
+     * @param min              the minimum length allowed
+     * @param string           the string to check
+     * @param exceptionMessage the message to include in the EnsureException if the string length is less than the minimum
+     * @return the input string if its length is greater than or equal to the minimum
+     * @throws EnsureException if the string length is less than the minimum
+     */
+    public static String minLength(int min, String string, String exceptionMessage) throws EnsureException {
+        return minLength(min, string, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided string has a minimum length.
+     *
+     * @param min    the minimum length allowed
+     * @param string the string to check
+     * @return the input string if its length is greater than or equal to the minimum
+     * @throws EnsureException with the message "string length must be at least %d" - if the string length is less than the minimum
+     */
+    public static String minLength(int min, String string) throws EnsureException {
+        return minLength(min, string, "string length must be at least %d".formatted(min));
+    }
+
+    /**
+     * Ensures that the provided string has a maximum length.
+     *
+     * @param max                      the maximum length allowed
+     * @param string                   the string to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the string length is greater than the maximum
+     * @return the input string if its length is less than or equal to the maximum
+     * @throws RuntimeException if the string length is greater than the maximum
+     */
+    public static String maxLength(int max, String string, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (isNull(string) || string.length() > max) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return string;
+    }
+
+    /**
+     * Ensures that the provided string has a maximum length.
+     *
+     * @param max              the maximum length allowed
+     * @param string           the string to check
+     * @param exceptionMessage the message to include in the EnsureException if the string length is greater than the maximum
+     * @return the input string if its length is less than or equal to the maximum
+     * @throws EnsureException if the string length is greater than the maximum
+     */
+    public static String maxLength(int max, String string, String exceptionMessage) throws EnsureException {
+        return maxLength(max, string, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided string has a maximum length.
+     *
+     * @param max    the maximum length allowed
+     * @param string the string to check
+     * @return the input string if its length is less than or equal to the maximum
+     * @throws EnsureException with the message "string length must be at most %d".formatted(max) - if the string length is greater than the maximum
+     */
+    public static String maxLength(int max, String string) throws EnsureException {
+        return maxLength(max, string, "string length must be at most %d".formatted(max));
+    }
+
+    /**
+     * Ensures that the provided value is positive.
+     *
+     * @param value                    the value to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the value is not positive
+     * @return the input value if it is positive
+     * @throws RuntimeException if the value is not positive
+     */
+    public static long positive(long value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value <= 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the provided value is positive.
+     *
+     * @param value            the value to check
+     * @param exceptionMessage the message to include in the EnsureException if the value is not positive
+     * @return the input value if it is positive
+     * @throws EnsureException if the value is not positive
+     */
+    public static long positive(long value, String exceptionMessage) throws EnsureException {
+        return positive(value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided value is positive.
+     *
+     * @param value the value to check
+     * @return the input value if it is positive
+     * @throws EnsureException with the message "value must be positive - (%s)" - if the value is not positive
+     */
+    public static long positive(long value) throws EnsureException {
+        return positive(value, "value must be positive - (%s)".formatted(value));
+    }
+
+    /**
+     * Ensures that the provided value is positive.
+     *
+     * @param value                    the value to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the value is not positive
+     * @return the input value if it is positive
+     * @throws RuntimeException if the value is not positive
+     */
+    public static int positive(int value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value <= 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the provided value is positive.
+     *
+     * @param value            the value to check
+     * @param exceptionMessage the message to include in the EnsureException if the value is not positive
+     * @return the input value if it is positive
+     * @throws EnsureException if the value is not positive
+     */
+    public static int positive(int value, String exceptionMessage) throws EnsureException {
+        return positive(value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided value is positive.
+     *
+     * @param value the value to check
+     * @return the input value if it is positive
+     * @throws EnsureException with the message "value must be positive" - if the value is not positive
+     */
+    public static int positive(int value) throws EnsureException {
+        return positive(value, "value must be positive - (%s)".formatted(value));
+    }
+
+    /**
+     * Ensures that the provided value is negative.
+     *
+     * @param value                    the value to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the value is not negative
+     * @return the input value if it is negative
+     * @throws RuntimeException if the value is not negative
+     */
+    public static long negative(long value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value >= 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the provided value is negative.
+     *
+     * @param value            the value to check
+     * @param exceptionMessage the message to include in the EnsureException if the value is not negative
+     * @return the input value if it is negative
+     * @throws EnsureException if the value is not negative
+     */
+    public static long negative(long value, String exceptionMessage) throws EnsureException {
+        return negative(value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided value is negative.
+     *
+     * @param value the value to check
+     * @return the input value if it is negative
+     * @throws EnsureException with the message "value must be negative" - if the value is not negative
+     */
+    public static long negative(long value) throws EnsureException {
+        return negative(value, "value must be negative - (%s)".formatted(value));
+    }
+
+    /**
+     * Ensures that the provided value is negative.
+     *
+     * @param value                    the value to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the value is not negative
+     * @return the input value if it is negative
+     * @throws RuntimeException if the value is not negative
+     */
+    public static int negative(int value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value >= 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the provided value is negative.
+     *
+     * @param value            the value to check
+     * @param exceptionMessage the message to include in the EnsureException if the value is not negative
+     * @return the input value if it is negative
+     * @throws EnsureException if the value is not negative
+     */
+    public static int negative(int value, String exceptionMessage) throws EnsureException {
+        return negative(value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided value is negative.
+     *
+     * @param value the value to check
+     * @return the input value if it is negative
+     * @throws EnsureException with the message "value must be negative" - if the value is not negative
+     */
+    public static int negative(int value) throws EnsureException {
+        return negative(value, "value must be negative - (%s)".formatted(value));
+    }
+
+    /**
+     * Checks if the provided string is blank. A string is considered blank if it is empty
+     * or contains only white-space characters.
+     *
+     * @param string the input string to check for blankness
+     * @return true if the string is blank, false otherwise
+     */
+    private static boolean isBlank(String string) {
+        return string.isBlank();
+    }
+
+    /**
+     * Checks whether the given object is null.
+     *
+     * @param object the object to check for nullity
+     * @return true if the given object is null, false otherwise
+     */
+    private static boolean isNull(Object object) {
+        return object == null;
+    }
+
+    /**
      * Retrieves the value provided by the given {@link Supplier}. If the supplier is null or the supplied
      * value is null, an {@link EnsureException} is thrown.
      *
@@ -901,26 +1155,5 @@ public final class Ensure {
             throw new EnsureException("supplier was given a null value");
         }
         return t;
-    }
-
-    /**
-     * Checks whether the given object is null.
-     *
-     * @param object the object to check for nullity
-     * @return true if the given object is null, false otherwise
-     */
-    private static boolean isNull(Object object) {
-        return object == null;
-    }
-
-    /**
-     * Checks if the provided string is blank. A string is considered blank if it is empty
-     * or contains only white-space characters.
-     *
-     * @param string the input string to check for blankness
-     * @return true if the string is blank, false otherwise
-     */
-    private static boolean isBlank(@NonNull String string) {
-        return string.isBlank();
     }
 }

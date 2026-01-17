@@ -3,7 +3,8 @@ package io.github.mangila.ensure4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class StringTest {
 
@@ -39,14 +40,7 @@ public class StringTest {
         assertThat(Ensure.notBlankOrElse("test", "default")).isEqualTo("test");
         assertThat(Ensure.notBlankOrElse("", "default")).isEqualTo("default");
         assertThat(Ensure.notBlankOrElse("  ", "default")).isEqualTo("default");
-    }
-
-    @Test
-    @DisplayName("Should throw exception when null (OrElse)")
-    void notBlankOrElse1() {
-        assertThatThrownBy(() -> Ensure.notBlankOrElse(null, "default"))
-                .isInstanceOf(EnsureException.class)
-                .hasMessage("object must not be null");
+        assertThat(Ensure.notBlankOrElse(null, "default")).isEqualTo("default");
     }
 
     @Test
@@ -55,5 +49,42 @@ public class StringTest {
         assertThat(Ensure.notBlankOrElseGet("test", () -> "default")).isEqualTo("test");
         assertThat(Ensure.notBlankOrElseGet("", () -> "default")).isEqualTo("default");
         assertThat(Ensure.notBlankOrElseGet("  ", () -> "default")).isEqualTo("default");
+        assertThat(Ensure.notBlankOrElseGet(null, () -> "default")).isEqualTo("default");
+    }
+
+    @Test
+    @DisplayName("Should pass when string length is at least min")
+    void minLength() {
+        assertThat(Ensure.minLength(3, "abc")).isEqualTo("abc");
+        assertThat(Ensure.minLength(3, "abcd")).isEqualTo("abcd");
+    }
+
+    @Test
+    @DisplayName("Should throw exception when string length is less than min")
+    void minLength1() {
+        assertThatThrownBy(() -> Ensure.minLength(3, "ab"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string length must be at least 3");
+        assertThatThrownBy(() -> Ensure.minLength(3, null))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string length must be at least 3");
+    }
+
+    @Test
+    @DisplayName("Should pass when string length is at most max")
+    void maxLength() {
+        assertThat(Ensure.maxLength(3, "abc")).isEqualTo("abc");
+        assertThat(Ensure.maxLength(3, "ab")).isEqualTo("ab");
+    }
+
+    @Test
+    @DisplayName("Should throw exception when string length is more than max")
+    void maxLength1() {
+        assertThatThrownBy(() -> Ensure.maxLength(3, "abcd"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string length must be at most 3");
+        assertThatThrownBy(() -> Ensure.maxLength(3, null))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string length must be at most 3");
     }
 }
