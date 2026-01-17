@@ -3,7 +3,8 @@ package io.github.mangila.ensure4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class NumbersTest {
 
@@ -98,6 +99,74 @@ public class NumbersTest {
         assertThatThrownBy(() -> Ensure.max(100L, 101L, () -> new IllegalArgumentException("test value must be less than or equal to 100")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("test value must be less than or equal to 100");
+    }
+
+    @Test
+    @DisplayName("Should pass when int value is positive")
+    void positiveInt() {
+        assertThat(Ensure.positive(1)).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when int value is not positive")
+    void positiveInt1() {
+        assertThatThrownBy(() -> Ensure.positive(0))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be positive - (0)");
+        assertThatThrownBy(() -> Ensure.positive(-1))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be positive - (-1)");
+    }
+
+    @Test
+    @DisplayName("Should pass when long value is positive")
+    void positiveLong() {
+        assertThat(Ensure.positive(1L)).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when long value is not positive")
+    void positiveLong1() {
+        assertThatThrownBy(() -> Ensure.positive(0L))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be positive - (0)");
+        assertThatThrownBy(() -> Ensure.positive(-1L))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be positive - (-1)");
+    }
+
+    @Test
+    @DisplayName("Should pass when value is negative")
+    void negativeInt() {
+        assertThat(Ensure.negative(-1)).isEqualTo(-1);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when value is not negative")
+    void negativeInt1() {
+        assertThatThrownBy(() -> Ensure.negative(0))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be negative - (0)");
+        assertThatThrownBy(() -> Ensure.negative(1))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be negative - (1)");
+    }
+
+    @Test
+    @DisplayName("Should pass when value is negative")
+    void negativeLong() {
+        assertThat(Ensure.negative(-1L)).isEqualTo(-1L);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when value is not negative")
+    void negativeLong1() {
+        assertThatThrownBy(() -> Ensure.negative(0L))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be negative - (0)");
+        assertThatThrownBy(() -> Ensure.negative(1L))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be negative - (1)");
     }
 
 }

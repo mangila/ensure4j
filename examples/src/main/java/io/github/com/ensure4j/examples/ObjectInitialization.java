@@ -2,6 +2,8 @@ package io.github.com.ensure4j.examples;
 
 import io.github.mangila.ensure4j.Ensure;
 
+import java.util.Map;
+
 /**
  * Demonstrates different ways to initialize object fields using Ensure4j.
  * <p>
@@ -34,9 +36,23 @@ public class ObjectInitialization {
         public UserProfile(String bio, String theme) {
             // Provide a default if null
             this.bio = Ensure.notNullOrElse(bio, "No bio provided.");
-            
+
             // Lazy-load a default value if null
             this.theme = Ensure.notNullOrElseGet(theme, () -> "light");
+        }
+    }
+
+    public record UserProfile1(String username, int score, Map<String, String> tags) {
+        public UserProfile1 {
+            // String length constraints
+            Ensure.minLength(3, username, "Username too short");
+            Ensure.maxLength(20, username, "Username too long");
+            // Numeric comparisons
+            Ensure.positive(score, "Score must be positive");
+
+            // Map validation
+            Ensure.notNull(tags, "Tags map cannot be null");
+            Ensure.notEmpty(tags, "At least one tag is required");
         }
     }
 

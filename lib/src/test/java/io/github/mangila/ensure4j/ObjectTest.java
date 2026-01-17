@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ObjectTest {
 
@@ -82,7 +83,7 @@ public class ObjectTest {
     void isInstanceOf1() {
         assertThatThrownBy(() -> Ensure.isInstanceOf(null, "test"))
                 .isInstanceOf(EnsureException.class)
-                .hasMessage("clazz must not be null");
+                .hasMessage("class must not be null");
         assertThatThrownBy(() -> Ensure.isInstanceOf(null, "test", "test message"))
                 .isInstanceOf(EnsureException.class)
                 .hasMessage("test message");

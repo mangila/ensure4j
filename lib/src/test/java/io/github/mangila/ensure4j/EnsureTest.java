@@ -59,22 +59,20 @@ public class EnsureTest {
                     public void check(JavaClass item, ConditionEvents events) {
                         var publicMethods = item.getMethods()
                                 .stream()
-                                .filter(javaMethod -> {
-                                    return javaMethod.getModifiers()
-                                            .stream()
-                                            .anyMatch(javaModifier -> javaModifier == JavaModifier.PUBLIC);
-                                })
+                                .filter(javaMethod -> javaMethod.getModifiers()
+                                        .stream()
+                                        .anyMatch(javaModifier -> javaModifier == JavaModifier.PUBLIC))
                                 .map(JavaMember::getName)
                                 .toList();
                         assertPublicMethods(publicMethods);
                         int totalMethods = item.getMethods().size();
-                        assertThat(totalMethods).isEqualTo(60);
+                        assertThat(totalMethods).isEqualTo(78);
                     }
 
                     private void assertPublicMethods(List<String> publicMethodNames) {
                         int publicMethodsCount = publicMethodNames.size();
                         assertThat(publicMethodsCount)
-                                .isEqualTo(57);
+                                .isEqualTo(75);
                         Map<String, Long> counts = publicMethodNames.stream()
                                 .collect(Collectors.groupingBy(
                                         methodName -> methodName,
@@ -100,6 +98,10 @@ public class EnsureTest {
                                 case "containsElement" -> assertThat(counts.get(methodName)).isEqualTo(3L);
                                 case "isEquals" -> assertThat(counts.get(methodName)).isEqualTo(6L);
                                 case "isInstanceOf" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "minLength" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "maxLength" -> assertThat(counts.get(methodName)).isEqualTo(3L);
+                                case "positive" -> assertThat(counts.get(methodName)).isEqualTo(6L);
+                                case "negative" -> assertThat(counts.get(methodName)).isEqualTo(6L);
                                 default -> throw new IllegalStateException("Unexpected value: " + methodName);
                             }
                         }

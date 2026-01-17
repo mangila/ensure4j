@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MapTest {
 
@@ -22,10 +23,14 @@ public class MapTest {
     @DisplayName("Should throw exception when map is empty")
     void notEmpty1() {
         assertThatThrownBy(() -> {
+            Ensure.notEmpty((Map<?, ?>) null);
+        }).isInstanceOf(EnsureException.class)
+                .hasMessage("map must not be empty or null");
+        assertThatThrownBy(() -> {
             var map = new java.util.HashMap<>();
             Ensure.notEmpty(map);
         }).isInstanceOf(EnsureException.class)
-                .hasMessage("map must not be empty");
+                .hasMessage("map must not be empty or null");
         assertThatThrownBy(() -> {
             var map = new java.util.HashMap<String, String>();
             Ensure.notEmpty(map, "string map must not be empty");
