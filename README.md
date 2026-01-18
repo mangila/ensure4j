@@ -140,7 +140,7 @@ Libs with preconditions support:
 - Spring's Assert class
 
 Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
-performance penalty that might waste some CPU cycles.
+performance penalty that might waste some CPU cycles/stack frames.
 
 And of course, you can always roll your own or do explicit checks, and I have done that in the past; that's why I
 created Ensure4j.
