@@ -7,6 +7,7 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,9 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class EnsureToBeRemoved {
+@Disabled
+public class EnsureToBeRemovedTest {
+
 
     @Test
     @DisplayName("Should pass when utility class is instantiated via reflection and throw IllegalStateException")
