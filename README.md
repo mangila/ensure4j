@@ -38,7 +38,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>2.0.2</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -95,9 +95,15 @@ public void placeOrder(Order order) {
 Here's what the same code looks like with Ensure4j:
 
 ```java
+import io.github.mangila.ensure4j.Ensure;
+import io.github.mangila.ensure4j.ops.EnsureNumberOps;
+
+private static final EnsureNumberOps ensureNumbers = Ensure.numbers();
+// other class members
+
 public void placeOrder(Order order) {
     Ensure.notNull(order, "Order cannot be null");
-    Ensure.min(1, order.getAmount(), "Order amount must be greater than zero");
+    ensureNumbers.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
     // do business logic
 }
 ```
@@ -105,12 +111,18 @@ public void placeOrder(Order order) {
 With the exception that Ensure4j throws an `EnsureException` instead of an `IllegalArgumentException`.
 
 Ensure4j has supplier functions that can be used to provide a custom exception suited for the application or use case
-need.
+need. For more complex cases, you can use the ops APIs to get moar preconditions.
 
 ```java
+import io.github.mangila.ensure4j.Ensure;
+import io.github.mangila.ensure4j.ops.EnsureNumberOps;
+
+private static final EnsureNumberOps ensureNumbers = Ensure.numbers();
+// other class members
+
 public void placeOrder(Order order) {
     Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
-    Ensure.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    ensureNumbers.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
     // do business logic
 }
 ```
@@ -121,9 +133,14 @@ Predefined exception messages are builtin in the library if you don't want to pr
 understand the problem. The default ones might not be enough for your use case.**
 
 ```java
+import io.github.mangila.ensure4j.Ensure;
+import io.github.mangila.ensure4j.ops.EnsureNumberOps;
+
+private static final EnsureNumberOps ensureNumbers = Ensure.numbers();
+
 public void placeOrder(Order order) {
     Ensure.notNull(order); // will throw an EnsureException with the message "object must not be null"
-    Ensure.min(1, order.getAmount()); // will throw an EnsureException with the message "value must be greater than or equal to %d, but was %d"
+    ensureNumbers.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
 }
 ```
 
