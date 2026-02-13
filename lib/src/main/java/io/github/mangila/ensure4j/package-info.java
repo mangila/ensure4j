@@ -1,22 +1,38 @@
 /**
+ * Provides the core API for Ensure4j, a lightweight, zero-dependency Java library
+ * designed for robust precondition and postcondition validation.
+ *
  * <p>
- * Ensure4j is a lightweight, zero-dependency Java library designed to simplify pre-condition and post-condition checks.
- * It provides a fluent API for validating arguments, state, and other conditions in a concise and readable manner.
+ * The primary entry point is {@link io.github.mangila.ensure4j.Ensure}, which provides
+ * common checks (such as nullity and boolean state) and accessors for specialized
+ * operations in the {@code ops} subpackage.
  * </p>
- * <p>
- * Annotated with {@link org.jspecify.annotations.NullUnmarked} since this package unspecified nullness.
- * </p>
- * <h2>Key Components:</h2>
+ *
+ * <h2>Key Features</h2>
  * <ul>
- *     <li>{@link io.github.mangila.ensure4j.Ensure} - The primary entry point and utility hub for common checks like nullity and booleans.</li>
- *     <li>{@link io.github.mangila.ensure4j.ops.EnsureNumberOps} - Specialized checks for numeric values.</li>
- *     <li>{@link io.github.mangila.ensure4j.ops.EnsureStringOps} - Specialized checks for strings.</li>
- *     <li>{@link io.github.mangila.ensure4j.ops.EnsureCollectionOps} - Specialized checks for collections.</li>
- *     <li>{@link io.github.mangila.ensure4j.ops.EnsureArrayOps} - Specialized checks for arrays.</li>
- *     <li>{@link io.github.mangila.ensure4j.ops.EnsureMapOps} - Specialized checks for maps.</li>
- *     <li>{@link io.github.mangila.ensure4j.ops.EnsureObjectOps} - Specialized checks for objects.</li>
- *     <li>{@link io.github.mangila.ensure4j.EnsureException} - The default runtime exception thrown when a condition is not met.</li>
+ *   <li><b>Zero Dependencies:</b> Only depends on {@code jspecify} for nullness annotations.</li>
+ *   <li><b>Fluent API:</b> Methods return the validated value to support chaining and functional pipelines.</li>
+ *   <li><b>Consistency:</b> Offers variants for default exceptions, custom messages, and custom exception suppliers.</li>
+ *   <li><b>High Performance:</b> Optimized for performance-critical paths with minimal overhead.</li>
  * </ul>
+ *
+ * <h2>Basic Usage Example</h2>
+ * <pre>{@code
+ * public void setUsername(String username) {
+ *     this.username = Ensure.notNull(username, "Username must not be null");
+ * }
+ *
+ * public void process(List<String> items) {
+ *     Ensure.isTrue(!items.isEmpty(), () -> new IllegalStateException("Items must not be empty"));
+ *     // ...
+ * }
+ * }</pre>
+ *
+ * <p>
+ * This package is annotated with {@link org.jspecify.annotations.NullUnmarked} to indicate
+ * that nullness is unspecified at the package level, while specific methods use
+ * {@link org.jspecify.annotations.NonNull} where appropriate.
+ * </p>
  */
 @NullUnmarked
 package io.github.mangila.ensure4j;

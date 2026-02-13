@@ -13,6 +13,7 @@ public class ArchTestUtils {
 
     public static final JavaClasses ensureOpsClasses = new ClassFileImporter()
             .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+            .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_PACKAGE_INFOS)
             .importPackages("io.github.mangila.ensure4j.ops");
 
     public static @NonNull List<JavaMethod> getPublicMethods(JavaClass javaClass) {
