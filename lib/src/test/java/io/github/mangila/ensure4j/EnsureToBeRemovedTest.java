@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Disabled
 public class EnsureToBeRemovedTest {
 
-
     @Test
     @DisplayName("Should pass when utility class is instantiated via reflection and throw IllegalStateException")
     void test() throws Exception {
