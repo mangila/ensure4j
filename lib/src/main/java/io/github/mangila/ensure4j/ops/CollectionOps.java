@@ -1,4 +1,6 @@
-package io.github.mangila.ensure4j;
+package io.github.mangila.ensure4j.ops;
+
+import io.github.mangila.ensure4j.EnsureException;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -6,18 +8,8 @@ import java.util.function.Supplier;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
-public final class EnsureCollections {
-
-    private EnsureCollections() {
-    }
-
-    private static class Holder {
-        private static final EnsureCollections INSTANCE = new EnsureCollections();
-    }
-
-    public static EnsureCollections getInstance() {
-        return EnsureCollections.Holder.INSTANCE;
-    }
+public enum CollectionOps {
+    INSTANCE;
 
     /**
      * Checks if the specified collection contains the given element. If the element is not found,

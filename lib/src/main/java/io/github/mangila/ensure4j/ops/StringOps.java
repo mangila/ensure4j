@@ -1,21 +1,13 @@
-package io.github.mangila.ensure4j;
+package io.github.mangila.ensure4j.ops;
+
+import io.github.mangila.ensure4j.EnsureException;
 
 import java.util.function.Supplier;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.*;
 
-public final class EnsureStrings {
-
-    private EnsureStrings() {
-    }
-
-    private static class Holder {
-        private static final EnsureStrings INSTANCE = new EnsureStrings();
-    }
-
-    public static EnsureStrings getInstance() {
-        return Holder.INSTANCE;
-    }
+public enum StringOps {
+    INSTANCE;
 
     /**
      * Returns the provided string if it is not blank (non-null and containing non-whitespace characters),

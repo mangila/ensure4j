@@ -1,4 +1,6 @@
-package io.github.mangila.ensure4j;
+package io.github.mangila.ensure4j.ops;
+
+import io.github.mangila.ensure4j.EnsureException;
 
 import java.util.function.Supplier;
 
@@ -6,18 +8,8 @@ import static io.github.mangila.ensure4j.Ensure.notNull;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
-public final class EnsureObjects {
-
-    private EnsureObjects() {
-    }
-
-    private static class Holder {
-        private static final EnsureObjects INSTANCE = new EnsureObjects();
-    }
-
-    public static EnsureObjects getInstance() {
-        return EnsureObjects.Holder.INSTANCE;
-    }
+public enum ObjectOps {
+    INSTANCE;
 
     /**
      * Checks if the given object is an instance of the specified class.

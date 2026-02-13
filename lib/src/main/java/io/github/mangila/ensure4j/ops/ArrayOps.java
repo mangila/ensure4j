@@ -1,40 +1,14 @@
-package io.github.mangila.ensure4j;
+package io.github.mangila.ensure4j.ops;
+
+import io.github.mangila.ensure4j.EnsureException;
 
 import java.util.function.Supplier;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
-public final class EnsureArrays {
-
-    private EnsureArrays() {
-    }
-
-    private static class Holder {
-        private static final EnsureArrays INSTANCE = new EnsureArrays();
-    }
-
-    public static EnsureArrays getInstance() {
-        return EnsureArrays.Holder.INSTANCE;
-    }
-
-    /**
-     * Validates that the given array is not empty. If the array is null or empty,
-     * the provided runtimeExceptionSupplier is used to throw an exception.
-     * NOTE: Also check if null
-     *
-     * @param <T>                      the type of the array
-     * @param array                    the array to check for non-emptiness
-     * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if validation fails
-     * @return the array passed as input
-     * @throws RuntimeException if the array is null or empty
-     */
-    public <T> T[] notEmpty(T[] array, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        if (isNull(array) || array.length == 0) {
-            throw getSupplierOrThrow(runtimeExceptionSupplier);
-        }
-        return array;
-    }
+public enum ArrayOps {
+    INSTANCE;
 
     /**
      * Checks if the provided array is not empty. If the array is empty,
@@ -64,4 +38,21 @@ public final class EnsureArrays {
         return notEmpty(array, "array must not be empty");
     }
 
+    /**
+     * Validates that the given array is not empty. If the array is null or empty,
+     * the provided runtimeExceptionSupplier is used to throw an exception.
+     * NOTE: Also check if null
+     *
+     * @param <T>                      the type of the array
+     * @param array                    the array to check for non-emptiness
+     * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be thrown if validation fails
+     * @return the array passed as input
+     * @throws RuntimeException if the array is null or empty
+     */
+    public <T> T[] notEmpty(T[] array, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (isNull(array) || array.length == 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return array;
+    }
 }

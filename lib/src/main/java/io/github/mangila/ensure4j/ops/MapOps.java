@@ -1,4 +1,6 @@
-package io.github.mangila.ensure4j;
+package io.github.mangila.ensure4j.ops;
+
+import io.github.mangila.ensure4j.EnsureException;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -6,18 +8,8 @@ import java.util.function.Supplier;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
-public final class EnsureMaps {
-
-    private EnsureMaps() {
-    }
-
-    private static class Holder {
-        private static final EnsureMaps INSTANCE = new EnsureMaps();
-    }
-
-    public static EnsureMaps getInstance() {
-        return EnsureMaps.Holder.INSTANCE;
-    }
+public enum MapOps {
+    INSTANCE;
 
     /**
      * Validates that the provided map is not empty. If the map is null or empty,

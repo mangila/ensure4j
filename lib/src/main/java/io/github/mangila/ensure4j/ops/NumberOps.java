@@ -1,21 +1,13 @@
-package io.github.mangila.ensure4j;
+package io.github.mangila.ensure4j.ops;
+
+import io.github.mangila.ensure4j.EnsureException;
 
 import java.util.function.Supplier;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 
-public final class EnsureNumbers {
-
-    private EnsureNumbers() {
-    }
-
-    private static class Holder {
-        private static final EnsureNumbers INSTANCE = new EnsureNumbers();
-    }
-
-    public static EnsureNumbers getInstance() {
-        return EnsureNumbers.Holder.INSTANCE;
-    }
+public enum NumberOps {
+    INSTANCE;
 
     /**
      * Returns the given value if it is less than or equal to the specified boundary.

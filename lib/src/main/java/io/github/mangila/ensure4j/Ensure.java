@@ -1,6 +1,7 @@
 package io.github.mangila.ensure4j;
 
 
+import io.github.mangila.ensure4j.ops.*;
 import org.jspecify.annotations.NonNull;
 
 import java.util.function.Supplier;
@@ -21,33 +22,33 @@ public final class Ensure {
     }
 
     @NonNull
-    public static EnsureArrays arrays() {
-        return EnsureArrays.getInstance();
+    public static ArrayOps arrays() {
+        return ArrayOps.INSTANCE;
     }
 
     @NonNull
-    public static EnsureCollections collections() {
-        return EnsureCollections.getInstance();
+    public static CollectionOps collections() {
+        return CollectionOps.INSTANCE;
     }
 
     @NonNull
-    public static EnsureMaps maps() {
-        return EnsureMaps.getInstance();
+    public static MapOps maps() {
+        return MapOps.INSTANCE;
     }
 
     @NonNull
-    public static EnsureNumbers numbers() {
-        return EnsureNumbers.getInstance();
+    public static NumberOps numbers() {
+        return NumberOps.INSTANCE;
     }
 
     @NonNull
-    public static EnsureObjects objects() {
-        return EnsureObjects.getInstance();
+    public static ObjectOps objects() {
+        return ObjectOps.INSTANCE;
     }
 
     @NonNull
-    public static EnsureStrings strings() {
-        return EnsureStrings.getInstance();
+    public static StringOps strings() {
+        return StringOps.INSTANCE;
     }
 
     /**
