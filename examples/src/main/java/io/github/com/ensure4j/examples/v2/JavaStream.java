@@ -1,9 +1,7 @@
-package io.github.com.ensure4j.examples;
+package io.github.com.ensure4j.examples.v2;
 
 import io.github.mangila.ensure4j.Ensure;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Demonstrates how Ensure4j integrates seamlessly with Java Streams.

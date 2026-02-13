@@ -120,4 +120,4 @@ Thumbs.db
 # =========================================
 
 settings.xml
-.circleci/circle_ci_schema.json
+CHANGES.md

@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 public final class EnsureUtils {
 
     private EnsureUtils() {
-        throw new IllegalArgumentException("Utility class");
+        throw new IllegalStateException("Utility class");
     }
 
     /**

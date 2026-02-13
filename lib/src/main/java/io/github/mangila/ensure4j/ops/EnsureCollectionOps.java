@@ -72,7 +72,7 @@ public enum EnsureCollectionOps {
      * @return the collection passed as input
      * @throws EnsureException if the collection contains a null element
      */
-    public <T extends Collection<?>> T notContainsNullLegacy(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
+    public <T extends Collection<?>> T notContainsNullIterate(T collection, Supplier<RuntimeException> runtimeExceptionSupplier) throws EnsureException {
         if (isNull(collection)) {
             throw getSupplierOrThrow(runtimeExceptionSupplier);
         }
@@ -96,8 +96,8 @@ public enum EnsureCollectionOps {
      * @return the collection passed as input
      * @throws EnsureException if the collection contains null elements
      */
-    public <T extends Collection<?>> T notContainsNullLegacy(T collection, String exceptionMessage) throws EnsureException {
-        return notContainsNullLegacy(collection, () -> EnsureException.of(exceptionMessage));
+    public <T extends Collection<?>> T notContainsNullIterate(T collection, String exceptionMessage) throws EnsureException {
+        return notContainsNullIterate(collection, () -> EnsureException.of(exceptionMessage));
     }
 
     /**
@@ -111,8 +111,8 @@ public enum EnsureCollectionOps {
      * @return the collection passed as input
      * @throws EnsureException with the message "collection must not contain null elements" - if the collection contains a null element
      */
-    public <T extends Collection<?>> T notContainsNullLegacy(T collection) throws EnsureException {
-        return notContainsNullLegacy(collection, "collection must not contain null elements");
+    public <T extends Collection<?>> T notContainsNullIterate(T collection) throws EnsureException {
+        return notContainsNullIterate(collection, "collection must not contain null elements");
     }
 
     /**
