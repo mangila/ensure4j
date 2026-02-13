@@ -1,4 +1,4 @@
-package io.github.com.ensure4j.examples;
+package io.github.com.ensure4j.examples.v2;
 
 import io.github.mangila.ensure4j.Ensure;
 import java.util.UUID;
