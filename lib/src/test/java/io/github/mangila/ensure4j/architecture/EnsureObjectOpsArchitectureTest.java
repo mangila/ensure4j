@@ -5,15 +5,15 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
-import io.github.mangila.ensure4j.ops.ObjectOps;
+import io.github.mangila.ensure4j.ops.EnsureObjectOps;
 import org.junit.jupiter.api.Test;
 
-public class ObjectOpsArchitectureTest {
+public class EnsureObjectOpsArchitectureTest {
 
     @Test
     void test() {
         var javaPackage = "io.github.mangila.ensure4j";
-        ArchRuleDefinition.theClass(ObjectOps.class)
+        ArchRuleDefinition.theClass(EnsureObjectOps.class)
                 .should()
                 .beEnums()
                 .andShould(new ArchCondition<>("have exactly one enum constant") {

@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 
-public enum NumberOps {
+public enum EnsureNumberOps {
     INSTANCE;
 
     /**

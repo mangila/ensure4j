@@ -5,20 +5,20 @@ import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
-import io.github.mangila.ensure4j.ops.ArrayOps;
+import io.github.mangila.ensure4j.ops.EnsureArrayOps;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import static io.github.mangila.ensure4j.architecture.ArchTestUtils.*;
+import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getCountByMethodName;
+import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getPublicMethodNames;
 
-public class ArrayOpsArchitectureTest {
+public class EnsureArrayOpsArchitectureTest {
 
     @Test
     void test() {
-        int publicMethodsCurrentCount = 5;
-        ArchRuleDefinition.theClass(ArrayOps.class)
+        ArchRuleDefinition.theClass(EnsureArrayOps.class)
                 .should()
                 .beEnums()
                 .andShould(new ArchCondition<>("have exactly one enum constant with the name INSTANCE") {
@@ -31,15 +31,6 @@ public class ArrayOpsArchitectureTest {
                         var tryGetEnumConstant = javaClass.tryGetEnumConstant("INSTANCE");
                         if (tryGetEnumConstant.isEmpty()) {
                             events.add(SimpleConditionEvent.violated(javaClass, "must have enum constant INSTANCE"));
-                        }
-                    }
-                })
-                .andShould(new ArchCondition<>("should have exactly %s public methods".formatted(publicMethodsCurrentCount)) {
-                    @Override
-                    public void check(JavaClass javaClass, ConditionEvents events) {
-                        var publicMethods = getPublicMethods(javaClass);
-                        if (publicMethodsCurrentCount != publicMethods.size()) {
-                            events.add(SimpleConditionEvent.violated(javaClass, "not all public methods are counted: %s".formatted(publicMethods)));
                         }
                     }
                 })
@@ -64,9 +55,11 @@ public class ArrayOpsArchitectureTest {
                         events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, notEmptyCount)));
                     }
                 }
-                // Enum default methods
-                case "valueOf"  -> {}
-                case "values" -> {}
+                // Enum default methods, ignore
+                case "valueOf" -> {
+                }
+                case "values" -> {
+                }
                 default -> events.add(SimpleConditionEvent.violated(javaClass, "method name cannot be empty"));
             }
         }

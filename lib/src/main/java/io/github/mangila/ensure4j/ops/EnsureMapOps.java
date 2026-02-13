@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
-public enum MapOps {
+public enum EnsureMapOps {
     INSTANCE;
 
     /**

@@ -2,7 +2,7 @@ package io.github.mangila.ensure4j.ops;
 
 import org.junit.jupiter.api.Test;
 
-public class ObjectOpsTest {
+public class EnsureObjectOpsTest {
 
     @Test
     void test() {

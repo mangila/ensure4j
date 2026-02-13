@@ -4,14 +4,14 @@ import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
-import io.github.mangila.ensure4j.ops.CollectionOps;
+import io.github.mangila.ensure4j.ops.EnsureCollectionOps;
 import org.junit.jupiter.api.Test;
 
-public class CollectionOpsArchitectureTest {
+public class EnsureCollectionOpsArchitectureTest {
 
     @Test
     void test() {
-        ArchRuleDefinition.theClass(CollectionOps.class)
+        ArchRuleDefinition.theClass(EnsureCollectionOps.class)
                 .should()
                 .beEnums()
                 .andShould(new ArchCondition<>("have exactly one enum constant") {

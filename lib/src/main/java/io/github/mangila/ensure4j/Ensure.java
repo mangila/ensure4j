@@ -17,44 +17,44 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
  */
 public final class Ensure {
 
-    private static final ArrayOps ARRAY_OPS = ArrayOps.INSTANCE;
-    private static final CollectionOps COLLECTION_OPS = CollectionOps.INSTANCE;
-    private static final MapOps MAP_OPS = MapOps.INSTANCE;
-    private static final NumberOps NUMBER_OPS = NumberOps.INSTANCE;
-    private static final ObjectOps OBJECT_OPS = ObjectOps.INSTANCE;
-    private static final StringOps STRING_OPS = StringOps.INSTANCE;
+    private static final EnsureArrayOps ARRAY_OPS = EnsureArrayOps.INSTANCE;
+    private static final EnsureCollectionOps COLLECTION_OPS = EnsureCollectionOps.INSTANCE;
+    private static final EnsureMapOps MAP_OPS = EnsureMapOps.INSTANCE;
+    private static final EnsureNumberOps NUMBER_OPS = EnsureNumberOps.INSTANCE;
+    private static final EnsureObjectOps OBJECT_OPS = EnsureObjectOps.INSTANCE;
+    private static final EnsureStringOps STRING_OPS = EnsureStringOps.INSTANCE;
 
     private Ensure() {
         throw new IllegalStateException("Utility class");
     }
 
     @NonNull
-    public static ArrayOps arrays() {
+    public static EnsureArrayOps arrays() {
         return ARRAY_OPS;
     }
 
     @NonNull
-    public static CollectionOps collections() {
+    public static EnsureCollectionOps collections() {
         return COLLECTION_OPS;
     }
 
     @NonNull
-    public static MapOps maps() {
+    public static EnsureMapOps maps() {
         return MAP_OPS;
     }
 
     @NonNull
-    public static NumberOps numbers() {
+    public static EnsureNumberOps numbers() {
         return NUMBER_OPS;
     }
 
     @NonNull
-    public static ObjectOps objects() {
+    public static EnsureObjectOps objects() {
         return OBJECT_OPS;
     }
 
     @NonNull
-    public static StringOps strings() {
+    public static EnsureStringOps strings() {
         return STRING_OPS;
     }
 

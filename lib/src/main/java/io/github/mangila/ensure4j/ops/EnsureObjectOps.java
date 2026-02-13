@@ -8,7 +8,7 @@ import static io.github.mangila.ensure4j.Ensure.notNull;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
-public enum ObjectOps {
+public enum EnsureObjectOps {
     INSTANCE;
 
     /**
