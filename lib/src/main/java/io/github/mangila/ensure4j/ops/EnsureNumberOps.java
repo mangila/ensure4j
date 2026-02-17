@@ -409,4 +409,80 @@ public enum EnsureNumberOps {
         return negative(value, "value must be negative - (%s)".formatted(value));
     }
 
+    /**
+     * Ensures that the provided value is negative or zero.
+     *
+     * @param value                    the value to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the value is positive
+     * @return the input value if it is negative or zero
+     * @throws RuntimeException if the value is positive
+     */
+    public long negativeWithZero(long value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value > 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the provided value is negative or zero.
+     *
+     * @param value            the value to check
+     * @param exceptionMessage the message to include in the EnsureException if the value is positive
+     * @return the input value if it is negative or zero
+     * @throws EnsureException if the value is positive
+     */
+    public long negativeWithZero(long value, String exceptionMessage) throws EnsureException {
+        return negativeWithZero(value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided value is negative or zero.
+     *
+     * @param value the value to check
+     * @return the input value if it is negative or zero
+     * @throws EnsureException with the message "value must be negative or zero" - if the value is positive
+     */
+    public long negativeWithZero(long value) throws EnsureException {
+        return negativeWithZero(value, "value must be negative or zero - (%s)".formatted(value));
+    }
+
+    /**
+     * Ensures that the provided value is negative or zero.
+     *
+     * @param value                    the value to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the value is positive
+     * @return the input value if it is negative or zero
+     * @throws RuntimeException if the value is positive
+     */
+    public int negativeWithZero(int value, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (value > 0) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that the provided value is negative or zero.
+     *
+     * @param value            the value to check
+     * @param exceptionMessage the message to include in the EnsureException if the value is positive
+     * @return the input value if it is negative or zero
+     * @throws EnsureException if the value is positive
+     */
+    public int negativeWithZero(int value, String exceptionMessage) throws EnsureException {
+        return negativeWithZero(value, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided value is negative or zero.
+     *
+     * @param value the value to check
+     * @return the input value if it is negative or zero
+     * @throws EnsureException with the message "value must be negative or zero" - if the value is positive
+     */
+    public int negativeWithZero(int value) throws EnsureException {
+        return negativeWithZero(value, "value must be negative or zero - (%s)".formatted(value));
+    }
+
 }
