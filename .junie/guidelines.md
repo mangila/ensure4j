@@ -23,6 +23,7 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 Use the Maven wrapper (`./mvnw`) to run tests.
 
 Only run class tests for the class you are working on. Never run a full test suite.
+You know you get weird when a test fails, but stay calm and fix it.
 
 - **Specific test class**: `./mvnw test -Dtest=<TEST CLASS>`
 
