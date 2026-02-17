@@ -7,21 +7,21 @@ import io.github.mangila.ensure4j.ops.EnsureObjectOps;
 import java.util.List;
 
 /**
- * General usage examples for Ensure4j v3.0.0.
+ * General usage examples for Ensure4j v3
  */
 public class V3GeneralUsage {
 
-    private final EnsureObjectOps objects = Ensure.objects();
-    private final EnsureCollectionOps collections = Ensure.collections();
+    private final EnsureObjectOps ensureObjectOps = Ensure.objects();
+    private final EnsureCollectionOps ensureCollectionOps = Ensure.collections();
 
     public void validateTask(String taskName, List<String> tags) {
         // Fluent API - returns the value
         String validName = Ensure.strings().notBlank(taskName);
         
         // Using field members
-        objects.isInstanceOf(List.class, tags, "Tags must be a list");
-        collections.notEmpty(tags, "At least one tag is required");
-        collections.notContainsNull(tags, "Tags cannot contain null elements");
+        ensureObjectOps.isInstanceOf(List.class, tags, "Tags must be a list");
+        ensureCollectionOps.notEmpty(tags, "At least one tag is required");
+        ensureCollectionOps.notContainsNull(tags, "Tags cannot contain null elements");
 
         System.out.println("Task '" + validName + "' with tags " + tags + " is valid.");
     }

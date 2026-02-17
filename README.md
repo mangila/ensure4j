@@ -19,7 +19,8 @@ There is also support for functional programming pipelines and Java Streams.
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
 - [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 
-Using Ensure4j with vibe coding is a great way to safeguard the integrity of your code. This library will help the agent to act more defensive.
+Using Ensure4j with vibe coding is a great way to safeguard the integrity of your code. This library will help the agent
+to act more defensive.
 
 ## Get started
 
@@ -38,7 +39,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
 </dependency>
 ```
 
@@ -98,12 +99,12 @@ Here's what the same code looks like with Ensure4j:
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
-private static final EnsureNumberOps ensureNumbers = Ensure.numbers();
+private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
 // other class members
 
 public void placeOrder(Order order) {
     Ensure.notNull(order, "Order cannot be null");
-    ensureNumbers.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    ENSURE_NUMBER_OPS.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
     // do business logic
 }
 ```
@@ -117,12 +118,12 @@ need. For more complex cases, you can use the ops APIs to get moar preconditions
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
-private static final EnsureNumberOps ensureNumbers = Ensure.numbers();
+private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
 // other class members
 
 public void placeOrder(Order order) {
     Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
-    ensureNumbers.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    ENSURE_NUMBER_OPS.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
     // do business logic
 }
 ```
@@ -136,11 +137,11 @@ understand the problem. The default ones might not be enough for your use case.*
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
-private static final EnsureNumberOps ensureNumbers = Ensure.numbers();
+private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
 
 public void placeOrder(Order order) {
     Ensure.notNull(order); // will throw an EnsureException with the message "object must not be null"
-    ensureNumbers.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    ENSURE_NUMBER_OPS.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
 }
 ```
 
