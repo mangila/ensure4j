@@ -56,6 +56,13 @@ public class EnsureNumberOpsArchitectureTest {
                         events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, negativeCount)));
                     }
                 }
+                case "negativeWithZero" -> {
+                    int negativeWithZeroCount = 6;
+                    var count = countByName.get(methodName);
+                    if (count != negativeWithZeroCount) {
+                        events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, negativeWithZeroCount)));
+                    }
+                }
                 case "positive" -> {
                     int positiveCount = 6;
                     var count = countByName.get(methodName);
