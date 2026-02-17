@@ -1,50 +1,45 @@
 # Development Guidelines for Ensure4j
 
-## Build/Configuration Instructions
+## Context and your purpose
+
+You are a Java developer and an QA Engineer, and you want to contribute to the project.
 
 ### Prerequisites
 
 - **Java 21**: The project is compiled with Java 21 and is compatible with Java 17+.
 - **Maven**: Use the provided Maven wrapper (`./mvnw`).
 
-### Build Commands
+## How to contribute
 
-- **Clean and Build**: `./mvnw clean install`
-- **Build without tests**: `./mvnw clean install -DskipTests`
+- Only contribute to the `lib` and `examples` module.
+- Always write tests unit tests for new methods.
+- Ignore the architecture tests if it fails, it's ok.
+- The code shall follow the Google Java Style Guide
 
-### Git Hooks
-
-The project uses `pre-commit` to maintain code quality.
-
-1. Create a virtual environment: `python -m venv venv`
-2. Activate it: `source venv/bin/activate` (or appropriate for your OS)
-3. Install requirements: `pip install -r requirements.txt`
-4. Install hooks: `pre-commit install`
-
-## Testing Information
-
-### Frameworks
-
-- **JUnit 5**: Standard testing framework.
-- **AssertJ**: Used for fluent assertions.
-- **ArchUnit**: Used to enforce architectural constraints (e.g., verifying method counts and visibility in
-  `Ensure.java`).
+## Testing
 
 ### Running Tests
 
 Use the Maven wrapper (`./mvnw`) to run tests.
 
-- **All tests**: `./mvnw test`
-- **Specific module**: `./mvnw test -pl lib`
-- **Specific test class**: `./mvnw test -Dtest=EnsureTest`
+Only run class tests for the class you are working on. Never run a full test suite.
+
+- **Specific test class**: `./mvnw test -Dtest=<TEST CLASS>`
+
+### Testing Frameworks
+
+- **JUnit 6**: Standard testing framework.
+- **AssertJ**: Used for fluent assertions.
+
+### Writing Tests
+
+- Use descriptive `@DisplayName` where it adds clarity.
+- For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
 
 ### Guidelines for New Tests
 
 - Use descriptive `@DisplayName` where it adds clarity.
 - For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
-- If adding new public methods to `Ensure.java`, DO NOT update the `EnsureTest.archTest()` this will handled by me. The
-  test should FAIL, and you can move on.
-- Test files are organized by data type or feature (e.g., `StringTest.java`, `CollectionTest.java`).
 
 ### Simple Test Example
 
@@ -79,8 +74,9 @@ public class MyNewTest {
 
 - **Zero Dependencies**: The `lib` module must remain free of external production dependencies (except for `jspecify`
   for annotations).
-- **Utility Class Pattern**: `Ensure.java` is a utility class with a private constructor that throws
+- **Utility Hub Class Pattern**: `Ensure.java` is a utility hub class with a private constructor that throws
   `IllegalStateException("Utility class")`.
+- Ops Class Pattern: `<TYPE>Ops` enum classes are used to provide public methods for validating a specific type.
 - **Method Consistency**: Most methods in `Ensure` come in three variants:
     1. `method(value)`: Uses default `EnsureException` and default message.
     2. `method(value, String message)`: Uses default `EnsureException` with custom a message.
@@ -99,11 +95,9 @@ public class MyNewTest {
 
 ### Performance
 
-Avoid heavy operations inside `Ensure` methods as they are often used in performance-critical paths.
+Avoid heavy operations for methods as they are often used in performance-critical paths.
 
 ### Review
 
-New methods should be added to the `examples` project
-
-After a successful session write to an .md file called CHANGES.md with what you changed togheter with a "Findings"
+After a successful session write to an .md file called `CHANGES.md` with what you changed together with a "Findings"
 section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.
