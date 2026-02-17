@@ -6,6 +6,10 @@ import java.util.function.Supplier;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.*;
 
+/**
+ * Provides utility methods for validating and operating on strings.
+ * This enum implements singleton behavior, ensuring a single instance is used throughout.
+ */
 public enum EnsureStringOps {
     INSTANCE;
 

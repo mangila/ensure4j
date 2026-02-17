@@ -1,19 +1,35 @@
-package io.github.mangila.ensure4j.architecture;
+package io.github.mangila.ensure4j.ops.architecture;
 
 import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import io.github.mangila.ensure4j.ArchTestUtils;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class EnsureOpsArchitectureTest {
 
     @Test
     void test() {
+        int count = ArchTestUtils.ENSURE_OPS_CLASSES
+                .stream()
+                .peek(System.out::println)
+                .toList()
+                .size();
+        assertThat(count)
+                .as("number of EnsureOps enum classes")
+                .isEqualTo(8);
         ArchRuleDefinition.classes()
                 .should()
                 .beEnums()
+                .andShould()
+                .haveSimpleNameEndingWith("Ops")
+                .andShould()
+                .haveModifier(JavaModifier.PUBLIC)
                 .andShould(new ArchCondition<>("have exactly one enum constant with the name INSTANCE") {
                     @Override
                     public void check(JavaClass javaClass, ConditionEvents events) {

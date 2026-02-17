@@ -4,17 +4,25 @@ import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import io.github.mangila.ensure4j.ArchTestUtils;
+import io.github.mangila.ensure4j.ClazzTest;
 import io.github.mangila.ensure4j.Ensure;
+import io.github.mangila.ensure4j.PublicMethodArchitectureTest;
 import org.junit.jupiter.api.Test;
 
-public class EnsureArchitectureTest {
+public class EnsureArchitectureTest implements ClazzTest, PublicMethodArchitectureTest {
+
+    @Override
+    public Class<?> clazz() {
+        return Ensure.class;
+    }
 
     @Test
     void test() {
-        ArchRuleDefinition.theClass(Ensure.class)
+        ArchRuleDefinition.theClass(clazz())
                 .should()
                 .bePublic()
-                .andShould(new ArchCondition<>("assert Ensure public methods") {
+                .andShould(new ArchCondition<>("assert %s public methods".formatted(clazz().getSimpleName())) {
                     @Override
                     public void check(JavaClass javaClass, ConditionEvents events) {
                         assertPublicMethods(javaClass, events);
@@ -23,7 +31,8 @@ public class EnsureArchitectureTest {
                 .check(ArchTestUtils.ENSURE_TOP_LEVEL);
     }
 
-    private void assertPublicMethods(JavaClass javaClass, ConditionEvents events) {
+    @Override
+    public void assertPublicMethods(JavaClass javaClass, ConditionEvents events) {
         var publicMethodNames = ArchTestUtils.getPublicMethodNames(javaClass);
         var countByName = ArchTestUtils.getCountByPublicMethodNames(javaClass);
         for (String methodName : publicMethodNames) {
@@ -78,6 +87,7 @@ public class EnsureArchitectureTest {
                     var count = countByName.get(methodName);
                     ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, notNullOrElseGetCount, count);
                 }
+                // TODO: remove
                 case "notNullOrElseThrow" -> {
                     int notNullOrElseThrowCount = 2;
                     var count = countByName.get(methodName);
@@ -92,5 +102,4 @@ public class EnsureArchitectureTest {
             }
         }
     }
-
 }

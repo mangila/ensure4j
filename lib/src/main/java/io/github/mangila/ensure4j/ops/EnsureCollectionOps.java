@@ -8,6 +8,10 @@ import java.util.function.Supplier;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
+/**
+ * Provides utility methods for validating and operating on collections.
+ * This enum implements singleton behavior, ensuring a single instance is used throughout.
+ */
 public enum EnsureCollectionOps {
     INSTANCE;
 

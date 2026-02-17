@@ -1,26 +1,34 @@
-package io.github.mangila.ensure4j.architecture;
+package io.github.mangila.ensure4j.ops.architecture;
 
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import io.github.mangila.ensure4j.ArchTestUtils;
+import io.github.mangila.ensure4j.ClazzTest;
+import io.github.mangila.ensure4j.PublicMethodArchitectureTest;
 import io.github.mangila.ensure4j.ops.EnsureStringOps;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getCountByPublicMethodNames;
-import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getPublicMethodNames;
+import static io.github.mangila.ensure4j.ArchTestUtils.getCountByPublicMethodNames;
+import static io.github.mangila.ensure4j.ArchTestUtils.getPublicMethodNames;
 
-public class EnsureStringOpsArchitectureTest {
+public class EnsureStringOpsArchitectureTest implements ClazzTest, PublicMethodArchitectureTest {
+
+    @Override
+    public Class<?> clazz() {
+        return EnsureStringOps.class;
+    }
 
     @Test
     void test() {
-        ArchRuleDefinition.theClass(EnsureStringOps.class)
+        ArchRuleDefinition.theClass(clazz())
                 .should()
                 .beEnums()
-                .andShould(new ArchCondition<>("assert EnsureStringOps public methods named") {
+                .andShould(new ArchCondition<>("assert %s public methods named".formatted(clazz().getSimpleName())) {
                     @Override
                     public void check(JavaClass javaClass, ConditionEvents events) {
                         assertPublicMethods(javaClass, events);
@@ -29,7 +37,8 @@ public class EnsureStringOpsArchitectureTest {
                 .check(ArchTestUtils.ENSURE_OPS_CLASSES);
     }
 
-    private void assertPublicMethods(JavaClass javaClass, ConditionEvents events) {
+    @Override
+    public void assertPublicMethods(JavaClass javaClass, ConditionEvents events) {
         List<String> publicMethodNames = getPublicMethodNames(javaClass);
         Map<String, Long> countByName = getCountByPublicMethodNames(javaClass);
         for (String methodName : publicMethodNames) {
