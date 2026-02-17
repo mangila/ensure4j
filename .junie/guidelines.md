@@ -132,3 +132,6 @@ Avoid heavy operations for methods as they are often used in performance-critica
 
 After a successful session write to an .md file called `CHANGES.md` with what you changed together with a "Findings"
 section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.
+
+## Prompt log
+Add a log entry to the `PROMPT_LOG.md` file with the date and the prompt I gave you.

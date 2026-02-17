@@ -63,6 +63,13 @@ public class EnsureNumberOpsArchitectureTest {
                         events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, positiveCount)));
                     }
                 }
+                case "positiveWithZero" -> {
+                    int positiveWithZeroCount = 6;
+                    var count = countByName.get(methodName);
+                    if (count != positiveWithZeroCount) {
+                        events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, positiveWithZeroCount)));
+                    }
+                }
                 // Enum default methods, ignore
                 case "valueOf" -> {
                 }
