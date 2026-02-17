@@ -109,4 +109,30 @@ public class EnsureNumberOpsTest {
                 .isInstanceOf(EnsureException.class)
                 .hasMessage("value must be negative - (0)");
     }
+
+    @Test
+    void positiveWithZeroIntSuccess() {
+        assertThat(ops.positiveWithZero(0)).isEqualTo(0);
+        assertThat(ops.positiveWithZero(1)).isEqualTo(1);
+    }
+
+    @Test
+    void positiveWithZeroIntFailure() {
+        assertThatThrownBy(() -> ops.positiveWithZero(-1))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be positive or zero - (-1)");
+    }
+
+    @Test
+    void positiveWithZeroLongSuccess() {
+        assertThat(ops.positiveWithZero(0L)).isEqualTo(0L);
+        assertThat(ops.positiveWithZero(1L)).isEqualTo(1L);
+    }
+
+    @Test
+    void positiveWithZeroLongFailure() {
+        assertThatThrownBy(() -> ops.positiveWithZero(-1L))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("value must be positive or zero - (-1)");
+    }
 }
