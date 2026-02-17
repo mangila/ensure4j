@@ -53,6 +53,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MyNewTest {
     @Test
+    @DisplayName("should pass when not null")
     void shouldPassWhenNotNull() {
         String value = "Hello";
         Ensure.notNull(value);
@@ -60,6 +61,7 @@ public class MyNewTest {
     }
 
     @Test
+    @DisplayName("should throw exception when null")
     void shouldThrowExceptionWhenNull() {
         assertThatThrownBy(() -> Ensure.notNull(null))
                 .isInstanceOf(EnsureException.class)
@@ -80,7 +82,7 @@ public class MyNewTest {
 - **Method Consistency**: Most methods in `Ensure` come in three variants:
     1. `method(value)`: Uses default `EnsureException` and default message.
     2. `method(value, String message)`: Uses default `EnsureException` with custom a message.
-    3. `method(value, Supplier<RuntimeException> supplier)`: Uses a custom exception provided by the supplier. Use the
+    3. `method(value, Supplier<RuntimeException> runtimeExceptionSupplier)`: Uses a custom exception provided by the supplier. Use the
        private static utility method `getSupplierOrThrow` to get the value from the supplier.
     4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met. **Optional** if the method
        could not be implemented with a default value.
@@ -92,6 +94,33 @@ public class MyNewTest {
 - **Fluent API**: Methods should return the validated value whenever possible to support fluent usage and stream
   pipelines.
 - **Javadoc**: All public methods should have clear Javadoc.
+
+### Example
+
+You can find more context if you scan an enum in the `lib` module in the `ops` package. 
+
+```java
+/**
+ * java docs
+ */
+public static <T> T method(T value) {
+    // the implementation
+}
+
+/**
+ * java docs
+*/ 
+public static <T> T method(T value, String errorMessage) {
+    // the implementation
+}
+
+/**
+ * java docs
+ */
+public static <T> T method(T value, Supplier<RuntimeException> runtimeExceptionSupplier) {
+    // the implementation
+}
+```
 
 ### Performance
 
