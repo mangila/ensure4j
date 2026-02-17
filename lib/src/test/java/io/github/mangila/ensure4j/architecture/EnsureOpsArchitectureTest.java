@@ -27,6 +27,6 @@ public class EnsureOpsArchitectureTest {
                         }
                     }
                 })
-                .check(ArchTestUtils.ensureOpsClasses);
+                .check(ArchTestUtils.ENSURE_OPS_CLASSES);
     }
 }

@@ -3,7 +3,6 @@ package io.github.mangila.ensure4j.architecture;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
-import com.tngtech.archunit.lang.SimpleConditionEvent;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import io.github.mangila.ensure4j.ops.EnsureObjectOps;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getCountByMethodName;
+import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getCountByPublicMethodNames;
 import static io.github.mangila.ensure4j.architecture.ArchTestUtils.getPublicMethodNames;
 
 public class EnsureObjectOpsArchitectureTest {
@@ -27,42 +26,37 @@ public class EnsureObjectOpsArchitectureTest {
                         assertPublicMethods(javaClass, events);
                     }
                 })
-                .check(ArchTestUtils.ensureOpsClasses);
+                .check(ArchTestUtils.ENSURE_OPS_CLASSES);
     }
 
     private void assertPublicMethods(JavaClass javaClass, ConditionEvents events) {
         List<String> publicMethodNames = getPublicMethodNames(javaClass);
-        Map<String, Long> countByName = getCountByMethodName(javaClass);
+        Map<String, Long> countByName = getCountByPublicMethodNames(javaClass);
         for (String methodName : publicMethodNames) {
             switch (methodName) {
                 case "notEmpty" -> {
                     int notEmptyCount = 3;
                     var count = countByName.get(methodName);
-                    if (count != notEmptyCount) {
-                        events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, notEmptyCount)));
-                    }
+                    ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, notEmptyCount, count);
                 }
                 case "isEquals" -> {
                     int isEqualsCount = 6;
                     var count = countByName.get(methodName);
-                    if (count != isEqualsCount) {
-                        events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, isEqualsCount)));
-                    }
+                    ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, isEqualsCount, count);
                 }
                 case "isInstanceOf" -> {
                     int isInstanceOfCount = 3;
                     var count = countByName.get(methodName);
-                    if (count != isInstanceOfCount) {
-                        events.add(SimpleConditionEvent.violated(javaClass, "method name %s should be called %s times".formatted(methodName, isInstanceOfCount)));
-                    }
+                    ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, isInstanceOfCount, count);
                 }
-                // Enum default methods, ignore
+                // Enum default methods
                 case "valueOf" -> {
+                    // do nothing
                 }
                 case "values" -> {
+                    // do nothing
                 }
-                default ->
-                        events.add(SimpleConditionEvent.violated(javaClass, "missing method name %s".formatted(methodName)));
+                default -> ArchTestUtils.addMissingMethodViolationEvent(javaClass, events, methodName);
             }
         }
     }
