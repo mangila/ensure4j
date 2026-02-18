@@ -93,8 +93,6 @@ public class MyNewTest {
     5. `methodOrElseGet(value, Supplier<T> supplier)`: Return a default value computed by the supplier if the
        condition is not met. Use the private static utility method `getSupplierOrThrow` to get the value from the
        supplier. **Optional** if the method could not be implemented with a default value.
-    6. `methodOrElseThrow(value, Supplier<RuntimeException> supplier)` : Throws a custom exception if the condition is
-       not met.
 - **Fluent API**: Methods should return the validated value whenever possible to support fluent usage and stream
   pipelines.
 - **Javadoc**: All public methods should have clear Javadoc.
@@ -107,21 +105,35 @@ You can find more context if you scan an enum in the `lib` module in the `ops` p
 /**
  * java docs
  */
-public static <T> T method(T value) {
+public <T> T method(T value) {
     // the implementation
 }
 
 /**
  * java docs
  */
-public static <T> T method(T value, String errorMessage) {
+public <T> T method(T value, String errorMessage) {
     // the implementation
 }
 
 /**
  * java docs
  */
-public static <T> T method(T value, Supplier<RuntimeException> runtimeExceptionSupplier) {
+public <T> T method(T value, Supplier<RuntimeException> runtimeExceptionSupplier) {
+    // the implementation
+}
+
+/**
+ * java docs
+ */
+public <T> T methodOrElse(T value, T fallbackValue) {
+    // the implementation
+}
+
+/**
+ * java docs
+ */
+public <T> T methodOrElseGet(T value, Supplier<T> fallbackSupplier) {
     // the implementation
 }
 ```
