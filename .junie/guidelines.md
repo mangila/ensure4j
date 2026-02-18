@@ -30,7 +30,7 @@ Abort everything if tests fail in more than two iterations.
 
 ### Testing Frameworks
 
-- **JUnit 6**: Standard testing framework.
+- **JUnit 5 or JUnit6 (when you know how to use it)**: Standard testing framework.
 - **AssertJ**: Used for fluent assertions.
 
 ### Writing Tests
@@ -81,10 +81,12 @@ public class MyNewTest {
 - **Utility Hub Class Pattern**: `Ensure.java` is a utility hub class with a private constructor that throws
   `IllegalStateException("Utility class")`.
 - Ops Class Pattern: `<TYPE>Ops` enum classes are used to provide public methods for validating a specific type.
+- Only create utility methods in the `<Type>Ops` enum classes
 - **Method Consistency**: Most methods in `Ensure` come in three variants:
     1. `method(value)`: Uses default `EnsureException` and default message.
     2. `method(value, String message)`: Uses default `EnsureException` with custom a message.
-    3. `method(value, Supplier<RuntimeException> runtimeExceptionSupplier)`: Uses a custom exception provided by the supplier. Use the
+    3. `method(value, Supplier<RuntimeException> runtimeExceptionSupplier)`: Uses a custom exception provided by the
+       supplier. Use the
        private static utility method `getSupplierOrThrow` to get the value from the supplier.
     4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met. **Optional** if the method
        could not be implemented with a default value.
@@ -99,7 +101,7 @@ public class MyNewTest {
 
 ### Example
 
-You can find more context if you scan an enum in the `lib` module in the `ops` package. 
+You can find more context if you scan an enum in the `lib` module in the `ops` package.
 
 ```java
 /**
@@ -111,7 +113,7 @@ public static <T> T method(T value) {
 
 /**
  * java docs
-*/ 
+ */
 public static <T> T method(T value, String errorMessage) {
     // the implementation
 }
@@ -134,4 +136,5 @@ After a successful session write to an .md file called `CHANGES.md` with what yo
 section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.
 
 ## Prompt log
+
 Add a log entry to the `PROMPT_LOG.md` file with the date and the prompt I gave you.

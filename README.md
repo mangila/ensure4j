@@ -37,9 +37,9 @@ If you’re building your project using Maven, you can add the following depende
 ```xml
 
 <dependency>
-    <groupId>io.github.mangila</groupId>
-    <artifactId>ensure4j</artifactId>
-    <version>3.0.1</version>
+  <groupId>io.github.mangila</groupId>
+  <artifactId>ensure4j</artifactId>
+  <version>3.0.2</version>
 </dependency>
 ```
 

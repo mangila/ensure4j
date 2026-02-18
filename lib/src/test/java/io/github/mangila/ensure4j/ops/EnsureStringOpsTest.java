@@ -133,4 +133,70 @@ public class EnsureStringOpsTest {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("custom exception");
     }
+
+    @Test
+    void startsWithSuccess() {
+        String value = "hello world";
+        assertThat(ops.startsWith("hello", value)).isEqualTo(value);
+    }
+
+    @Test
+    void startsWithFailure() {
+        assertThatThrownBy(() -> ops.startsWith("world", "hello world"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string must start with world");
+        assertThatThrownBy(() -> ops.startsWith("hello", null))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string must start with hello");
+        assertThatThrownBy(() -> ops.startsWith(null, "hello world"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("prefix must not be null");
+    }
+
+    @Test
+    void startsWithCustomMessage() {
+        assertThatThrownBy(() -> ops.startsWith("world", "hello world", "custom message"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("custom message");
+    }
+
+    @Test
+    void startsWithCustomSupplier() {
+        assertThatThrownBy(() -> ops.startsWith("world", "hello world", () -> new RuntimeException("custom exception")))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("custom exception");
+    }
+
+    @Test
+    void endsWithSuccess() {
+        String value = "hello world";
+        assertThat(ops.endsWith("world", value)).isEqualTo(value);
+    }
+
+    @Test
+    void endsWithFailure() {
+        assertThatThrownBy(() -> ops.endsWith("hello", "hello world"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string must end with hello");
+        assertThatThrownBy(() -> ops.endsWith("world", null))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("string must end with world");
+        assertThatThrownBy(() -> ops.endsWith(null, "hello world"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("suffix must not be null");
+    }
+
+    @Test
+    void endsWithCustomMessage() {
+        assertThatThrownBy(() -> ops.endsWith("hello", "hello world", "custom message"))
+                .isInstanceOf(EnsureException.class)
+                .hasMessage("custom message");
+    }
+
+    @Test
+    void endsWithCustomSupplier() {
+        assertThatThrownBy(() -> ops.endsWith("hello", "hello world", () -> new RuntimeException("custom exception")))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("custom exception");
+    }
 }

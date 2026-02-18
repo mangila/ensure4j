@@ -1,4 +1,4 @@
-package io.github.mangila.ensure4j.architecture;
+package io.github.mangila.ensure4j;
 
 import com.tngtech.archunit.core.domain.*;
 import com.tngtech.archunit.core.importer.ClassFileImporter;

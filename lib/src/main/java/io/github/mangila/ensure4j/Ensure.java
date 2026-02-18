@@ -6,9 +6,6 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Supplier;
 
-import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
-import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
-
 /**
  * <p>
  * Acts as a utility hub for typed pre- and post-condition checks but keeps the most frequently used ones in the top level class.
@@ -17,6 +14,8 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
  */
 public final class Ensure {
 
+    private static final EnsureNullOps NULL_OPS = EnsureNullOps.INSTANCE;
+    private static final EnsureBooleanOps BOOLEAN_OPS = EnsureBooleanOps.INSTANCE;
     private static final EnsureArrayOps ARRAY_OPS = EnsureArrayOps.INSTANCE;
     private static final EnsureCollectionOps COLLECTION_OPS = EnsureCollectionOps.INSTANCE;
     private static final EnsureMapOps MAP_OPS = EnsureMapOps.INSTANCE;
@@ -28,213 +27,144 @@ public final class Ensure {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * @see EnsureArrayOps
+     */
     @NonNull
     public static EnsureArrayOps arrays() {
         return ARRAY_OPS;
     }
 
+    /**
+     * @see EnsureCollectionOps
+     */
     @NonNull
     public static EnsureCollectionOps collections() {
         return COLLECTION_OPS;
     }
 
+    /**
+     * @see EnsureMapOps
+     */
     @NonNull
     public static EnsureMapOps maps() {
         return MAP_OPS;
     }
 
+    /**
+     * @see EnsureNumberOps
+     */
     @NonNull
     public static EnsureNumberOps numbers() {
         return NUMBER_OPS;
     }
 
+    /**
+     * @see EnsureObjectOps
+     */
     @NonNull
     public static EnsureObjectOps objects() {
         return OBJECT_OPS;
     }
 
+    /**
+     * @see EnsureStringOps
+     */
     @NonNull
     public static EnsureStringOps strings() {
         return STRING_OPS;
     }
 
     /**
-     * Returns the given object if it is not null; otherwise, it evaluates and returns the result from the supplied {@link Supplier}.
-     * If the fallbackSupplier is null or produces a null value, it throws an {@link EnsureException}.
-     *
-     * @param <T>              the type of the object being checked
-     * @param object           the object to check for non-nullity
-     * @param fallbackSupplier the fallbackSupplier to provide an alternative object if {@code object} is null
-     * @return the non-null {@code object}, or the value provided by the {@code fallbackSupplier} if {@code object} is null
-     * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
+     * @see EnsureNullOps#notNullOrElseGet(Object, Supplier)
      */
     public static <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier) throws EnsureException {
-        if (isNull(object)) {
-            return getSupplierOrThrow(fallbackSupplier);
-        }
-        return object;
+        return NULL_OPS.notNullOrElseGet(object, fallbackSupplier);
     }
 
     /**
-     * Returns the provided object if it is not null; otherwise, returns the given default object.
-     *
-     * @param <T>           the type of the objects being evaluated
-     * @param object        the object to check for nullity
-     * @param defaultObject the default object to return if {@code object} is null
-     * @return {@code object} if it is not null, otherwise {@code defaultObject}
+     * @see EnsureNullOps#notNullOrElse(Object, Object)
      */
     public static <T> T notNullOrElse(T object, T defaultObject) {
-        if (isNull(object)) {
-            return defaultObject;
-        }
-        return object;
+        return NULL_OPS.notNullOrElse(object, defaultObject);
     }
 
     /**
-     * Ensures that the specified object is not null. If the object is null, a RuntimeException
-     * provided by the given runtimeExceptionSupplier is thrown.
-     *
-     * @param <T>                      the type of the object being checked
-     * @param object                   the object to check for nullity
-     * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides a RuntimeException to be thrown if the object is null
-     * @return the non-null object
-     * @throws RuntimeException if the object is null and the runtimeExceptionSupplier provides an exception
+     * @see EnsureNullOps#notNullOrElseThrow(Object, Supplier)
      */
+    @Deprecated(since = "3.0.2", forRemoval = true)
     public static <T> T notNullOrElseThrow(T object, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        return notNull(object, runtimeExceptionSupplier);
+        return NULL_OPS.notNullOrElseThrow(object, runtimeExceptionSupplier);
     }
 
     /**
-     * Ensures that the given object is not null, and returns the object if it is non-null.
-     * If the object is null, this method throws a {@link RuntimeException}.
-     *
-     * @param <T>    the type of the object
-     * @param object the object to be checked for nullity
-     * @return the non-null object passed as input
-     * @throws RuntimeException with the message "object must not be null" - if the object is null
+     * @see EnsureNullOps#notNullOrElseThrow(Object)
      */
+    @Deprecated(since = "3.0.2", forRemoval = true)
     public static <T> T notNullOrElseThrow(T object) throws RuntimeException {
-        return notNull(object, () -> EnsureException.of("object must not be null"));
+        return NULL_OPS.notNullOrElseThrow(object);
     }
 
     /**
-     * Ensures that the provided object is not null. If the object is null, a {@link RuntimeException}
-     * provided by the given {@link Supplier} is thrown.
-     *
-     * @param <T>                      the type of the object
-     * @param object                   the object to be checked for non-nullity
-     * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException} to be thrown if {@code object} is null
-     * @return the non-null object
-     * @throws RuntimeException if {@code object} is null, with the exception derived from the {@code runtimeExceptionSupplier}
+     * @see EnsureNullOps#notNull(Object, Supplier)
      */
     public static <T> T notNull(T object, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        if (isNull(object)) {
-            throw getSupplierOrThrow(runtimeExceptionSupplier);
-        }
-        return object;
+        return NULL_OPS.notNull(object, runtimeExceptionSupplier);
     }
 
     /**
-     * Ensures that the provided object is not null. If the object is null, an {@link EnsureException}
-     * with the given message is thrown.
-     *
-     * @param <T>     the type of the object
-     * @param object  the object to be checked for non-nullity
-     * @param message the exception message to be included if {@code object} is null
-     * @return the non-null object
-     * @throws EnsureException if {@code object} is null
+     * @see EnsureNullOps#notNull(Object, String)
      */
     public static <T> T notNull(T object, String message) throws EnsureException {
-        return notNull(object, () -> EnsureException.of(message));
+        return NULL_OPS.notNull(object, message);
     }
 
     /**
-     * Ensures that the provided object is not null. If the object is null, an {@link EnsureException} is thrown.
-     *
-     * @param <T>    the type of the object
-     * @param object the object to be checked for non-nullity
-     * @return the non-null object
-     * @throws EnsureException with the message "object must not be null" - if {@code object} is null
+     * @see EnsureNullOps#notNull(Object)
      */
     public static <T> T notNull(T object) throws EnsureException {
-        return notNull(object, "object must not be null");
+        return NULL_OPS.notNull(object);
     }
 
     /**
-     * Validates that the given boolean expression is true. If the expression evaluates to false,
-     * a {@link RuntimeException} provided by the specified {@link Supplier} is thrown.
-     *
-     * @param expression               the boolean expression to be evaluated
-     * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException}
-     *                                 to be thrown if {@code expression} evaluates to false
-     * @throws RuntimeException if {@code expression} evaluates to false, with the exception derived from the {@code runtimeExceptionSupplier}
+     * @see EnsureBooleanOps#isTrue(boolean, Supplier)
      */
-    public static void isTrue(boolean expression,
-                              Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        if (!expression) {
-            throw getSupplierOrThrow(runtimeExceptionSupplier);
-        }
+    public static void isTrue(boolean expression, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        BOOLEAN_OPS.isTrue(expression, runtimeExceptionSupplier);
     }
 
     /**
-     * Ensures that the provided expression evaluates to {@code true}. If the expression evaluates to {@code false},
-     * an {@link EnsureException} is thrown with the provided exception message.
-     *
-     * @param expression       the boolean expression to be evaluated
-     * @param exceptionMessage the exception message to be included if the expression evaluates to {@code false}
-     * @throws EnsureException if {@code expression} evaluates to {@code false}
+     * @see EnsureBooleanOps#isTrue(boolean, String)
      */
     public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
-        isTrue(expression, () -> EnsureException.of(exceptionMessage));
+        BOOLEAN_OPS.isTrue(expression, exceptionMessage);
     }
 
     /**
-     * Ensures that the provided boolean value is true. If the value is false,
-     * an {@link EnsureException} with a default message is thrown.
-     *
-     * @param expression the boolean value to check; must be true
-     * @throws EnsureException with the message "boolean must be true" - if the provided value is false
+     * @see EnsureBooleanOps#isTrue(boolean)
      */
     public static void isTrue(boolean expression) throws EnsureException {
-        isTrue(expression, "boolean must be true");
+        BOOLEAN_OPS.isTrue(expression);
     }
 
     /**
-     * Ensures that the provided boolean value is false. If the value is true, a {@link RuntimeException}
-     * provided by the given {@link Supplier} is thrown.
-     *
-     * @param expression               the boolean value to check
-     * @param runtimeExceptionSupplier the runtimeExceptionSupplier responsible for providing the {@link RuntimeException}
-     *                                 to be thrown if {@code expression} is true
-     * @throws RuntimeException if {@code expression} is true, with the exception derived from the {@code runtimeExceptionSupplier}
+     * @see EnsureBooleanOps#isFalse(boolean, Supplier)
      */
-    public static void isFalse(boolean expression,
-                               Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
-        if (expression) {
-            throw getSupplierOrThrow(runtimeExceptionSupplier);
-        }
+    public static void isFalse(boolean expression, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        BOOLEAN_OPS.isFalse(expression, runtimeExceptionSupplier);
     }
 
     /**
-     * Ensures that the provided boolean value is false. If the value is true,
-     * an {@link EnsureException} with the provided exception message is thrown.
-     *
-     * @param expression       the boolean value to be checked
-     * @param exceptionMessage the exception message to include if {@code expression} is true
-     * @throws EnsureException if {@code expression} is true
+     * @see EnsureBooleanOps#isFalse(boolean, String)
      */
     public static void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
-        isFalse(expression, () -> EnsureException.of(exceptionMessage));
+        BOOLEAN_OPS.isFalse(expression, exceptionMessage);
     }
 
     /**
-     * Ensures that the provided boolean value is false. If the value is true,
-     * an {@link EnsureException} with a default message is thrown.
-     *
-     * @param expression the boolean value to be checked
-     * @throws EnsureException with the message "boolean must be false" - if {@code expression} is true
+     * @see EnsureBooleanOps#isFalse(boolean)
      */
     public static void isFalse(boolean expression) throws EnsureException {
-        isFalse(expression, "boolean must be false");
+        BOOLEAN_OPS.isFalse(expression);
     }
 }
