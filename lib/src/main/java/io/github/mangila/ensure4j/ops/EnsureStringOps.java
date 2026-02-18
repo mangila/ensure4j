@@ -164,4 +164,92 @@ public enum EnsureStringOps {
     public String maxLength(int max, String string) throws EnsureException {
         return maxLength(max, string, "string length must be at most %d".formatted(max));
     }
+
+    /**
+     * Ensures that the provided string starts with the specified prefix.
+     *
+     * @param prefix                   the prefix that the string must start with
+     * @param string                   the string to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the string does not start with the prefix
+     * @return the input string if it starts with the prefix
+     * @throws RuntimeException if the string does not start with the prefix or if either parameter is null
+     */
+    public String startsWith(String prefix, String string, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (isNull(prefix)) {
+            throw EnsureException.of("prefix must not be null");
+        }
+        if (isNull(string) || !string.startsWith(prefix)) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return string;
+    }
+
+    /**
+     * Ensures that the provided string starts with the specified prefix.
+     *
+     * @param prefix           the prefix that the string must start with
+     * @param string           the string to check
+     * @param exceptionMessage the message to include in the EnsureException if the string does not start with the prefix
+     * @return the input string if it starts with the prefix
+     * @throws EnsureException if the string does not start with the prefix
+     */
+    public String startsWith(String prefix, String string, String exceptionMessage) throws EnsureException {
+        return startsWith(prefix, string, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided string starts with the specified prefix.
+     *
+     * @param prefix the prefix that the string must start with
+     * @param string the string to check
+     * @return the input string if it starts with the prefix
+     * @throws EnsureException with the message "string must start with %s" - if the string does not start with the prefix
+     */
+    public String startsWith(String prefix, String string) throws EnsureException {
+        return startsWith(prefix, string, "string must start with %s".formatted(prefix));
+    }
+
+    /**
+     * Ensures that the provided string ends with the specified suffix.
+     *
+     * @param suffix                   the suffix that the string must end with
+     * @param string                   the string to check
+     * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the string does not end with the suffix
+     * @return the input string if it ends with the suffix
+     * @throws RuntimeException if the string does not end with the suffix or if either parameter is null
+     */
+    public String endsWith(String suffix, String string, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+        if (isNull(suffix)) {
+            throw EnsureException.of("suffix must not be null");
+        }
+        if (isNull(string) || !string.endsWith(suffix)) {
+            throw getSupplierOrThrow(runtimeExceptionSupplier);
+        }
+        return string;
+    }
+
+    /**
+     * Ensures that the provided string ends with the specified suffix.
+     *
+     * @param suffix           the suffix that the string must end with
+     * @param string           the string to check
+     * @param exceptionMessage the message to include in the EnsureException if the string does not end with the suffix
+     * @return the input string if it ends with the suffix
+     * @throws EnsureException if the string does not end with the suffix
+     */
+    public String endsWith(String suffix, String string, String exceptionMessage) throws EnsureException {
+        return endsWith(suffix, string, () -> EnsureException.of(exceptionMessage));
+    }
+
+    /**
+     * Ensures that the provided string ends with the specified suffix.
+     *
+     * @param suffix the suffix that the string must end with
+     * @param string the string to check
+     * @return the input string if it ends with the suffix
+     * @throws EnsureException with the message "string must end with %s" - if the string does not end with the suffix
+     */
+    public String endsWith(String suffix, String string) throws EnsureException {
+        return endsWith(suffix, string, "string must end with %s".formatted(suffix));
+    }
 }

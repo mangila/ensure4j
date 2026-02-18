@@ -68,6 +68,16 @@ public class EnsureStringOpsArchitectureTest implements ClazzTest, PublicMethodA
                     var count = countByName.get(methodName);
                     ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, notBlankOrElseGetCount, count);
                 }
+                case "startsWith" -> {
+                    int startsWithCount = 3;
+                    var count = countByName.get(methodName);
+                    ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, startsWithCount, count);
+                }
+                case "endsWith" -> {
+                    int endsWithCount = 3;
+                    var count = countByName.get(methodName);
+                    ArchTestUtils.checkOrAddMethodNameViolationEvent(javaClass, events, methodName, endsWithCount, count);
+                }
                 // Enum default methods
                 case "valueOf" -> {
                     // do nothing
