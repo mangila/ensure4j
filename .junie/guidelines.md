@@ -30,7 +30,7 @@ Abort everything if tests fail in more than two iterations.
 
 ### Testing Frameworks
 
-- **JUnit 6**: Standard testing framework.
+- **JUnit 5 or JUnit6 (when you know how to use it)**: Standard testing framework.
 - **AssertJ**: Used for fluent assertions.
 
 ### Writing Tests
