@@ -37,9 +37,9 @@ If you’re building your project using Maven, you can add the following depende
 ```xml
 
 <dependency>
-  <groupId>io.github.mangila</groupId>
-  <artifactId>ensure4j</artifactId>
-  <version>3.0.2</version>
+    <groupId>io.github.mangila</groupId>
+    <artifactId>ensure4j</artifactId>
+    <version>3.0.2</version>
 </dependency>
 ```
 
@@ -86,8 +86,8 @@ public void placeOrder(Order order) {
     if (order == null) {
         throw new IllegalArgumentException("Order cannot be null");
     }
-    if (order.getAmount() < 0) {
-        throw new IllegalArgumentException("Order amount must be greater than zero");
+    if (order.getAmount() <= 0) {
+        throw new IllegalArgumentException("Order amount must be positive");
     }
     // do business logic
 }
@@ -99,12 +99,9 @@ Here's what the same code looks like with Ensure4j:
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
-private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
-// other class members
-
 public void placeOrder(Order order) {
     Ensure.notNull(order, "Order cannot be null");
-    ENSURE_NUMBER_OPS.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    Ensure.numbers().positive(order.getAmount(), "Order amount must be positive");
     // do business logic
 }
 ```
@@ -112,18 +109,20 @@ public void placeOrder(Order order) {
 With the exception that Ensure4j throws an `EnsureException` instead of an `IllegalArgumentException`.
 
 Ensure4j has supplier functions that can be used to provide a custom exception suited for the application or use case
-need. For more complex cases, you can use the ops APIs to get moar preconditions.
+need. For more complex cases, you can use the ops APIs to get more granular preconditions.
 
 ```java
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
 private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
+private static final EnsureCollectionOps ENSURE_COLLECTION_OPS = Ensure.collections();
 // other class members
 
 public void placeOrder(Order order) {
     Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
-    ENSURE_NUMBER_OPS.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    ENSURE_NUMBER_OPS.positive(order.getAmount(), () -> new OrderException("Order amount must be positive"));
+    ENSURE_COLLECTION_OPS.notEmpty(order.getItems(), () -> new OrderException("Order items cannot be empty"));
     // do business logic
 }
 ```
@@ -138,10 +137,14 @@ import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
 private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
+private static final EnsureCollectionOps ENSURE_COLLECTION_OPS = Ensure.collections();
+// other class members
 
 public void placeOrder(Order order) {
     Ensure.notNull(order); // will throw an EnsureException with the message "object must not be null"
-    ENSURE_NUMBER_OPS.min(1, order.getAmount(), () -> new OrderException("Order amount must be greater than zero"));
+    ENSURE_NUMBER_OPS.positive(1, order.getAmount()); // will throw an EnsureException with the message "value must be positive - (%s)"
+    ENSURE_COLLECTION_OPS.notEmpty(order.getItems()); // will throw an EnsureException with the message "collection must not be empty or null"
+    // do business logic
 }
 ```
 
@@ -166,3 +169,13 @@ created Ensure4j.
 ## Example usage
 
 See the [examples](examples) project
+
+## Contributing
+
+Feel free to open an issue if you have any questions or suggestions.
+
+I'm open to new developers that might want to do their first contribution to an open source project.
+
+## Licence
+
+This project is under [MIT license](LICENSE).
