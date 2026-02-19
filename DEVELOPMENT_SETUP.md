@@ -16,9 +16,9 @@ Set up pre-commit hooks.
 
 `pre-commit install`
 
-Create a `pre-commit-config.yaml` file in the root directory.
+Create a `.pre-commit-config.yaml` file in the root directory.
 
-Change `pre-commit-config.yaml` to run the maven wrapper after the OS-specific commands.
+Change `.pre-commit-config.yaml` to run the maven wrapper after the OS-specific commands.
 
 This is an example of the file for *Unix env:
 
