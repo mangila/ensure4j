@@ -176,6 +176,11 @@ Feel free to open an issue if you have any questions or suggestions.
 
 I'm open to new developers that might want to do their first contribution to an open source project.
 
+- Better documentation
+- More examples
+- More tests
+- More preconditions
+
 ## Licence
 
 This project is under [MIT license](LICENSE).
