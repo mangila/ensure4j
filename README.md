@@ -174,6 +174,10 @@ See the [examples](examples) project
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
+## Release
+
+See [RELEASE.md](RELEASE.md)
+
 ## Licence
 
 This project is under [MIT license](LICENSE).
