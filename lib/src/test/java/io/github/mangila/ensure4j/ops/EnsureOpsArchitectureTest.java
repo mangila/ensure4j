@@ -9,7 +9,7 @@ class EnsureOpsArchitectureTest {
 
   @Test
   void shouldCountOpsEnums() {
-    final int expectedOpsCount = 8;
+    final int expectedOpsCount = 9;
     final var ensureOpsClasses = ArchTestUtils.ENSURE_OPS_CLASSES.stream().toList();
     assertThat(ensureOpsClasses)
         .as(
