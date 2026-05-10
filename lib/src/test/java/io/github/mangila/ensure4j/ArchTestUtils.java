@@ -21,12 +21,7 @@ public class ArchTestUtils {
           .importPackages("io.github.mangila.ensure4j.ops");
 
   public static long getPublicMethodCount(JavaClass javaClass) {
-    return javaClass.getMethods().stream()
-        .filter(
-            javaMethod ->
-                javaMethod.getModifiers().stream()
-                    .anyMatch(javaModifier -> javaModifier == JavaModifier.PUBLIC))
-        .count();
+    return getPublicMethods(javaClass).size();
   }
 
   public static @NonNull List<JavaMethod> getPublicMethods(JavaClass javaClass) {

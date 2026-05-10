@@ -27,14 +27,12 @@ class EnsureUtilsTest {
   void isBlank() {
     String s = "";
     assertTrue(EnsureUtils.isBlank(s));
-    // guess im sane after all
   }
 
   @Test
   void isNull() {
     Object o = null;
     assertTrue(EnsureUtils.isNull(o));
-    // seems ok
   }
 
   @Test
