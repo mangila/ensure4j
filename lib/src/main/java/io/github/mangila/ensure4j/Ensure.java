@@ -91,7 +91,8 @@ public final class Ensure {
    */
   @Deprecated(since = "3.0.2", forRemoval = true)
   public static <T> T notNullOrElseThrow(
-      T object, Supplier<RuntimeException> runtimeExceptionSupplier) throws RuntimeException {
+      T object, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
+      throws RuntimeException {
     return NULL_OPS.notNullOrElseThrow(object, runtimeExceptionSupplier);
   }
 
@@ -106,7 +107,8 @@ public final class Ensure {
   /**
    * @see EnsureNullOps#notNull(Object, Supplier)
    */
-  public static <T> T notNull(T object, Supplier<RuntimeException> runtimeExceptionSupplier)
+  public static <T> T notNull(
+      T object, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
       throws RuntimeException {
     return NULL_OPS.notNull(object, runtimeExceptionSupplier);
   }
@@ -128,7 +130,8 @@ public final class Ensure {
   /**
    * @see EnsureBooleanOps#isTrue(boolean, Supplier)
    */
-  public static void isTrue(boolean expression, Supplier<RuntimeException> runtimeExceptionSupplier)
+  public static void isTrue(
+      boolean expression, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
       throws RuntimeException {
     BOOLEAN_OPS.isTrue(expression, runtimeExceptionSupplier);
   }
@@ -151,7 +154,7 @@ public final class Ensure {
    * @see EnsureBooleanOps#isFalse(boolean, Supplier)
    */
   public static void isFalse(
-      boolean expression, Supplier<RuntimeException> runtimeExceptionSupplier)
+      boolean expression, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
       throws RuntimeException {
     BOOLEAN_OPS.isFalse(expression, runtimeExceptionSupplier);
   }

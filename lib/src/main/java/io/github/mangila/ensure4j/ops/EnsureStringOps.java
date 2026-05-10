@@ -13,13 +13,15 @@ public enum EnsureStringOps {
   INSTANCE;
 
   /**
-   * Returns the provided string if it is not blank (non-null and containing non-whitespace
-   * characters), otherwise retrieves and returns a value from the provided fallback supplier.
+   * Returns the provided string if it is not null or blank; otherwise, it evaluates and returns the
+   * result from the supplied {@link Supplier}.
    *
-   * @param string the string to check for blankness
-   * @param fallbackSupplier the supplier to retrieve an alternative value if the string is blank
-   * @return the original string if it is not blank, or the value supplied by the fallback supplier
-   *     if the string is blank
+   * @param string the string to check
+   * @param fallbackSupplier the supplier to provide an alternative string if {@code string} is null
+   *     or blank
+   * @return the non-blank {@code string}, or the value provided by the {@code fallbackSupplier}
+   * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
+   * @see #notBlankOrElse(String, String)
    */
   public String notBlankOrElseGet(String string, Supplier<String> fallbackSupplier) {
     if (isNull(string) || isBlank(string)) {
@@ -29,12 +31,13 @@ public enum EnsureStringOps {
   }
 
   /**
-   * Returns the given string if it is not blank; otherwise, returns the specified fallback value. A
-   * string is considered blank if it is null, empty, or contains only whitespace characters.
+   * Returns the provided string if it is not null or blank; otherwise, returns the given default
+   * value.
    *
-   * @param string the input string to check
-   * @param fallbackValue the fallback value to return if the input string is blank
-   * @return the input string if it is not blank; otherwise, the fallback value
+   * @param string the string to check
+   * @param fallbackValue the default value to return if {@code string} is null or blank
+   * @return {@code string} if it is not null or blank, otherwise {@code fallbackValue}
+   * @see #notBlankOrElseGet(String, Supplier)
    */
   public String notBlankOrElse(String string, String fallbackValue) {
     if (isNull(string) || isBlank(string)) {
@@ -44,160 +47,154 @@ public enum EnsureStringOps {
   }
 
   /**
-   * Ensures that the provided string is not blank. If the string is blank or null, the specified
-   * exception supplied by the runtimeExceptionSupplier is thrown.
+   * Ensures that the provided string is not null or blank.
    *
-   * @param string the string to be validated as not blank
-   * @param runtimeExceptionSupplier the runtimeExceptionSupplier that provides the exception to
-   *     throw if the string is blank
-   * @return the validated string if it is not blank
-   * @throws RuntimeException if the string is blank or null, provided by the
-   *     runtimeExceptionSupplier
-   */
-  public String notBlank(String string, Supplier<RuntimeException> runtimeExceptionSupplier)
-      throws RuntimeException {
-    if (isNull(string) || isBlank(string)) {
-      throw getSupplierOrThrow(runtimeExceptionSupplier);
-    }
-    return string;
-  }
-
-  /**
-   * Ensures that the provided string is not blank. If the string is blank or null, an exception is
-   * thrown with the provided exception message.
-   *
-   * @param string the string to check for being non-blank
-   * @param exceptionMessage the message to include in the thrown exception if the string is blank
-   * @return the original string if it is not blank
-   * @throws EnsureException if the string is blank
-   */
-  public String notBlank(String string, String exceptionMessage) throws EnsureException {
-    return notBlank(string, () -> EnsureException.of(exceptionMessage));
-  }
-
-  /**
-   * Ensures that the provided string is not blank. If the string is blank or null, an exception is
-   * thrown with a default message.
-   *
-   * @param string the string to validate
-   * @return the original string if it is not blank
-   * @throws EnsureException with the message - "string must not be blank" if the string is blank
+   * @param string the string to check
+   * @return the provided string if it is not null or blank
+   * @throws EnsureException if the string is null or blank, with the message {@code "string must
+   *     not be blank"}
+   * @see #notBlank(String, String)
+   * @see #notBlank(String, Supplier)
    */
   public String notBlank(String string) throws EnsureException {
     return notBlank(string, "string must not be blank");
   }
 
   /**
-   * Ensures that the provided string has a minimum length.
+   * Ensures that the provided string is not null or blank.
    *
-   * @param min the minimum length allowed
    * @param string the string to check
-   * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the
-   *     string length is less than the minimum
-   * @return the input string if its length is greater than or equal to the minimum
-   * @throws RuntimeException if the string length is less than the minimum
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it is not null or blank
+   * @throws EnsureException if the string is null or blank, with the provided message
+   * @see #notBlank(String)
+   * @see #notBlank(String, Supplier)
    */
-  public String minLength(
-      int min, String string, Supplier<RuntimeException> runtimeExceptionSupplier)
+  public String notBlank(String string, String exceptionMessage) throws EnsureException {
+    return notBlank(string, () -> EnsureException.of(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string is not null or blank.
+   *
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it is not null or blank
+   * @throws RuntimeException if the string is null or blank; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   * @see #notBlank(String)
+   * @see #notBlank(String, String)
+   */
+  public String notBlank(String string, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    if (isNull(string) || string.length() < min) {
-      throw getSupplierOrThrow(runtimeExceptionSupplier);
+    if (isNull(string) || isBlank(string)) {
+      throw getSupplierOrThrow(exceptionSupplier);
     }
     return string;
   }
 
   /**
-   * Ensures that the provided string has a minimum length.
+   * Ensures that the provided string has at least the specified minimum length.
    *
-   * @param min the minimum length allowed
+   * @param min the minimum length
    * @param string the string to check
-   * @param exceptionMessage the message to include in the EnsureException if the string length is
-   *     less than the minimum
-   * @return the input string if its length is greater than or equal to the minimum
-   * @throws EnsureException if the string length is less than the minimum
-   */
-  public String minLength(int min, String string, String exceptionMessage) throws EnsureException {
-    return minLength(min, string, () -> EnsureException.of(exceptionMessage));
-  }
-
-  /**
-   * Ensures that the provided string has a minimum length.
-   *
-   * @param min the minimum length allowed
-   * @param string the string to check
-   * @return the input string if its length is greater than or equal to the minimum
-   * @throws EnsureException with the message "string length must be at least %d" - if the string
-   *     length is less than the minimum
+   * @return the provided string if it has at least the minimum length
+   * @throws EnsureException if the string length is less than the minimum, with the message {@code
+   *     "string length must be at least %d"}
+   * @see #minLength(int, String, String)
+   * @see #minLength(int, String, Supplier)
    */
   public String minLength(int min, String string) throws EnsureException {
     return minLength(min, string, "string length must be at least %d".formatted(min));
   }
 
   /**
-   * Ensures that the provided string has a maximum length.
+   * Ensures that the provided string has at least the specified minimum length.
    *
-   * @param max the maximum length allowed
+   * @param min the minimum length
    * @param string the string to check
-   * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the
-   *     string length is greater than the maximum
-   * @return the input string if its length is less than or equal to the maximum
-   * @throws RuntimeException if the string length is greater than the maximum
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it has at least the minimum length
+   * @throws EnsureException if the string length is less than the minimum, with the provided
+   *     message
+   * @see #minLength(int, String)
+   * @see #minLength(int, String, Supplier)
    */
-  public String maxLength(
-      int max, String string, Supplier<RuntimeException> runtimeExceptionSupplier)
+  public String minLength(int min, String string, String exceptionMessage) throws EnsureException {
+    return minLength(min, string, () -> EnsureException.of(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string has at least the specified minimum length.
+   *
+   * @param min the minimum length
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it has at least the minimum length
+   * @throws RuntimeException if the string length is less than the minimum; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   * @see #minLength(int, String)
+   * @see #minLength(int, String, String)
+   */
+  public String minLength(
+      int min, String string, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    if (isNull(string) || string.length() > max) {
-      throw getSupplierOrThrow(runtimeExceptionSupplier);
+    if (isNull(string) || string.length() < min) {
+      throw getSupplierOrThrow(exceptionSupplier);
     }
     return string;
   }
 
   /**
-   * Ensures that the provided string has a maximum length.
+   * Ensures that the provided string does not exceed the specified maximum length.
    *
-   * @param max the maximum length allowed
+   * @param max the maximum length
    * @param string the string to check
-   * @param exceptionMessage the message to include in the EnsureException if the string length is
-   *     greater than the maximum
-   * @return the input string if its length is less than or equal to the maximum
-   * @throws EnsureException if the string length is greater than the maximum
-   */
-  public String maxLength(int max, String string, String exceptionMessage) throws EnsureException {
-    return maxLength(max, string, () -> EnsureException.of(exceptionMessage));
-  }
-
-  /**
-   * Ensures that the provided string has a maximum length.
-   *
-   * @param max the maximum length allowed
-   * @param string the string to check
-   * @return the input string if its length is less than or equal to the maximum
-   * @throws EnsureException with the message "string length must be at most %d".formatted(max) - if
-   *     the string length is greater than the maximum
+   * @return the provided string if it does not exceed the maximum length
+   * @throws EnsureException if the string length exceeds the maximum, with the message {@code
+   *     "string length must be at most %d"}
+   * @see #maxLength(int, String, String)
+   * @see #maxLength(int, String, Supplier)
    */
   public String maxLength(int max, String string) throws EnsureException {
     return maxLength(max, string, "string length must be at most %d".formatted(max));
   }
 
   /**
-   * Ensures that the provided string starts with the specified prefix.
+   * Ensures that the provided string does not exceed the specified maximum length.
    *
-   * @param prefix the prefix that the string must start with
+   * @param max the maximum length
    * @param string the string to check
-   * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the
-   *     string does not start with the prefix
-   * @return the input string if it starts with the prefix
-   * @throws RuntimeException if the string does not start with the prefix or if either parameter is
-   *     null
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it does not exceed the maximum length
+   * @throws EnsureException if the string length exceeds the maximum, with the provided message
+   * @see #maxLength(int, String)
+   * @see #maxLength(int, String, Supplier)
    */
-  public String startsWith(
-      String prefix, String string, Supplier<RuntimeException> runtimeExceptionSupplier)
+  public String maxLength(int max, String string, String exceptionMessage) throws EnsureException {
+    return maxLength(max, string, () -> EnsureException.of(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string does not exceed the specified maximum length.
+   *
+   * @param max the maximum length
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it does not exceed the maximum length
+   * @throws RuntimeException if the string length exceeds the maximum; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   * @see #maxLength(int, String)
+   * @see #maxLength(int, String, String)
+   */
+  public String maxLength(
+      int max, String string, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    if (isNull(prefix)) {
-      throw EnsureException.of("prefix must not be null");
-    }
-    if (isNull(string) || !string.startsWith(prefix)) {
-      throw getSupplierOrThrow(runtimeExceptionSupplier);
+    if (isNull(string) || string.length() > max) {
+      throw getSupplierOrThrow(exceptionSupplier);
     }
     return string;
   }
@@ -205,12 +202,28 @@ public enum EnsureStringOps {
   /**
    * Ensures that the provided string starts with the specified prefix.
    *
-   * @param prefix the prefix that the string must start with
+   * @param prefix the prefix to check for
    * @param string the string to check
-   * @param exceptionMessage the message to include in the EnsureException if the string does not
-   *     start with the prefix
-   * @return the input string if it starts with the prefix
-   * @throws EnsureException if the string does not start with the prefix
+   * @return the provided string if it starts with the prefix
+   * @throws EnsureException if the string does not start with the prefix, with the message {@code
+   *     "string must start with %s"}
+   * @see #startsWith(String, String, String)
+   * @see #startsWith(String, String, Supplier)
+   */
+  public String startsWith(String prefix, String string) throws EnsureException {
+    return startsWith(prefix, string, "string must start with %s".formatted(prefix));
+  }
+
+  /**
+   * Ensures that the provided string starts with the specified prefix.
+   *
+   * @param prefix the prefix to check for
+   * @param string the string to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it starts with the prefix
+   * @throws EnsureException if the string does not start with the prefix, with the provided message
+   * @see #startsWith(String, String)
+   * @see #startsWith(String, String, Supplier)
    */
   public String startsWith(String prefix, String string, String exceptionMessage)
       throws EnsureException {
@@ -220,35 +233,24 @@ public enum EnsureStringOps {
   /**
    * Ensures that the provided string starts with the specified prefix.
    *
-   * @param prefix the prefix that the string must start with
+   * @param prefix the prefix to check for
    * @param string the string to check
-   * @return the input string if it starts with the prefix
-   * @throws EnsureException with the message "string must start with %s" - if the string does not
-   *     start with the prefix
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it starts with the prefix
+   * @throws RuntimeException if the string does not start with the prefix; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   * @see #startsWith(String, String)
+   * @see #startsWith(String, String, String)
    */
-  public String startsWith(String prefix, String string) throws EnsureException {
-    return startsWith(prefix, string, "string must start with %s".formatted(prefix));
-  }
-
-  /**
-   * Ensures that the provided string ends with the specified suffix.
-   *
-   * @param suffix the suffix that the string must end with
-   * @param string the string to check
-   * @param runtimeExceptionSupplier a supplier that provides the exception to be thrown if the
-   *     string does not end with the suffix
-   * @return the input string if it ends with the suffix
-   * @throws RuntimeException if the string does not end with the suffix or if either parameter is
-   *     null
-   */
-  public String endsWith(
-      String suffix, String string, Supplier<RuntimeException> runtimeExceptionSupplier)
+  public String startsWith(
+      String prefix, String string, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    if (isNull(suffix)) {
-      throw EnsureException.of("suffix must not be null");
+    if (isNull(prefix)) {
+      throw EnsureException.of("prefix must not be null");
     }
-    if (isNull(string) || !string.endsWith(suffix)) {
-      throw getSupplierOrThrow(runtimeExceptionSupplier);
+    if (isNull(string) || !string.startsWith(prefix)) {
+      throw getSupplierOrThrow(exceptionSupplier);
     }
     return string;
   }
@@ -256,12 +258,28 @@ public enum EnsureStringOps {
   /**
    * Ensures that the provided string ends with the specified suffix.
    *
-   * @param suffix the suffix that the string must end with
+   * @param suffix the suffix to check for
    * @param string the string to check
-   * @param exceptionMessage the message to include in the EnsureException if the string does not
-   *     end with the suffix
-   * @return the input string if it ends with the suffix
-   * @throws EnsureException if the string does not end with the suffix
+   * @return the provided string if it ends with the suffix
+   * @throws EnsureException if the string does not end with the suffix, with the message {@code
+   *     "string must end with %s"}
+   * @see #endsWith(String, String, String)
+   * @see #endsWith(String, String, Supplier)
+   */
+  public String endsWith(String suffix, String string) throws EnsureException {
+    return endsWith(suffix, string, "string must end with %s".formatted(suffix));
+  }
+
+  /**
+   * Ensures that the provided string ends with the specified suffix.
+   *
+   * @param suffix the suffix to check for
+   * @param string the string to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it ends with the suffix
+   * @throws EnsureException if the string does not end with the suffix, with the provided message
+   * @see #endsWith(String, String)
+   * @see #endsWith(String, String, Supplier)
    */
   public String endsWith(String suffix, String string, String exceptionMessage)
       throws EnsureException {
@@ -271,13 +289,25 @@ public enum EnsureStringOps {
   /**
    * Ensures that the provided string ends with the specified suffix.
    *
-   * @param suffix the suffix that the string must end with
+   * @param suffix the suffix to check for
    * @param string the string to check
-   * @return the input string if it ends with the suffix
-   * @throws EnsureException with the message "string must end with %s" - if the string does not end
-   *     with the suffix
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it ends with the suffix
+   * @throws RuntimeException if the string does not end with the suffix; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   * @see #endsWith(String, String)
+   * @see #endsWith(String, String, String)
    */
-  public String endsWith(String suffix, String string) throws EnsureException {
-    return endsWith(suffix, string, "string must end with %s".formatted(suffix));
+  public String endsWith(
+      String suffix, String string, Supplier<? extends RuntimeException> exceptionSupplier)
+      throws RuntimeException {
+    if (isNull(suffix)) {
+      throw EnsureException.of("suffix must not be null");
+    }
+    if (isNull(string) || !string.endsWith(suffix)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
   }
 }

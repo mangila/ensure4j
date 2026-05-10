@@ -6,7 +6,7 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 
 ### Prerequisites
 
-- **Java 21**: The project is compiled with Java 21 and is compatible with Java 17+.
+- **Java 25**: The project is compiled with Java 25 and is compatible with Java 17+.
 - **Maven**: Use the installed Mise Maven installation.
 
 ## How to contribute
@@ -16,12 +16,69 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 - Ignore the architecture tests if it fails, it's ok.
 - The code shall follow the Google Java Style Guide
 
+## Coding Guidelines and Javadocs
+
+- Make sure formatting is correct by runnig `mvn -f lib/pom.xml com.spotify.fmt:fmt-maven-plugin:format`
+- Make sure the methods are implemented for the overloaded methods following the Step-down Rule (or the Newspaper Metaphor).
+
+Create methods with descriptive names and javadocs in the following format:
+```java
+/**
+ * Ensures that the provided array is not null or empty.
+ *
+ * @param <T> the component type of the array
+ * @param array the array to check
+ * @return the provided array if it is not null or empty
+ * @throws EnsureException if the array is null or empty, with the message {@code "array must not
+ *     be empty"}
+ * @see #notEmpty(Object[], String)
+ * @see #notEmpty(Object[], Supplier)
+ */
+public <T> T[] notEmpty(T[] array) throws EnsureException {
+    return notEmpty(array, "array must not be empty");
+}
+
+/**
+ * Ensures that the provided array is not null or empty.
+ *
+ * @param <T> the component type of the array
+ * @param array the array to check
+ * @param exceptionMessage the message to include in the exception if validation fails
+ * @return the provided array if it is not null or empty
+ * @throws EnsureException if the array is null or empty, with the provided message
+ * @see #notEmpty(Object[])
+ * @see #notEmpty(Object[], Supplier)
+ */
+public <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
+    return notEmpty(array, () -> EnsureException.of(exceptionMessage));
+}
+
+/**
+ * Ensures that the provided array is not null or empty.
+ *
+ * @param <T> the component type of the array
+ * @param array the array to check
+ * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+ *     fails
+ * @return the provided array if it is not null or empty
+ * @throws RuntimeException if the array is null or empty; the thrown exception is provided by
+ *     {@code exceptionSupplier}
+ * @see #notEmpty(Object[])
+ * @see #notEmpty(Object[], String)
+ */
+public <T> T[] notEmpty(T[] array, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (isNull(array) || array.length == 0) {
+        throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return array;
+}
+```
+
 ## Testing
 
 ### Running Tests
 
 Only run class tests for the class you are working on. Never run a full test suite.
-You know you get weird when a test fails, but stay calm and fix it.
 Abort everything if tests fail in more than two iterations.
 
 ### Testing Frameworks
@@ -38,101 +95,6 @@ Abort everything if tests fail in more than two iterations.
 
 - Use descriptive `@DisplayName` where it adds clarity.
 - For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
-
-### Simple Test Example
-
-```java
-package io.github.mangila.ensure4j;
-
-import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-public class MyNewTest {
-    @Test
-    @DisplayName("should pass when not null")
-    void shouldPassWhenNotNull() {
-        String value = "Hello";
-        Ensure.notNull(value);
-        assertThat(value).isEqualTo("Hello");
-    }
-
-    @Test
-    @DisplayName("should throw exception when null")
-    void shouldThrowExceptionWhenNull() {
-        assertThatThrownBy(() -> Ensure.notNull(null))
-                .isInstanceOf(EnsureException.class)
-                .hasMessage("object must not be null");
-    }
-}
-```
-
-## Additional Development Information
-
-### Code Style & Philosophy
-
-- **Zero Dependencies**: The `lib` module must remain free of external production dependencies (except for `jspecify`
-  for annotations).
-- **Utility Hub Class Pattern**: `Ensure.java` is a utility hub class with a private constructor that throws
-  `IllegalStateException("Utility class")`.
-- Ops Class Pattern: `<TYPE>Ops` enum classes are used to provide public methods for validating a specific type.
-- Only create utility methods in the `<Type>Ops` enum classes
-- **Method Consistency**: Most methods in `Ensure` come in three variants:
-    1. `method(value)`: Uses default `EnsureException` and default message.
-    2. `method(value, String message)`: Uses default `EnsureException` with custom a message.
-    3. `method(value, Supplier<RuntimeException> runtimeExceptionSupplier)`: Uses a custom exception provided by the
-       supplier. Use the
-       private static utility method `getSupplierOrThrow` to get the value from the supplier.
-    4. `methodOrElse(value, T orElse)`: Return a default value if the condition is not met. **Optional** if the method
-       could not be implemented with a default value.
-    5. `methodOrElseGet(value, Supplier<T> supplier)`: Return a default value computed by the supplier if the
-       condition is not met. Use the private static utility method `getSupplierOrThrow` to get the value from the
-       supplier. **Optional** if the method could not be implemented with a default value.
-- **Fluent API**: Methods should return the validated value whenever possible to support fluent usage and stream
-  pipelines.
-- **Javadoc**: All public methods should have clear Javadoc.
-
-### Example
-
-You can find more context if you scan an enum in the `lib` module in the `ops` package.
-
-```java
-/**
- * java docs
- */
-public <T> T method(T value) {
-    // the implementation
-}
-
-/**
- * java docs
- */
-public <T> T method(T value, String errorMessage) {
-    // the implementation
-}
-
-/**
- * java docs
- */
-public <T> T method(T value, Supplier<RuntimeException> runtimeExceptionSupplier) {
-    // the implementation
-}
-
-/**
- * java docs
- */
-public <T> T methodOrElse(T value, T fallbackValue) {
-    // the implementation
-}
-
-/**
- * java docs
- */
-public <T> T methodOrElseGet(T value, Supplier<T> fallbackSupplier) {
-    // the implementation
-}
-```
 
 ### Performance
 

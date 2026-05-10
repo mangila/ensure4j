@@ -14,46 +14,51 @@ public enum EnsureArrayOps {
   INSTANCE;
 
   /**
-   * Checks if the provided array is not empty. If the array is empty, throws an EnsureException
-   * with the provided exception message. NOTE: Also check if null
+   * Ensures that the provided array is not null or empty.
    *
-   * @param <T> the type of the array
-   * @param array the array to check for non-emptiness
-   * @param exceptionMessage the message to include in the exception if the array is empty
-   * @return the array passed as input
-   * @throws EnsureException if the array is null or empty
-   */
-  public <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
-    return notEmpty(array, () -> EnsureException.of(exceptionMessage));
-  }
-
-  /**
-   * Ensures that the provided array is not empty. If the array is empty, an EnsureException is
-   * thrown. NOTE: Also check if null
-   *
-   * @param <T> the type of the array
-   * @param array the array to be checked
-   * @return the array passed as input
-   * @throws EnsureException with the message "array must not be empty" - if the array is empty
+   * @param <T> the component type of the array
+   * @param array the array to check
+   * @return the provided array if it is not null or empty
+   * @throws EnsureException if the array is null or empty, with the message {@code "array must not
+   *     be empty"}
+   * @see #notEmpty(Object[], String)
+   * @see #notEmpty(Object[], Supplier)
    */
   public <T> T[] notEmpty(T[] array) throws EnsureException {
     return notEmpty(array, "array must not be empty");
   }
 
   /**
-   * Validates that the given array is not empty. If the array is null or empty, the provided
-   * runtimeExceptionSupplier is used to throw an exception. NOTE: Also check if null
+   * Ensures that the provided array is not null or empty.
    *
-   * @param <T> the type of the array
-   * @param array the array to check for non-emptiness
-   * @param runtimeExceptionSupplier the runtimeExceptionSupplier providing the exception to be
-   *     thrown if validation fails
-   * @return the array passed as input
-   * @throws RuntimeException if the array is null or empty
+   * @param <T> the component type of the array
+   * @param array the array to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided array if it is not null or empty
+   * @throws EnsureException if the array is null or empty, with the provided message
+   * @see #notEmpty(Object[])
+   * @see #notEmpty(Object[], Supplier)
    */
-  public <T> T[] notEmpty(T[] array, Supplier<RuntimeException> runtimeExceptionSupplier) {
+  public <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
+    return notEmpty(array, () -> EnsureException.of(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided array is not null or empty.
+   *
+   * @param <T> the component type of the array
+   * @param array the array to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided array if it is not null or empty
+   * @throws RuntimeException if the array is null or empty; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   * @see #notEmpty(Object[])
+   * @see #notEmpty(Object[], String)
+   */
+  public <T> T[] notEmpty(T[] array, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(array) || array.length == 0) {
-      throw getSupplierOrThrow(runtimeExceptionSupplier);
+      throw getSupplierOrThrow(exceptionSupplier);
     }
     return array;
   }
