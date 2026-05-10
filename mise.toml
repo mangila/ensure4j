@@ -10,11 +10,6 @@ _.python.venv = ".venv"
 dir = "./lib"
 run = "mvn clean test"
 
-[tasks."mvn:compile:17"]
-description = "Compile with Java 17 for backwards compatibility check"
-dir = "./lib"
-run = "mvn clean test -Dmaven.compiler.release=17"
-
 [tasks.mvn-format]
 description = "Sort pom.xml and format java code"
 dir = "./lib"

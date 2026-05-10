@@ -14,8 +14,8 @@ https://mangila.github.io/ensure4j/
 
 There is also support for functional programming pipelines and Java Streams.
 
-- Compiled in Java 25
-    - Compatible with Java 17+
+- Requires Java 17+
+- Built with JDK 25 and compiled with --release 17
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
 - [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 

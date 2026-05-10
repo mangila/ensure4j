@@ -37,7 +37,7 @@
 
   <properties>
     <jacoco.version>0.8.14</jacoco.version>
-    <maven.compiler.release>25</maven.compiler.release>
+    <maven.compiler.release>17</maven.compiler.release>
     <organization.url>https://mangila.github.io/ensure4j</organization.url>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

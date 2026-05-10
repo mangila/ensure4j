@@ -5,7 +5,12 @@
 
 version: 2
 updates:
-  - package-ecosystem: "maven" 
+  - package-ecosystem: "maven"
     directory: "/lib"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "maven"
+    directory: "/examples"
+    schedule:
+      interval: "daily"
