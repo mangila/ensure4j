@@ -120,7 +120,5 @@ Thumbs.db
 # =========================================
 
 settings.xml
-.pre-commit-config.yaml
-requirements.txt
 CHANGES.md
 PROMPT_LOG.md

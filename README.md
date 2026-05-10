@@ -5,7 +5,7 @@
 
 # ensure4j
 
-Ensure4j is a direct implementation of the precondition pattern in Java. It's a lightweight library with no external
+Ensure4j is an implementation of the precondition pattern in Java. It's a lightweight library with no external
 dependencies.
 
 https://mangila.github.io/ensure4j/
@@ -19,8 +19,9 @@ There is also support for functional programming pipelines and Java Streams.
 - [Javadocs](https://mangila.github.io/ensure4j/apidocs)
 - [Test Code Coverage](https://mangila.github.io/ensure4j/jacoco/)
 
-Using Ensure4j with vibe coding is a great way to safeguard the integrity of your code. This library will help the agent
-to act more defensive.
+> [!NOTE]
+> Using Ensure4j with vibe coding is a great way to safeguard the integrity of your code. This library will help the agent
+to act more defensively.
 
 ## Get started
 

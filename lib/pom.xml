@@ -1,237 +1,277 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.mangila</groupId>
-    <artifactId>ensure4j</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+  <groupId>io.github.mangila</groupId>
+  <artifactId>ensure4j</artifactId>
+  <version>3.0.3-SNAPSHOT</version>
 
-    <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <organization.url>https://mangila.github.io/ensure4j</organization.url>
-    </properties>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Ensure your java code with preconditions checks</description>
+  <url>https://mangila.github.io/ensure4j</url>
+  <organization>
+    <name>mangila</name>
+    <url>${organization.url}</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://github.com/mangila/ensure4j/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Erik Olsson</name>
+      <email>olsson.erik1993@gmail.com</email>
+      <organization>mangila</organization>
+      <organizationUrl>${organization.url}</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/mangila/ensure4j.git</connection>
+    <developerConnection>scm:git:git@github.com:mangila/ensure4j.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/mangila/ensure4j/tree/main</url>
+  </scm>
 
-    <name>${project.groupId}:${project.artifactId}</name>
-    <description>Ensure your java code with preconditions checks</description>
-    <url>https://mangila.github.io/ensure4j</url>
-    <organization>
-        <name>mangila</name>
-        <url>${organization.url}</url>
-    </organization>
-    <developers>
-        <developer>
-            <name>Erik Olsson</name>
-            <email>olsson.erik1993@gmail.com</email>
-            <organization>mangila</organization>
-            <organizationUrl>${organization.url}</organizationUrl>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>MIT</name>
-            <url>https://github.com/mangila/ensure4j/LICENSE</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:git:https://github.com/mangila/ensure4j.git</connection>
-        <developerConnection>scm:git:git@github.com:mangila/ensure4j.git</developerConnection>
-        <url>https://github.com/mangila/ensure4j/tree/main</url>
-        <tag>HEAD</tag>
-    </scm>
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <organization.url>https://mangila.github.io/ensure4j</organization.url>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-    <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.jspecify/jspecify -->
-        <dependency>
-            <groupId>org.jspecify</groupId>
-            <artifactId>jspecify</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>6.0.2</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>6.0.2</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.27.7</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit</artifactId>
-            <version>1.4.1</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.jspecify/jspecify -->
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit</artifactId>
+      <version>1.4.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.27.7</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>6.0.2</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>6.0.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.4</version>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.12.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.2.8</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <signer>bc</signer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.sonatype.central/central-publishing-maven-plugin -->
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.9.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                    <deploymentName>${project.name}</deploymentName>
-                </configuration>
-            </plugin>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <preparationGoals>package site</preparationGoals>
-                    <pushChanges>false</pushChanges>
-                    <localCheckout>true</localCheckout>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.14</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/com.github.ekryd.sortpom/sortpom-maven-plugin -->
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>4.0.0</version>
+        <configuration>
+          <createBackupFile>false</createBackupFile>
+          <endWithNewline>true</endWithNewline>
+          <sortProperties>true</sortProperties>
+          <sortDependencies>scope,groupId,artifactId</sortDependencies>
+          <sortPlugins>groupId,artifactId</sortPlugins>
+          <keepBlankLines>true</keepBlankLines>
+          <expandEmptyElements>true</expandEmptyElements>
+          <verifyFail>stop</verifyFail>
+        </configuration>
+        <executions>
+          <execution>
+            <id>sortpom-verify</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/com.spotify.fmt/fmt-maven-plugin -->
+        <groupId>com.spotify.fmt</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>2.29</version>
+        <executions>
+          <execution>
+            <id>fmt-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.8</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <phase>verify</phase>
+            <configuration>
+              <signer>bc</signer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.12.0</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <preparationGoals>package site</preparationGoals>
+          <pushChanges>false</pushChanges>
+          <localCheckout>true</localCheckout>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.4</version>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.14</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <phase>prepare-package</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.sonatype.central/central-publishing-maven-plugin -->
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.9.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <deploymentName>${project.name}</deploymentName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-project-info-reports-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.6.1</version>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jxr-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.6.0</version>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.12.0</version>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>javadoc</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.14</version>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.28.0</version>
-                <configuration>
-                    <failOnViolation>false</failOnViolation>
-                    <printFailingErrors>true</printFailingErrors>
-                    <linkXRef>true</linkXRef>
-                    <rulesets>
-                        <ruleset>/category/java/errorprone.xml</ruleset>
-                        <ruleset>/category/java/bestpractices.xml</ruleset>
-                        <ruleset>/category/java/codestyle.xml</ruleset>
-                        <ruleset>/category/java/design.xml</ruleset>
-                        <ruleset>/category/java/documentation.xml</ruleset>
-                        <ruleset>/category/java/performance.xml</ruleset>
-                        <ruleset>/category/java/security.xml</ruleset>
-                        <ruleset>/category/java/multithreading.xml</ruleset>
-                    </rulesets>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+  <reporting>
+    <plugins>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.12.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jxr-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.6.0</version>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.28.0</version>
+        <configuration>
+          <failOnViolation>false</failOnViolation>
+          <printFailingErrors>true</printFailingErrors>
+          <linkXRef>true</linkXRef>
+          <rulesets>
+            <ruleset>/category/java/errorprone.xml</ruleset>
+            <ruleset>/category/java/bestpractices.xml</ruleset>
+            <ruleset>/category/java/codestyle.xml</ruleset>
+            <ruleset>/category/java/design.xml</ruleset>
+            <ruleset>/category/java/documentation.xml</ruleset>
+            <ruleset>/category/java/performance.xml</ruleset>
+            <ruleset>/category/java/security.xml</ruleset>
+            <ruleset>/category/java/multithreading.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-project-info-reports-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.6.1</version>
+      </plugin>
+      <plugin>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.14</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>

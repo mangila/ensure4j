@@ -7,7 +7,7 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 ### Prerequisites
 
 - **Java 21**: The project is compiled with Java 21 and is compatible with Java 17+.
-- **Maven**: Use the provided Maven wrapper (`./mvnw`).
+- **Maven**: Use the installed Mise Maven installation.
 
 ## How to contribute
 
@@ -20,13 +20,9 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 
 ### Running Tests
 
-Use the Maven wrapper (`./mvnw`) to run tests.
-
 Only run class tests for the class you are working on. Never run a full test suite.
 You know you get weird when a test fails, but stay calm and fix it.
 Abort everything if tests fail in more than two iterations.
-
-- **Specific test class**: `./mvnw test -Dtest=<TEST CLASS>`
 
 ### Testing Frameworks
 
@@ -146,7 +142,3 @@ Avoid heavy operations for methods as they are often used in performance-critica
 
 After a successful session write to an .md file called `CHANGES.md` with what you changed together with a "Findings"
 section where you give suggestions how I can prompt better or update the `guidelines.md` for a better execution.
-
-## Prompt log
-
-Add a log entry to the `PROMPT_LOG.md` file with the date and the prompt I gave you.

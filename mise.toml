@@ -1,0 +1,23 @@
+[tools]
+java = "graalvm-community-25.0.2"
+maven = "3.9.12"
+python = "3.14.4"
+
+[env]
+_.python.venv = ".venv"
+
+[tasks."mvn:test"]
+dir = "./lib"
+run = "mvn test"
+
+[tasks."mvn:validate"]
+dir = "./lib"
+run = "mvn validate"
+
+[tasks.mvn-format]
+description = "Sort pom.xml and format java code"
+dir = "./lib"
+run = [
+    "mvn sortpom:sort",
+    "mvn fmt:format",
+]
