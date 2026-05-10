@@ -4,6 +4,7 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.*;
 
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.function.Supplier;
+import org.intellij.lang.annotations.RegExp;
 
 /**
  * Provides utility methods for validating and operating on strings. This enum implements singleton
@@ -311,6 +312,63 @@ public enum EnsureStringOps {
       throw EnsureException.of("suffix must not be null");
     }
     if (isNull(string) || !string.endsWith(suffix)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
+  }
+
+  /**
+   * Ensures that the provided string matches the specified regular expression.
+   *
+   * @param regex the regular expression to match against
+   * @param string the string to check
+   * @return the provided string if it matches the regular expression
+   * @throws EnsureException if the string does not match the regular expression, with the message
+   *     {@code "string must match regex '%s'"}
+   * @see #matches(String, String, String)
+   * @see #matches(String, String, Supplier)
+   */
+  public String matches(@RegExp String regex, String string) throws EnsureException {
+    return matches(regex, string, "string must match regex '%s'".formatted(regex));
+  }
+
+  /**
+   * Ensures that the provided string matches the specified regular expression.
+   *
+   * @param regex the regular expression to match against
+   * @param string the string to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it matches the regular expression
+   * @throws EnsureException if the string does not match the regular expression, with the provided
+   *     message
+   * @see #matches(String, String)
+   * @see #matches(String, String, Supplier)
+   */
+  public String matches(@RegExp String regex, String string, String exceptionMessage)
+      throws EnsureException {
+    return matches(regex, string, () -> EnsureException.of(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string matches the specified regular expression.
+   *
+   * @param regex the regular expression to match against
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it matches the regular expression
+   * @throws RuntimeException if the string does not match the regular expression; the thrown
+   *     exception is provided by {@code exceptionSupplier}
+   * @see #matches(String, String)
+   * @see #matches(String, String, String)
+   */
+  public String matches(
+      @RegExp String regex, String string, Supplier<? extends RuntimeException> exceptionSupplier)
+      throws RuntimeException {
+    if (isNull(regex)) {
+      throw EnsureException.of("regex must not be null");
+    }
+    if (isNull(string) || !string.matches(regex)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
     return string;

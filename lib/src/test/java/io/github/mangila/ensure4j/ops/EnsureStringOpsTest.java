@@ -20,7 +20,7 @@ class EnsureStringOpsTest implements EnsureOpsTest<EnsureStringOps> {
 
   @Override
   public long expectedPublicMethodCount() {
-    return 19;
+    return 22;
   }
 
   @Test
@@ -220,6 +220,40 @@ class EnsureStringOpsTest implements EnsureOpsTest<EnsureStringOps> {
                 instance()
                     .endsWith(
                         "hello", "hello world", () -> new RuntimeException("custom exception")))
+        .isInstanceOf(RuntimeException.class)
+        .hasMessage("custom exception");
+  }
+
+  @Test
+  void matchesSuccess() {
+    String value = "123";
+    assertThat(instance().matches("\\d+", value)).isEqualTo(value);
+  }
+
+  @Test
+  void matchesFailure() {
+    assertThatThrownBy(() -> instance().matches("\\d+", "abc"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string must match regex '\\d+'");
+    assertThatThrownBy(() -> instance().matches("\\d+", null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string must match regex '\\d+'");
+    assertThatThrownBy(() -> instance().matches(null, "123"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("regex must not be null");
+  }
+
+  @Test
+  void matchesCustomMessage() {
+    assertThatThrownBy(() -> instance().matches("\\d+", "abc", "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
+  }
+
+  @Test
+  void matchesCustomSupplier() {
+    assertThatThrownBy(
+            () -> instance().matches("\\d+", "abc", () -> new RuntimeException("custom exception")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("custom exception");
   }
