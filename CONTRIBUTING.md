@@ -19,6 +19,11 @@ Some ideas:
 
 If you are interested in creating new utility methods, please open an issue first to discuss it.
 
+## Development
+
+The `main` branch is the Trunk. This is the branch that will eventually become the next release. If you want to contribute, please
+create a feature branch from `main` and submit a pull request.
+
 ## Code of Conduct
 
 Be nice.
