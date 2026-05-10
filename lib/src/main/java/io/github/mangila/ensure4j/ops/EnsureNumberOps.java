@@ -10,6 +10,11 @@ import java.util.function.Supplier;
  * behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureNumberOps {
+
+  /**
+   * Access point for the {@code EnsureNumberOps} singleton. Use this instance to perform number
+   * operations.
+   */
   INSTANCE;
 
   /**

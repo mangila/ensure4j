@@ -11,6 +11,10 @@ import java.util.function.Supplier;
  * singleton behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureArrayOps {
+  /**
+   * Access point for the {@code EnsureArrayOps} singleton. Use this instance to perform array
+   * operations.
+   */
   INSTANCE;
 
   /**

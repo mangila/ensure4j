@@ -11,10 +11,16 @@ import java.util.function.Supplier;
  * behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureNullOps {
+
+  /**
+   * Access point for the {@code EnsureNullOps} singleton. Use this instance to perform null
+   * operations.
+   */
   INSTANCE;
 
   /**
-   * Returns the provided object if it is not null; otherwise, returns the given default object.
+   * Ensures that the specified object is not null. If the object is null, the default object is
+   * returned.
    *
    * @param <T> the type of the object
    * @param object the object to check for nullity

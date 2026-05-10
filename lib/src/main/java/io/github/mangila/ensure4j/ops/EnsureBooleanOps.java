@@ -10,6 +10,11 @@ import java.util.function.Supplier;
  * behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureBooleanOps {
+
+  /**
+   * Access point for the {@code EnsureBooleanOps} singleton. Use this instance to perform boolean
+   * operations.
+   */
   INSTANCE;
 
   /**
