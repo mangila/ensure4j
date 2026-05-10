@@ -49,6 +49,13 @@
       <artifactId>jspecify</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>26.1.0</version>
+      <scope>provided</scope>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
