@@ -6,27 +6,40 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import io.github.mangila.ensure4j.EnsureException;
 import org.junit.jupiter.api.Test;
 
-class EnsureArrayOpsTest {
+class EnsureArrayOpsTest implements EnsureOpsTest<EnsureArrayOps> {
 
-  private final EnsureArrayOps ops = EnsureArrayOps.INSTANCE;
+  @Override
+  public Class<EnsureArrayOps> clazz() {
+    return EnsureArrayOps.class;
+  }
+
+  @Override
+  public EnsureArrayOps instance() {
+    return EnsureArrayOps.INSTANCE;
+  }
+
+  @Override
+  public long expectedPublicMethodCount() {
+    return 5;
+  }
 
   @Test
   void notEmptySuccess() {
     String[] array = {"a", "b"};
-    String[] result = ops.notEmpty(array);
+    String[] result = instance().notEmpty(array);
     assertThat(result).isSameAs(array);
   }
 
   @Test
   void notEmptyFailure() {
     String[] array = {};
-    assertThatThrownBy(() -> ops.notEmpty(array))
+    assertThatThrownBy(() -> instance().notEmpty(array))
         .isInstanceOf(EnsureException.class)
         .hasMessage("array must not be empty");
   }
 
   @Test
   void notEmptyNullFailure() {
-    assertThatThrownBy(() -> ops.notEmpty(null)).isInstanceOf(EnsureException.class);
+    assertThatThrownBy(() -> instance().notEmpty(null)).isInstanceOf(EnsureException.class);
   }
 }

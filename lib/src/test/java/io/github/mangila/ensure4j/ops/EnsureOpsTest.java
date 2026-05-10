@@ -1,29 +1,49 @@
-package io.github.mangila.ensure4j.ops.architecture;
+package io.github.mangila.ensure4j.ops;
 
+import static io.github.mangila.ensure4j.ArchTestUtils.getPublicMethodCount;
+import static io.github.mangila.ensure4j.ArchTestUtils.getPublicMethodNames;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tngtech.archunit.core.domain.JavaClass;
-import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import io.github.mangila.ensure4j.ArchTestUtils;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class EnsureOpsArchitectureTest {
+public interface EnsureOpsTest<T> {
+
+  Class<T> clazz();
+
+  T instance();
+
+  long expectedPublicMethodCount();
 
   @Test
-  void test() {
-    int count = ArchTestUtils.ENSURE_OPS_CLASSES.stream().peek(System.out::println).toList().size();
-    assertThat(count).as("number of EnsureOps enum classes").isEqualTo(8);
-    ArchRuleDefinition.classes()
+  @DisplayName("EnsureOpsTest should have expected public methods")
+  default void shouldHaveExpectedPublicMethods() {
+    ArchRuleDefinition.theClass(clazz())
         .should()
         .beEnums()
         .andShould()
-        .haveSimpleNameEndingWith("Ops")
+        .bePublic()
         .andShould()
-        .haveModifier(JavaModifier.PUBLIC)
+        .haveSimpleNameEndingWith("Ops")
+        .andShould(
+            new ArchCondition<>("assert public methods: %s".formatted(clazz().getSimpleName())) {
+              @Override
+              public void check(JavaClass javaClass, ConditionEvents events) {
+                long count = getPublicMethodCount(javaClass);
+                assertThat(count)
+                    .as(
+                        "Expected public methods: %s - %s"
+                            .formatted(
+                                expectedPublicMethodCount(), getPublicMethodNames(javaClass)))
+                    .isEqualTo(expectedPublicMethodCount());
+              }
+            })
         .andShould(
             new ArchCondition<>("have exactly one enum constant with the name INSTANCE") {
               @Override

@@ -114,24 +114,6 @@ public final class Ensure {
   }
 
   /**
-   * @see EnsureNullOps#notNullOrElseThrow(Object, Supplier)
-   */
-  @Deprecated(since = "3.0.2", forRemoval = true)
-  public static <T> T notNullOrElseThrow(
-      T object, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
-      throws RuntimeException {
-    return NULL_OPS.notNullOrElseThrow(object, runtimeExceptionSupplier);
-  }
-
-  /**
-   * @see EnsureNullOps#notNullOrElseThrow(Object)
-   */
-  @Deprecated(since = "3.0.2", forRemoval = true)
-  public static <T> T notNullOrElseThrow(T object) throws RuntimeException {
-    return NULL_OPS.notNullOrElseThrow(object);
-  }
-
-  /**
    * Ensures that the provided object is not null.
    *
    * @param <T> the type of the object

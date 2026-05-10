@@ -1,7 +1,13 @@
 package io.github.mangila.ensure4j;
 
+import static io.github.mangila.ensure4j.ArchTestUtils.getPublicMethodCount;
+import static io.github.mangila.ensure4j.ArchTestUtils.getPublicMethodNames;
 import static org.assertj.core.api.Assertions.*;
 
+import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.lang.ArchCondition;
+import com.tngtech.archunit.lang.ConditionEvents;
+import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import io.github.mangila.ensure4j.ops.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +15,29 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class EnsureTest {
+
+  @Test
+  @DisplayName("Ensure should have expected public methods")
+  void shouldHaveExpectedPublicMethods() {
+    final var clazz = Ensure.class;
+    final int expectedPublicMethodCount = 17;
+    ArchRuleDefinition.theClass(clazz)
+        .should()
+        .bePublic()
+        .andShould(
+            new ArchCondition<>("assert public methods: %s".formatted(clazz.getSimpleName())) {
+              @Override
+              public void check(JavaClass javaClass, ConditionEvents events) {
+                long count = getPublicMethodCount(javaClass);
+                assertThat(count)
+                    .as(
+                        "Expected public methods: %s - %s"
+                            .formatted(expectedPublicMethodCount, getPublicMethodNames(javaClass)))
+                    .isEqualTo(expectedPublicMethodCount);
+              }
+            })
+        .check(ArchTestUtils.ENSURE_TOP_LEVEL);
+  }
 
   @Test
   @DisplayName(
@@ -58,12 +87,6 @@ class EnsureTest {
         .doesNotThrowAnyException();
     assertThatCode(() -> Ensure.notNullOrElse("str", "fallback")).doesNotThrowAnyException();
     assertThatCode(() -> Ensure.notNullOrElseGet("str", () -> "fallback"))
-        .doesNotThrowAnyException();
-    assertThatCode(
-            () -> {
-              Ensure.notNullOrElseThrow("str");
-              Ensure.notNullOrElseThrow("str", () -> new RuntimeException("custom"));
-            })
         .doesNotThrowAnyException();
   }
 }
