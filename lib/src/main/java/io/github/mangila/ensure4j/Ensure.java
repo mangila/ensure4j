@@ -26,6 +26,7 @@ public final class Ensure {
   /**
    * Get the array operations.
    *
+   * @return EnsureArrayOps instance
    * @see EnsureArrayOps
    */
   @NonNull
@@ -36,6 +37,7 @@ public final class Ensure {
   /**
    * Get the collection operations.
    *
+   * @return EnsureCollectionOps instance
    * @see EnsureCollectionOps
    */
   @NonNull
@@ -46,6 +48,7 @@ public final class Ensure {
   /**
    * Get the map operations.
    *
+   * @return EnsureMapOps instance
    * @see EnsureMapOps
    */
   @NonNull
@@ -56,6 +59,7 @@ public final class Ensure {
   /**
    * Get the number operations.
    *
+   * @return EnsureNumberOps instance
    * @see EnsureNumberOps
    */
   @NonNull
@@ -66,6 +70,7 @@ public final class Ensure {
   /**
    * Get the object operations.
    *
+   * @return EnsureObjectOps instance
    * @see EnsureObjectOps
    */
   @NonNull
@@ -76,6 +81,7 @@ public final class Ensure {
   /**
    * Get the string operations.
    *
+   * @return EnsureStringOps instance
    * @see EnsureStringOps
    */
   @NonNull
