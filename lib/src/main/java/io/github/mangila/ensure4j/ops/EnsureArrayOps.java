@@ -5,6 +5,7 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Provides utility methods for validating and operating on primitive arrays. This enum implements
@@ -28,6 +29,7 @@ public enum EnsureArrayOps {
    * @see #notEmpty(Object[], String)
    * @see #notEmpty(Object[], Supplier)
    */
+  @Contract("null -> fail; !null -> param1")
   public <T> T[] notEmpty(T[] array) throws EnsureException {
     return notEmpty(array, "array must not be empty");
   }
@@ -43,6 +45,7 @@ public enum EnsureArrayOps {
    * @see #notEmpty(Object[])
    * @see #notEmpty(Object[], Supplier)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
     return notEmpty(array, () -> EnsureException.of(exceptionMessage));
   }
@@ -60,6 +63,7 @@ public enum EnsureArrayOps {
    * @see #notEmpty(Object[])
    * @see #notEmpty(Object[], String)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public <T> T[] notEmpty(T[] array, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(array) || array.length == 0) {
       throw getSupplierOrThrow(exceptionSupplier);

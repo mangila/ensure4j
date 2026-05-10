@@ -6,6 +6,7 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 import io.github.mangila.ensure4j.EnsureException;
 import java.time.Instant;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Provides utility methods for validating and operating on java date time API This enum implements
@@ -29,6 +30,7 @@ public enum EnsureDateTimeOps {
    * @see #isFuture(Instant, String)
    * @see #isFuture(Instant, Supplier)
    */
+  @Contract("null -> fail; !null -> param1")
   public Instant isFuture(Instant instant) throws EnsureException {
     return isFuture(instant, "instant must be in the future");
   }
@@ -43,6 +45,7 @@ public enum EnsureDateTimeOps {
    * @see #isFuture(Instant)
    * @see #isFuture(Instant, Supplier)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public Instant isFuture(Instant instant, String exceptionMessage) throws EnsureException {
     return isFuture(instant, () -> EnsureException.of(exceptionMessage));
   }
@@ -59,6 +62,7 @@ public enum EnsureDateTimeOps {
    * @see #isFuture(Instant)
    * @see #isFuture(Instant, String)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public Instant isFuture(Instant instant, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(instant) || !instant.isAfter(Instant.now())) {
       throw getSupplierOrThrow(exceptionSupplier);
@@ -76,6 +80,7 @@ public enum EnsureDateTimeOps {
    * @see #isPastOrPresent(Instant, String)
    * @see #isPastOrPresent(Instant, Supplier)
    */
+  @Contract("null -> fail; !null -> param1")
   public Instant isPastOrPresent(Instant instant) throws EnsureException {
     return isPastOrPresent(instant, "instant must be in the past or present");
   }
@@ -90,6 +95,7 @@ public enum EnsureDateTimeOps {
    * @see #isPastOrPresent(Instant)
    * @see #isPastOrPresent(Instant, Supplier)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public Instant isPastOrPresent(Instant instant, String exceptionMessage) throws EnsureException {
     return isPastOrPresent(instant, () -> EnsureException.of(exceptionMessage));
   }
@@ -106,6 +112,7 @@ public enum EnsureDateTimeOps {
    * @see #isPastOrPresent(Instant)
    * @see #isPastOrPresent(Instant, String)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public Instant isPastOrPresent(
       Instant instant, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(instant) || instant.isAfter(Instant.now())) {

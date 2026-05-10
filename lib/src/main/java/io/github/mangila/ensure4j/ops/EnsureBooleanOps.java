@@ -4,6 +4,7 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow
 
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Provides utility methods for validating and operating on booleans. This enum implements singleton
@@ -26,6 +27,7 @@ public enum EnsureBooleanOps {
    * @see #isTrue(boolean, String)
    * @see #isTrue(boolean, Supplier)
    */
+  @Contract("false -> fail")
   public void isTrue(boolean expression) throws EnsureException {
     isTrue(expression, "boolean must be true");
   }
@@ -39,6 +41,7 @@ public enum EnsureBooleanOps {
    * @see #isTrue(boolean)
    * @see #isTrue(boolean, Supplier)
    */
+  @Contract("false, _ -> fail")
   public void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
     isTrue(expression, () -> EnsureException.of(exceptionMessage));
   }
@@ -54,6 +57,7 @@ public enum EnsureBooleanOps {
    * @see #isTrue(boolean)
    * @see #isTrue(boolean, String)
    */
+  @Contract("false, _ -> fail")
   public void isTrue(boolean expression, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (!expression) {
       throw getSupplierOrThrow(exceptionSupplier);
@@ -69,6 +73,7 @@ public enum EnsureBooleanOps {
    * @see #isFalse(boolean, String)
    * @see #isFalse(boolean, Supplier)
    */
+  @Contract("true -> fail")
   public void isFalse(boolean expression) throws EnsureException {
     isFalse(expression, "boolean must be false");
   }
@@ -82,6 +87,7 @@ public enum EnsureBooleanOps {
    * @see #isFalse(boolean)
    * @see #isFalse(boolean, Supplier)
    */
+  @Contract("true, _ -> fail")
   public void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
     isFalse(expression, () -> EnsureException.of(exceptionMessage));
   }
@@ -97,6 +103,7 @@ public enum EnsureBooleanOps {
    * @see #isFalse(boolean)
    * @see #isFalse(boolean, String)
    */
+  @Contract("true, _ -> fail")
   public void isFalse(boolean expression, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (expression) {
       throw getSupplierOrThrow(exceptionSupplier);
