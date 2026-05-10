@@ -1,4 +1,4 @@
-package io.github.com.ensure4j.examples.v3;
+package io.github.com.ensure4j.examples;
 
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.EnsureException;
@@ -18,7 +18,7 @@ public class BasicUsageExample {
     // 2. String validations
     Ensure.strings().notBlank(name);
     Ensure.strings().minLength(3, name);
-    Ensure.strings().matches("^[A-Z][a-z]+$", name);
+    //Ensure.strings().matches("^[A-Z][a-z]+$", name);
 
     // 3. Number validations
     int age = 25;

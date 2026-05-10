@@ -1,4 +1,4 @@
-package io.github.com.ensure4j.examples.v3;
+package io.github.com.ensure4j.examples;
 
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
