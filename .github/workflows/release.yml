@@ -89,21 +89,19 @@ jobs:
               "template": "## 📝 Release Notes\n\n#{{CHANGELOG}}",
               "categories": [
                 {
-                  "title": "## 🚀 New Methods",
+                  "title": "## 🚀 New Features",
                   "labels": [
-                    "method"]
-                },
-                {
-                  "title": "## 🐛 Bugfixes",
-                  "labels": [
-                    "bug"]
-                },
+                    "feat"]
+                },        
                 {
                   "title": "## 💬 Other",
                   "labels": [
-                    "other",
+                    "chore",
                     "dependencies",
-                    "docs"]
+                    "docs",
+                    "fix",
+                    "refactor",
+                    "test"]
                 }
               ]
             }
