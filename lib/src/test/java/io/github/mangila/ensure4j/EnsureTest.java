@@ -20,7 +20,7 @@ class EnsureTest {
   @DisplayName("Ensure should have expected public methods")
   void shouldHaveExpectedPublicMethods() {
     final var clazz = Ensure.class;
-    final int expectedPublicMethodCount = 17;
+    final int expectedPublicMethodCount = 18;
     ArchRuleDefinition.theClass(clazz)
         .should()
         .bePublic()
@@ -60,6 +60,7 @@ class EnsureTest {
     assertThat(Ensure.numbers()).isInstanceOf(EnsureNumberOps.class);
     assertThat(Ensure.objects()).isInstanceOf(EnsureObjectOps.class);
     assertThat(Ensure.strings()).isInstanceOf(EnsureStringOps.class);
+    assertThat(Ensure.dates()).isInstanceOf(EnsureDateTimeOps.class);
   }
 
   @Test

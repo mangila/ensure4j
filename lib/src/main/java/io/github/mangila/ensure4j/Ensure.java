@@ -18,6 +18,7 @@ public final class Ensure {
   private static final EnsureNumberOps NUMBER_OPS = EnsureNumberOps.INSTANCE;
   private static final EnsureObjectOps OBJECT_OPS = EnsureObjectOps.INSTANCE;
   private static final EnsureStringOps STRING_OPS = EnsureStringOps.INSTANCE;
+  private static final EnsureDateTimeOps DATE_TIME_OPS = EnsureDateTimeOps.INSTANCE;
 
   private Ensure() {
     throw new IllegalStateException("Utility class");
@@ -76,6 +77,17 @@ public final class Ensure {
   @NonNull
   public static EnsureObjectOps objects() {
     return OBJECT_OPS;
+  }
+
+  /**
+   * Get the date-time operations.
+   *
+   * @return EnsureDateTimeOps instance
+   * @see EnsureDateTimeOps
+   */
+  @NonNull
+  public static EnsureDateTimeOps dates() {
+    return DATE_TIME_OPS;
   }
 
   /**
