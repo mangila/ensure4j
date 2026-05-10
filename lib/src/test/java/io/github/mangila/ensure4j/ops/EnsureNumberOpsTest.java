@@ -6,158 +6,171 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import io.github.mangila.ensure4j.EnsureException;
 import org.junit.jupiter.api.Test;
 
-class EnsureNumberOpsTest {
+class EnsureNumberOpsTest implements EnsureOpsTest<EnsureNumberOps> {
 
-  private final EnsureNumberOps ops = EnsureNumberOps.INSTANCE;
+  @Override
+  public Class<EnsureNumberOps> clazz() {
+    return EnsureNumberOps.class;
+  }
+
+  @Override
+  public EnsureNumberOps instance() {
+    return EnsureNumberOps.INSTANCE;
+  }
+
+  @Override
+  public long expectedPublicMethodCount() {
+    return 38;
+  }
 
   @Test
   void maxIntSuccess() {
-    assertThat(ops.max(10, 5)).isEqualTo(5);
-    assertThat(ops.max(10, 10)).isEqualTo(10);
+    assertThat(instance().max(10, 5)).isEqualTo(5);
+    assertThat(instance().max(10, 10)).isEqualTo(10);
   }
 
   @Test
   void maxIntFailure() {
-    assertThatThrownBy(() -> ops.max(10, 11))
+    assertThatThrownBy(() -> instance().max(10, 11))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be less than or equal to 10, but was 11");
   }
 
   @Test
   void maxLongSuccess() {
-    assertThat(ops.max(10L, 5L)).isEqualTo(5L);
-    assertThat(ops.max(10L, 10L)).isEqualTo(10L);
+    assertThat(instance().max(10L, 5L)).isEqualTo(5L);
+    assertThat(instance().max(10L, 10L)).isEqualTo(10L);
   }
 
   @Test
   void maxLongFailure() {
-    assertThatThrownBy(() -> ops.max(10L, 11L))
+    assertThatThrownBy(() -> instance().max(10L, 11L))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be less than or equal to 10, but was 11");
   }
 
   @Test
   void minIntSuccess() {
-    assertThat(ops.min(5, 10)).isEqualTo(10);
-    assertThat(ops.min(5, 5)).isEqualTo(5);
+    assertThat(instance().min(5, 10)).isEqualTo(10);
+    assertThat(instance().min(5, 5)).isEqualTo(5);
   }
 
   @Test
   void minIntFailure() {
-    assertThatThrownBy(() -> ops.min(5, 4))
+    assertThatThrownBy(() -> instance().min(5, 4))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be greater than or equal to 5, but was 4");
   }
 
   @Test
   void minLongSuccess() {
-    assertThat(ops.min(5L, 10L)).isEqualTo(10L);
-    assertThat(ops.min(5L, 5L)).isEqualTo(5L);
+    assertThat(instance().min(5L, 10L)).isEqualTo(10L);
+    assertThat(instance().min(5L, 5L)).isEqualTo(5L);
   }
 
   @Test
   void minLongFailure() {
-    assertThatThrownBy(() -> ops.min(5L, 4L))
+    assertThatThrownBy(() -> instance().min(5L, 4L))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be greater than or equal to 5, but was 4");
   }
 
   @Test
   void positiveIntSuccess() {
-    assertThat(ops.positive(1)).isEqualTo(1);
+    assertThat(instance().positive(1)).isEqualTo(1);
   }
 
   @Test
   void positiveIntFailure() {
-    assertThatThrownBy(() -> ops.positive(0))
+    assertThatThrownBy(() -> instance().positive(0))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be positive - (0)");
   }
 
   @Test
   void positiveLongSuccess() {
-    assertThat(ops.positive(1L)).isEqualTo(1L);
+    assertThat(instance().positive(1L)).isEqualTo(1L);
   }
 
   @Test
   void positiveLongFailure() {
-    assertThatThrownBy(() -> ops.positive(0L))
+    assertThatThrownBy(() -> instance().positive(0L))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be positive - (0)");
   }
 
   @Test
   void negativeIntSuccess() {
-    assertThat(ops.negative(-1)).isEqualTo(-1);
+    assertThat(instance().negative(-1)).isEqualTo(-1);
   }
 
   @Test
   void negativeIntFailure() {
-    assertThatThrownBy(() -> ops.negative(0))
+    assertThatThrownBy(() -> instance().negative(0))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be negative - (0)");
   }
 
   @Test
   void negativeLongSuccess() {
-    assertThat(ops.negative(-1L)).isEqualTo(-1L);
+    assertThat(instance().negative(-1L)).isEqualTo(-1L);
   }
 
   @Test
   void negativeLongFailure() {
-    assertThatThrownBy(() -> ops.negative(0L))
+    assertThatThrownBy(() -> instance().negative(0L))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be negative - (0)");
   }
 
   @Test
   void positiveWithZeroIntSuccess() {
-    assertThat(ops.positiveWithZero(0)).isZero();
-    assertThat(ops.positiveWithZero(1)).isEqualTo(1);
+    assertThat(instance().positiveWithZero(0)).isZero();
+    assertThat(instance().positiveWithZero(1)).isEqualTo(1);
   }
 
   @Test
   void positiveWithZeroIntFailure() {
-    assertThatThrownBy(() -> ops.positiveWithZero(-1))
+    assertThatThrownBy(() -> instance().positiveWithZero(-1))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be positive or zero - (-1)");
   }
 
   @Test
   void positiveWithZeroLongSuccess() {
-    assertThat(ops.positiveWithZero(0L)).isZero();
-    assertThat(ops.positiveWithZero(1L)).isEqualTo(1L);
+    assertThat(instance().positiveWithZero(0L)).isZero();
+    assertThat(instance().positiveWithZero(1L)).isEqualTo(1L);
   }
 
   @Test
   void positiveWithZeroLongFailure() {
-    assertThatThrownBy(() -> ops.positiveWithZero(-1L))
+    assertThatThrownBy(() -> instance().positiveWithZero(-1L))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be positive or zero - (-1)");
   }
 
   @Test
   void negativeWithZeroIntSuccess() {
-    assertThat(ops.negativeWithZero(0)).isZero();
-    assertThat(ops.negativeWithZero(-1)).isEqualTo(-1);
+    assertThat(instance().negativeWithZero(0)).isZero();
+    assertThat(instance().negativeWithZero(-1)).isEqualTo(-1);
   }
 
   @Test
   void negativeWithZeroIntFailure() {
-    assertThatThrownBy(() -> ops.negativeWithZero(1))
+    assertThatThrownBy(() -> instance().negativeWithZero(1))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be negative or zero - (1)");
   }
 
   @Test
   void negativeWithZeroLongSuccess() {
-    assertThat(ops.negativeWithZero(0L)).isZero();
-    assertThat(ops.negativeWithZero(-1L)).isEqualTo(-1L);
+    assertThat(instance().negativeWithZero(0L)).isZero();
+    assertThat(instance().negativeWithZero(-1L)).isEqualTo(-1L);
   }
 
   @Test
   void negativeWithZeroLongFailure() {
-    assertThatThrownBy(() -> ops.negativeWithZero(1L))
+    assertThatThrownBy(() -> instance().negativeWithZero(1L))
         .isInstanceOf(EnsureException.class)
         .hasMessage("value must be negative or zero - (1)");
   }

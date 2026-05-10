@@ -6,68 +6,82 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import io.github.mangila.ensure4j.EnsureException;
 import org.junit.jupiter.api.Test;
 
-class EnsureStringOpsTest {
+class EnsureStringOpsTest implements EnsureOpsTest<EnsureStringOps> {
 
-  private final EnsureStringOps ops = EnsureStringOps.INSTANCE;
+  @Override
+  public Class<EnsureStringOps> clazz() {
+    return EnsureStringOps.class;
+  }
+
+  @Override
+  public EnsureStringOps instance() {
+    return EnsureStringOps.INSTANCE;
+  }
+
+  @Override
+  public long expectedPublicMethodCount() {
+    return 19;
+  }
 
   @Test
   void notBlankSuccess() {
     String value = "test";
-    String result = ops.notBlank(value);
+    String result = instance().notBlank(value);
     assertThat(result).isEqualTo(value);
   }
 
   @Test
   void notBlankFailure() {
-    assertThatThrownBy(() -> ops.notBlank(" "))
+    assertThatThrownBy(() -> instance().notBlank(" "))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string must not be blank");
-    assertThatThrownBy(() -> ops.notBlank(null))
+    assertThatThrownBy(() -> instance().notBlank(null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string must not be blank");
   }
 
   @Test
   void notBlankCustomMessage() {
-    assertThatThrownBy(() -> ops.notBlank(" ", "custom message"))
+    assertThatThrownBy(() -> instance().notBlank(" ", "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
   }
 
   @Test
   void notBlankCustomSupplier() {
-    assertThatThrownBy(() -> ops.notBlank(" ", () -> new RuntimeException("custom exception")))
+    assertThatThrownBy(
+            () -> instance().notBlank(" ", () -> new RuntimeException("custom exception")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("custom exception");
   }
 
   @Test
   void notBlankOrElseSuccess() {
-    assertThat(ops.notBlankOrElse("test", "default")).isEqualTo("test");
+    assertThat(instance().notBlankOrElse("test", "default")).isEqualTo("test");
   }
 
   @Test
   void notBlankOrElseFallback() {
-    assertThat(ops.notBlankOrElse("", "default")).isEqualTo("default");
-    assertThat(ops.notBlankOrElse("  ", "default")).isEqualTo("default");
-    assertThat(ops.notBlankOrElse(null, "default")).isEqualTo("default");
+    assertThat(instance().notBlankOrElse("", "default")).isEqualTo("default");
+    assertThat(instance().notBlankOrElse("  ", "default")).isEqualTo("default");
+    assertThat(instance().notBlankOrElse(null, "default")).isEqualTo("default");
   }
 
   @Test
   void notBlankOrElseGetSuccess() {
-    assertThat(ops.notBlankOrElseGet("test", () -> "default")).isEqualTo("test");
+    assertThat(instance().notBlankOrElseGet("test", () -> "default")).isEqualTo("test");
   }
 
   @Test
   void notBlankOrElseGetFallback() {
-    assertThat(ops.notBlankOrElseGet(null, () -> "default")).isEqualTo("default");
-    assertThat(ops.notBlankOrElseGet("", () -> "default")).isEqualTo("default");
-    assertThat(ops.notBlankOrElseGet("  ", () -> "default")).isEqualTo("default");
+    assertThat(instance().notBlankOrElseGet(null, () -> "default")).isEqualTo("default");
+    assertThat(instance().notBlankOrElseGet("", () -> "default")).isEqualTo("default");
+    assertThat(instance().notBlankOrElseGet("  ", () -> "default")).isEqualTo("default");
   }
 
   @Test
   void notBlankOrElseGetNullSupplier() {
-    assertThatThrownBy(() -> ops.notBlankOrElseGet(null, null))
+    assertThatThrownBy(() -> instance().notBlankOrElseGet(null, null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("supplier was null");
   }
@@ -75,23 +89,23 @@ class EnsureStringOpsTest {
   @Test
   void minLengthSuccess() {
     String value = "abcd";
-    assertThat(ops.minLength(3, value)).isEqualTo(value);
-    assertThat(ops.minLength(4, value)).isEqualTo(value);
+    assertThat(instance().minLength(3, value)).isEqualTo(value);
+    assertThat(instance().minLength(4, value)).isEqualTo(value);
   }
 
   @Test
   void minLengthFailure() {
-    assertThatThrownBy(() -> ops.minLength(5, "abcd"))
+    assertThatThrownBy(() -> instance().minLength(5, "abcd"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string length must be at least 5");
-    assertThatThrownBy(() -> ops.minLength(1, null))
+    assertThatThrownBy(() -> instance().minLength(1, null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string length must be at least 1");
   }
 
   @Test
   void minLengthCustomMessage() {
-    assertThatThrownBy(() -> ops.minLength(5, "abcd", "custom message"))
+    assertThatThrownBy(() -> instance().minLength(5, "abcd", "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
   }
@@ -99,7 +113,7 @@ class EnsureStringOpsTest {
   @Test
   void minLengthCustomSupplier() {
     assertThatThrownBy(
-            () -> ops.minLength(5, "abcd", () -> new RuntimeException("custom exception")))
+            () -> instance().minLength(5, "abcd", () -> new RuntimeException("custom exception")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("custom exception");
   }
@@ -107,23 +121,23 @@ class EnsureStringOpsTest {
   @Test
   void maxLengthSuccess() {
     String value = "abcd";
-    assertThat(ops.maxLength(5, value)).isEqualTo(value);
-    assertThat(ops.maxLength(4, value)).isEqualTo(value);
+    assertThat(instance().maxLength(5, value)).isEqualTo(value);
+    assertThat(instance().maxLength(4, value)).isEqualTo(value);
   }
 
   @Test
   void maxLengthFailure() {
-    assertThatThrownBy(() -> ops.maxLength(3, "abcd"))
+    assertThatThrownBy(() -> instance().maxLength(3, "abcd"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string length must be at most 3");
-    assertThatThrownBy(() -> ops.maxLength(3, null))
+    assertThatThrownBy(() -> instance().maxLength(3, null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string length must be at most 3");
   }
 
   @Test
   void maxLengthCustomMessage() {
-    assertThatThrownBy(() -> ops.maxLength(3, "abcd", "custom message"))
+    assertThatThrownBy(() -> instance().maxLength(3, "abcd", "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
   }
@@ -131,7 +145,7 @@ class EnsureStringOpsTest {
   @Test
   void maxLengthCustomSupplier() {
     assertThatThrownBy(
-            () -> ops.maxLength(3, "abcd", () -> new RuntimeException("custom exception")))
+            () -> instance().maxLength(3, "abcd", () -> new RuntimeException("custom exception")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("custom exception");
   }
@@ -139,25 +153,25 @@ class EnsureStringOpsTest {
   @Test
   void startsWithSuccess() {
     String value = "hello world";
-    assertThat(ops.startsWith("hello", value)).isEqualTo(value);
+    assertThat(instance().startsWith("hello", value)).isEqualTo(value);
   }
 
   @Test
   void startsWithFailure() {
-    assertThatThrownBy(() -> ops.startsWith("world", "hello world"))
+    assertThatThrownBy(() -> instance().startsWith("world", "hello world"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string must start with world");
-    assertThatThrownBy(() -> ops.startsWith("hello", null))
+    assertThatThrownBy(() -> instance().startsWith("hello", null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string must start with hello");
-    assertThatThrownBy(() -> ops.startsWith(null, "hello world"))
+    assertThatThrownBy(() -> instance().startsWith(null, "hello world"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("prefix must not be null");
   }
 
   @Test
   void startsWithCustomMessage() {
-    assertThatThrownBy(() -> ops.startsWith("world", "hello world", "custom message"))
+    assertThatThrownBy(() -> instance().startsWith("world", "hello world", "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
   }
@@ -166,8 +180,9 @@ class EnsureStringOpsTest {
   void startsWithCustomSupplier() {
     assertThatThrownBy(
             () ->
-                ops.startsWith(
-                    "world", "hello world", () -> new RuntimeException("custom exception")))
+                instance()
+                    .startsWith(
+                        "world", "hello world", () -> new RuntimeException("custom exception")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("custom exception");
   }
@@ -175,25 +190,25 @@ class EnsureStringOpsTest {
   @Test
   void endsWithSuccess() {
     String value = "hello world";
-    assertThat(ops.endsWith("world", value)).isEqualTo(value);
+    assertThat(instance().endsWith("world", value)).isEqualTo(value);
   }
 
   @Test
   void endsWithFailure() {
-    assertThatThrownBy(() -> ops.endsWith("hello", "hello world"))
+    assertThatThrownBy(() -> instance().endsWith("hello", "hello world"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string must end with hello");
-    assertThatThrownBy(() -> ops.endsWith("world", null))
+    assertThatThrownBy(() -> instance().endsWith("world", null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("string must end with world");
-    assertThatThrownBy(() -> ops.endsWith(null, "hello world"))
+    assertThatThrownBy(() -> instance().endsWith(null, "hello world"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("suffix must not be null");
   }
 
   @Test
   void endsWithCustomMessage() {
-    assertThatThrownBy(() -> ops.endsWith("hello", "hello world", "custom message"))
+    assertThatThrownBy(() -> instance().endsWith("hello", "hello world", "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
   }
@@ -202,8 +217,9 @@ class EnsureStringOpsTest {
   void endsWithCustomSupplier() {
     assertThatThrownBy(
             () ->
-                ops.endsWith(
-                    "hello", "hello world", () -> new RuntimeException("custom exception")))
+                instance()
+                    .endsWith(
+                        "hello", "hello world", () -> new RuntimeException("custom exception")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("custom exception");
   }

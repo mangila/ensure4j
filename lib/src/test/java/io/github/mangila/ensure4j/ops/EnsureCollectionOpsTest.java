@@ -10,21 +10,34 @@ import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class EnsureCollectionOpsTest {
+class EnsureCollectionOpsTest implements EnsureOpsTest<EnsureCollectionOps> {
 
-  private final EnsureCollectionOps ops = EnsureCollectionOps.INSTANCE;
+  @Override
+  public Class<EnsureCollectionOps> clazz() {
+    return EnsureCollectionOps.class;
+  }
+
+  @Override
+  public EnsureCollectionOps instance() {
+    return EnsureCollectionOps.INSTANCE;
+  }
+
+  @Override
+  public long expectedPublicMethodCount() {
+    return 14;
+  }
 
   @Test
   void containsElementSuccess() {
     List<String> list = Arrays.asList("a", "b", "c");
-    Collection<String> result = ops.containsElement(list, "b");
+    Collection<String> result = instance().containsElement(list, "b");
     assertThat(result).isSameAs(list);
   }
 
   @Test
   void containsElementFailure() {
     List<String> list = Arrays.asList("a", "b", "c");
-    assertThatThrownBy(() -> ops.containsElement(list, "d"))
+    assertThatThrownBy(() -> instance().containsElement(list, "d"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("collection must contain element 'd'");
   }
@@ -32,20 +45,21 @@ class EnsureCollectionOpsTest {
   @Test
   void containsElementCollectionIsNull() {
     List<String> list = null;
-    assertThatThrownBy(() -> ops.containsElement(list, "a")).isInstanceOf(EnsureException.class);
+    assertThatThrownBy(() -> instance().containsElement(list, "a"))
+        .isInstanceOf(EnsureException.class);
   }
 
   @Test
   void notContainsNullIterateSuccess() {
     List<String> list = Arrays.asList("a", "b", "c");
-    Collection<String> result = ops.notContainsNullIterate(list);
+    Collection<String> result = instance().notContainsNullIterate(list);
     assertThat(result).isSameAs(list);
   }
 
   @Test
   void notContainsNullIterateFailure() {
     List<String> list = Arrays.asList("a", null, "c");
-    assertThatThrownBy(() -> ops.notContainsNullIterate(list))
+    assertThatThrownBy(() -> instance().notContainsNullIterate(list))
         .isInstanceOf(EnsureException.class)
         .hasMessage("collection must not contain null elements");
   }
@@ -53,20 +67,21 @@ class EnsureCollectionOpsTest {
   @Test
   void notContainsNullIterateCollectionIsNull() {
     List<String> list = null;
-    assertThatThrownBy(() -> ops.notContainsNullIterate(list)).isInstanceOf(EnsureException.class);
+    assertThatThrownBy(() -> instance().notContainsNullIterate(list))
+        .isInstanceOf(EnsureException.class);
   }
 
   @Test
   void notContainsNullSuccess() {
     List<String> list = Arrays.asList("a", "b", "c");
-    Collection<String> result = ops.notContainsNull(list);
+    Collection<String> result = instance().notContainsNull(list);
     assertThat(result).isSameAs(list);
   }
 
   @Test
   void notContainsNullFailure() {
     List<String> list = Arrays.asList("a", null, "c");
-    assertThatThrownBy(() -> ops.notContainsNull(list))
+    assertThatThrownBy(() -> instance().notContainsNull(list))
         .isInstanceOf(EnsureException.class)
         .hasMessage("collection must not contain null elements");
   }
@@ -74,20 +89,20 @@ class EnsureCollectionOpsTest {
   @Test
   void notContainsNullCollectionIsNull() {
     List<String> list = null;
-    assertThatThrownBy(() -> ops.notContainsNull(list)).isInstanceOf(EnsureException.class);
+    assertThatThrownBy(() -> instance().notContainsNull(list)).isInstanceOf(EnsureException.class);
   }
 
   @Test
   void notEmptySuccess() {
     List<String> list = Arrays.asList("a");
-    Collection<String> result = ops.notEmpty(list);
+    Collection<String> result = instance().notEmpty(list);
     assertThat(result).isSameAs(list);
   }
 
   @Test
   void notEmptyFailure() {
     List<String> list = new ArrayList<>();
-    assertThatThrownBy(() -> ops.notEmpty(list))
+    assertThatThrownBy(() -> instance().notEmpty(list))
         .isInstanceOf(EnsureException.class)
         .hasMessage("collection must not be empty or null");
   }
@@ -95,7 +110,7 @@ class EnsureCollectionOpsTest {
   @Test
   void notEmptyCollectionIsNull() {
     List<String> list = null;
-    assertThatThrownBy(() -> ops.notEmpty(list))
+    assertThatThrownBy(() -> instance().notEmpty(list))
         .isInstanceOf(EnsureException.class)
         .hasMessage("collection must not be empty or null");
   }

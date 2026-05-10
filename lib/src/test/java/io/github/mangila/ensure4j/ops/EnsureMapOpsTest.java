@@ -8,28 +8,41 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-class EnsureMapOpsTest {
+class EnsureMapOpsTest implements EnsureOpsTest<EnsureMapOps> {
 
-  private final EnsureMapOps ops = EnsureMapOps.INSTANCE;
+  @Override
+  public Class<EnsureMapOps> clazz() {
+    return EnsureMapOps.class;
+  }
+
+  @Override
+  public EnsureMapOps instance() {
+    return EnsureMapOps.INSTANCE;
+  }
+
+  @Override
+  public long expectedPublicMethodCount() {
+    return 5;
+  }
 
   @Test
   void notEmptySuccess() {
     Map<String, String> map = new HashMap<>();
     map.put("key", "value");
-    Map<String, String> result = ops.notEmpty(map);
+    Map<String, String> result = instance().notEmpty(map);
     assertThat(result).isSameAs(map);
   }
 
   @Test
   void notEmptyFailure() {
     Map<String, String> map = new HashMap<>();
-    assertThatThrownBy(() -> ops.notEmpty(map))
+    assertThatThrownBy(() -> instance().notEmpty(map))
         .isInstanceOf(EnsureException.class)
         .hasMessage("map must not be empty or null");
   }
 
   @Test
   void notEmptyNullFailure() {
-    assertThatThrownBy(() -> ops.notEmpty(null)).isInstanceOf(EnsureException.class);
+    assertThatThrownBy(() -> instance().notEmpty(null)).isInstanceOf(EnsureException.class);
   }
 }

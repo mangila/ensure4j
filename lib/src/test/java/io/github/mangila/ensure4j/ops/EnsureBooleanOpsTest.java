@@ -6,30 +6,43 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import io.github.mangila.ensure4j.EnsureException;
 import org.junit.jupiter.api.Test;
 
-class EnsureBooleanOpsTest {
+class EnsureBooleanOpsTest implements EnsureOpsTest<EnsureBooleanOps> {
 
-  private final EnsureBooleanOps ops = EnsureBooleanOps.INSTANCE;
+  @Override
+  public Class<EnsureBooleanOps> clazz() {
+    return EnsureBooleanOps.class;
+  }
+
+  @Override
+  public EnsureBooleanOps instance() {
+    return EnsureBooleanOps.INSTANCE;
+  }
+
+  @Override
+  public long expectedPublicMethodCount() {
+    return 8;
+  }
 
   @Test
   void isTrueSuccess() {
     assertThatCode(
             () -> {
-              ops.isTrue(true);
-              ops.isTrue(true, "message");
-              ops.isTrue(true, () -> new RuntimeException("custom"));
+              instance().isTrue(true);
+              instance().isTrue(true, "message");
+              instance().isTrue(true, () -> new RuntimeException("custom"));
             })
         .doesNotThrowAnyException();
   }
 
   @Test
   void isTrueThrow() {
-    assertThatThrownBy(() -> ops.isTrue(false))
+    assertThatThrownBy(() -> instance().isTrue(false))
         .isInstanceOf(EnsureException.class)
         .hasMessage("boolean must be true");
-    assertThatThrownBy(() -> ops.isTrue(false, "message"))
+    assertThatThrownBy(() -> instance().isTrue(false, "message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("message");
-    assertThatThrownBy(() -> ops.isTrue(false, () -> new RuntimeException("message")))
+    assertThatThrownBy(() -> instance().isTrue(false, () -> new RuntimeException("message")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("message");
   }
@@ -38,22 +51,22 @@ class EnsureBooleanOpsTest {
   void isFalseSuccess() {
     assertThatCode(
             () -> {
-              ops.isFalse(false);
-              ops.isFalse(false, "message");
-              ops.isFalse(false, () -> new RuntimeException("custom"));
+              instance().isFalse(false);
+              instance().isFalse(false, "message");
+              instance().isFalse(false, () -> new RuntimeException("custom"));
             })
         .doesNotThrowAnyException();
   }
 
   @Test
   void isFalseThrow() {
-    assertThatThrownBy(() -> ops.isFalse(true))
+    assertThatThrownBy(() -> instance().isFalse(true))
         .isInstanceOf(EnsureException.class)
         .hasMessage("boolean must be false");
-    assertThatThrownBy(() -> ops.isFalse(true, "message"))
+    assertThatThrownBy(() -> instance().isFalse(true, "message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("message");
-    assertThatThrownBy(() -> ops.isFalse(true, () -> new RuntimeException("message")))
+    assertThatThrownBy(() -> instance().isFalse(true, () -> new RuntimeException("message")))
         .isInstanceOf(RuntimeException.class)
         .hasMessage("message");
   }
