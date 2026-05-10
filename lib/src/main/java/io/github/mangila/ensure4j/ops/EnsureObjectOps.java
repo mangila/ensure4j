@@ -12,6 +12,11 @@ import java.util.function.Supplier;
  * behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureObjectOps {
+
+  /**
+   * Access point for the {@code EnsureObjectOps} singleton. Use this instance to perform object
+   * operations.
+   */
   INSTANCE;
 
   /**

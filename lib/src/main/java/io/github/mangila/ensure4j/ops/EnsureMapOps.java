@@ -12,6 +12,11 @@ import java.util.function.Supplier;
  * behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureMapOps {
+
+  /**
+   * Access point for the {@code EnsureMapOps} singleton. Use this instance to perform map
+   * operations.
+   */
   INSTANCE;
 
   /**

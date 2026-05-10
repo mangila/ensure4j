@@ -12,6 +12,11 @@ import java.util.function.Supplier;
  * singleton behavior, ensuring a single instance is used throughout.
  */
 public enum EnsureCollectionOps {
+
+  /**
+   * Access point for the {@code EnsureCollectionOps} singleton. Use this instance to perform
+   * collection operations.
+   */
   INSTANCE;
 
   /**

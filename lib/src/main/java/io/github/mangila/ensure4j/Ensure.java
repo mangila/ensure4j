@@ -24,6 +24,8 @@ public final class Ensure {
   }
 
   /**
+   * Get the array operations.
+   *
    * @see EnsureArrayOps
    */
   @NonNull
@@ -32,6 +34,8 @@ public final class Ensure {
   }
 
   /**
+   * Get the collection operations.
+   *
    * @see EnsureCollectionOps
    */
   @NonNull
@@ -40,6 +44,8 @@ public final class Ensure {
   }
 
   /**
+   * Get the map operations.
+   *
    * @see EnsureMapOps
    */
   @NonNull
@@ -48,6 +54,8 @@ public final class Ensure {
   }
 
   /**
+   * Get the number operations.
+   *
    * @see EnsureNumberOps
    */
   @NonNull
@@ -56,6 +64,8 @@ public final class Ensure {
   }
 
   /**
+   * Get the object operations.
+   *
    * @see EnsureObjectOps
    */
   @NonNull
@@ -64,6 +74,8 @@ public final class Ensure {
   }
 
   /**
+   * Get the string operations.
+   *
    * @see EnsureStringOps
    */
   @NonNull
@@ -72,6 +84,14 @@ public final class Ensure {
   }
 
   /**
+   * Returns the provided object if it is not null; otherwise, it evaluates and returns the result
+   * from the supplied {@link Supplier}.
+   *
+   * @param <T> the type of the object
+   * @param object the object to check for non-nullity
+   * @param fallbackSupplier the supplier to provide an alternative object if {@code object} is null
+   * @return the non-null {@code object}, or the value provided by the {@code fallbackSupplier}
+   * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
    * @see EnsureNullOps#notNullOrElseGet(Object, Supplier)
    */
   public static <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier)
@@ -80,6 +100,13 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the specified object is not null. If the object is null, the default object is
+   * returned.
+   *
+   * @param <T> the type of the object
+   * @param object the object to check for nullity
+   * @param defaultObject the default object to return if {@code object} is null
+   * @return {@code object} if it is not null, otherwise {@code defaultObject}
    * @see EnsureNullOps#notNullOrElse(Object, Object)
    */
   public static <T> T notNullOrElse(T object, T defaultObject) {
@@ -105,22 +132,44 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the provided object is not null.
+   *
+   * @param <T> the type of the object
+   * @param object the object to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided object if it is not null
+   * @throws RuntimeException if the object is null; the thrown exception is provided by {@code
+   *     exceptionSupplier}
    * @see EnsureNullOps#notNull(Object, Supplier)
    */
-  public static <T> T notNull(
-      T object, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
+  public static <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    return NULL_OPS.notNull(object, runtimeExceptionSupplier);
+    return NULL_OPS.notNull(object, exceptionSupplier);
   }
 
   /**
+   * Ensures that the provided object is not null.
+   *
+   * @param <T> the type of the object
+   * @param object the object to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided object if it is not null
+   * @throws EnsureException if the object is null, with the provided message
    * @see EnsureNullOps#notNull(Object, String)
    */
-  public static <T> T notNull(T object, String message) throws EnsureException {
-    return NULL_OPS.notNull(object, message);
+  public static <T> T notNull(T object, String exceptionMessage) throws EnsureException {
+    return NULL_OPS.notNull(object, exceptionMessage);
   }
 
   /**
+   * Ensures that the provided object is not null.
+   *
+   * @param <T> the type of the object
+   * @param object the object to check
+   * @return the provided object if it is not null
+   * @throws EnsureException if the object is null, with the message {@code "object must not be
+   *     null"}
    * @see EnsureNullOps#notNull(Object)
    */
   public static <T> T notNull(T object) throws EnsureException {
@@ -128,15 +177,27 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the provided boolean value is true.
+   *
+   * @param expression the boolean value to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @throws RuntimeException if the boolean value is false; the thrown exception is provided by
+   *     {@code exceptionSupplier}
    * @see EnsureBooleanOps#isTrue(boolean, Supplier)
    */
   public static void isTrue(
-      boolean expression, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
+      boolean expression, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    BOOLEAN_OPS.isTrue(expression, runtimeExceptionSupplier);
+    BOOLEAN_OPS.isTrue(expression, exceptionSupplier);
   }
 
   /**
+   * Ensures that the provided boolean value is true.
+   *
+   * @param expression the boolean value to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @throws EnsureException if the boolean value is false, with the provided message
    * @see EnsureBooleanOps#isTrue(boolean, String)
    */
   public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
@@ -144,6 +205,11 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the provided boolean value is true.
+   *
+   * @param expression the boolean value to check
+   * @throws EnsureException if the boolean value is false, with the message {@code "boolean must be
+   *     true"}
    * @see EnsureBooleanOps#isTrue(boolean)
    */
   public static void isTrue(boolean expression) throws EnsureException {
@@ -151,15 +217,27 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the provided boolean value is false.
+   *
+   * @param expression the boolean value to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @throws RuntimeException if the boolean value is true; the thrown exception is provided by
+   *     {@code exceptionSupplier}
    * @see EnsureBooleanOps#isFalse(boolean, Supplier)
    */
   public static void isFalse(
-      boolean expression, Supplier<? extends RuntimeException> runtimeExceptionSupplier)
+      boolean expression, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    BOOLEAN_OPS.isFalse(expression, runtimeExceptionSupplier);
+    BOOLEAN_OPS.isFalse(expression, exceptionSupplier);
   }
 
   /**
+   * Ensures that the provided boolean value is false.
+   *
+   * @param expression the boolean value to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @throws EnsureException if the boolean value is true, with the provided message
    * @see EnsureBooleanOps#isFalse(boolean, String)
    */
   public static void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
@@ -167,6 +245,11 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the provided boolean value is false.
+   *
+   * @param expression the boolean value to check
+   * @throws EnsureException if the boolean value is true, with the message {@code "boolean must be
+   *     false"}
    * @see EnsureBooleanOps#isFalse(boolean)
    */
   public static void isFalse(boolean expression) throws EnsureException {
