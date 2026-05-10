@@ -2,7 +2,7 @@ package io.github.mangila.ensure4j;
 
 import io.github.mangila.ensure4j.ops.*;
 import java.util.function.Supplier;
-import org.jspecify.annotations.NonNull;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Acts as a utility hub for typed pre- and post-condition checks but keeps the most frequently used
@@ -30,7 +30,6 @@ public final class Ensure {
    * @return EnsureArrayOps instance
    * @see EnsureArrayOps
    */
-  @NonNull
   public static EnsureArrayOps arrays() {
     return ARRAY_OPS;
   }
@@ -41,7 +40,6 @@ public final class Ensure {
    * @return EnsureCollectionOps instance
    * @see EnsureCollectionOps
    */
-  @NonNull
   public static EnsureCollectionOps collections() {
     return COLLECTION_OPS;
   }
@@ -52,7 +50,6 @@ public final class Ensure {
    * @return EnsureMapOps instance
    * @see EnsureMapOps
    */
-  @NonNull
   public static EnsureMapOps maps() {
     return MAP_OPS;
   }
@@ -63,7 +60,6 @@ public final class Ensure {
    * @return EnsureNumberOps instance
    * @see EnsureNumberOps
    */
-  @NonNull
   public static EnsureNumberOps numbers() {
     return NUMBER_OPS;
   }
@@ -74,7 +70,6 @@ public final class Ensure {
    * @return EnsureObjectOps instance
    * @see EnsureObjectOps
    */
-  @NonNull
   public static EnsureObjectOps objects() {
     return OBJECT_OPS;
   }
@@ -85,7 +80,6 @@ public final class Ensure {
    * @return EnsureDateTimeOps instance
    * @see EnsureDateTimeOps
    */
-  @NonNull
   public static EnsureDateTimeOps dates() {
     return DATE_TIME_OPS;
   }
@@ -96,7 +90,6 @@ public final class Ensure {
    * @return EnsureStringOps instance
    * @see EnsureStringOps
    */
-  @NonNull
   public static EnsureStringOps strings() {
     return STRING_OPS;
   }
@@ -127,6 +120,7 @@ public final class Ensure {
    * @return {@code object} if it is not null, otherwise {@code defaultObject}
    * @see EnsureNullOps#notNullOrElse(Object, Object)
    */
+  @Contract("null, _ -> param2; !null, _ -> param1")
   public static <T> T notNullOrElse(T object, T defaultObject) {
     return NULL_OPS.notNullOrElse(object, defaultObject);
   }
@@ -143,6 +137,7 @@ public final class Ensure {
    *     exceptionSupplier}
    * @see EnsureNullOps#notNull(Object, Supplier)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
     return NULL_OPS.notNull(object, exceptionSupplier);
@@ -158,6 +153,7 @@ public final class Ensure {
    * @throws EnsureException if the object is null, with the provided message
    * @see EnsureNullOps#notNull(Object, String)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T> T notNull(T object, String exceptionMessage) throws EnsureException {
     return NULL_OPS.notNull(object, exceptionMessage);
   }
@@ -172,6 +168,7 @@ public final class Ensure {
    *     null"}
    * @see EnsureNullOps#notNull(Object)
    */
+  @Contract("null -> fail; !null -> param1")
   public static <T> T notNull(T object) throws EnsureException {
     return NULL_OPS.notNull(object);
   }
@@ -186,6 +183,7 @@ public final class Ensure {
    *     {@code exceptionSupplier}
    * @see EnsureBooleanOps#isTrue(boolean, Supplier)
    */
+  @Contract("false, _ -> fail")
   public static void isTrue(
       boolean expression, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
@@ -200,6 +198,7 @@ public final class Ensure {
    * @throws EnsureException if the boolean value is false, with the provided message
    * @see EnsureBooleanOps#isTrue(boolean, String)
    */
+  @Contract("false, _ -> fail")
   public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
     BOOLEAN_OPS.isTrue(expression, exceptionMessage);
   }
@@ -212,6 +211,7 @@ public final class Ensure {
    *     true"}
    * @see EnsureBooleanOps#isTrue(boolean)
    */
+  @Contract("false -> fail")
   public static void isTrue(boolean expression) throws EnsureException {
     BOOLEAN_OPS.isTrue(expression);
   }
@@ -226,6 +226,7 @@ public final class Ensure {
    *     {@code exceptionSupplier}
    * @see EnsureBooleanOps#isFalse(boolean, Supplier)
    */
+  @Contract("true, _ -> fail")
   public static void isFalse(
       boolean expression, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
@@ -240,6 +241,7 @@ public final class Ensure {
    * @throws EnsureException if the boolean value is true, with the provided message
    * @see EnsureBooleanOps#isFalse(boolean, String)
    */
+  @Contract("true, _ -> fail")
   public static void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
     BOOLEAN_OPS.isFalse(expression, exceptionMessage);
   }
@@ -252,6 +254,7 @@ public final class Ensure {
    *     false"}
    * @see EnsureBooleanOps#isFalse(boolean)
    */
+  @Contract("true -> fail")
   public static void isFalse(boolean expression) throws EnsureException {
     BOOLEAN_OPS.isFalse(expression);
   }

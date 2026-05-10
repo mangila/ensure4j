@@ -5,6 +5,7 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Provides utility methods for validating and operating on null. This enum implements singleton
@@ -28,6 +29,7 @@ public enum EnsureNullOps {
    * @return {@code object} if it is not null, otherwise {@code defaultObject}
    * @see #notNullOrElseGet(Object, Supplier)
    */
+  @Contract("null, _ -> param2; !null, _ -> param1")
   public <T> T notNullOrElse(T object, T defaultObject) {
     if (isNull(object)) {
       return defaultObject;
@@ -64,6 +66,7 @@ public enum EnsureNullOps {
    * @see #notNull(Object, String)
    * @see #notNull(Object, Supplier)
    */
+  @Contract("null -> fail; !null -> param1")
   public <T> T notNull(T object) throws EnsureException {
     return notNull(object, "object must not be null");
   }
@@ -79,6 +82,7 @@ public enum EnsureNullOps {
    * @see #notNull(Object)
    * @see #notNull(Object, Supplier)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public <T> T notNull(T object, String exceptionMessage) throws EnsureException {
     return notNull(object, () -> EnsureException.of(exceptionMessage));
   }
@@ -96,6 +100,7 @@ public enum EnsureNullOps {
    * @see #notNull(Object)
    * @see #notNull(Object, String)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
     if (isNull(object)) {

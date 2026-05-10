@@ -6,6 +6,7 @@ import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.Map;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Provides utility methods for validating and operating on maps. This enum implements singleton
@@ -30,6 +31,7 @@ public enum EnsureMapOps {
    * @see #notEmpty(Map, String)
    * @see #notEmpty(Map, Supplier)
    */
+  @Contract("null -> fail; !null -> param1")
   public <T extends Map<?, ?>> T notEmpty(T map) throws EnsureException {
     return notEmpty(map, "map must not be empty or null");
   }
@@ -45,6 +47,7 @@ public enum EnsureMapOps {
    * @see #notEmpty(Map)
    * @see #notEmpty(Map, Supplier)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public <T extends Map<?, ?>> T notEmpty(T map, String exceptionMessage) throws EnsureException {
     return notEmpty(map, () -> EnsureException.of(exceptionMessage));
   }
@@ -62,6 +65,7 @@ public enum EnsureMapOps {
    * @see #notEmpty(Map)
    * @see #notEmpty(Map, String)
    */
+  @Contract("null, _ -> fail; !null, _ -> param1")
   public <T extends Map<?, ?>> T notEmpty(
       T map, Supplier<? extends RuntimeException> exceptionSupplier) throws RuntimeException {
     if (isNull(map) || map.isEmpty()) {
