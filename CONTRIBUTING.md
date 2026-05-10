@@ -19,13 +19,6 @@ Some ideas:
 
 If you are interested in creating new utility methods, please open an issue first to discuss it.
 
-## Pull Requests
-
-There will always be a release branch with the current version to be released. For the current release train.
-If there is code that has been changed inside the `lib` module.
-
-If there is code/docs changed outside the `lib` module a pull request to the main branch is preferred.
-
 ## Code of Conduct
 
 Be nice.
