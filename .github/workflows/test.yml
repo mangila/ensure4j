@@ -21,4 +21,4 @@ jobs:
           cache: maven
 
       - name: Run tests (lib)
-        run: mvn -B test --file lib/pom.xml
+        run: mvn -B --no-transfer-progress test --file lib/pom.xml
