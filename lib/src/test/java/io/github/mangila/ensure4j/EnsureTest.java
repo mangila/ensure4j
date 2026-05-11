@@ -86,6 +86,7 @@ class EnsureTest {
               Ensure.notNull("str", () -> new RuntimeException("custom"));
             })
         .doesNotThrowAnyException();
+    // TODO: remove
     assertThatCode(() -> Ensure.notNullOrElse("str", "fallback")).doesNotThrowAnyException();
     assertThatCode(() -> Ensure.notNullOrElseGet("str", () -> "fallback"))
         .doesNotThrowAnyException();

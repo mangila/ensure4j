@@ -1,7 +1,7 @@
 package io.github.mangila.ensure4j.ops;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
-import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
+import static java.util.Objects.isNull;
 
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.function.Supplier;
@@ -30,6 +30,7 @@ public enum EnsureNullOps {
    * @see #notNullOrElseGet(Object, Supplier)
    */
   @Contract("null, _ -> param2; !null, _ -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public <T> T notNullOrElse(T object, T defaultObject) {
     if (isNull(object)) {
       return defaultObject;
@@ -48,6 +49,7 @@ public enum EnsureNullOps {
    * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
    * @see #notNullOrElse(Object, Object)
    */
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier) throws EnsureException {
     if (isNull(object)) {
       return getSupplierOrThrow(fallbackSupplier);

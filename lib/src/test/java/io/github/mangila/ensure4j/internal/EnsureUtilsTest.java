@@ -30,12 +30,6 @@ class EnsureUtilsTest {
   }
 
   @Test
-  void isNull() {
-    Object o = null;
-    assertTrue(EnsureUtils.isNull(o));
-  }
-
-  @Test
   void getSupplierOrThrow() {
     assertThatThrownBy(() -> EnsureUtils.getSupplierOrThrow(null))
         .isInstanceOf(EnsureException.class)

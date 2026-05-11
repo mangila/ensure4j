@@ -23,16 +23,6 @@ public final class EnsureUtils {
   }
 
   /**
-   * Checks whether the given object is null.
-   *
-   * @param object the object to check for nullity
-   * @return true if the given object is null, false otherwise
-   */
-  public static boolean isNull(Object object) {
-    return object == null;
-  }
-
-  /**
    * Retrieves the value provided by the given {@link Supplier}. If the supplier is null or the
    * supplied value is null, an {@link EnsureException} is thrown.
    *

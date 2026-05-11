@@ -78,7 +78,6 @@ class EnsureObjectOpsTest implements EnsureOpsTest<EnsureObjectOps> {
 
     enum TestEnum {
       A,
-      B
     }
 
     TestEnum val1 = TestEnum.A;
