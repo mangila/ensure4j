@@ -119,6 +119,7 @@ Thumbs.db
 # Local
 # =========================================
 
+mykey.asc
 settings.xml
 CHANGES.md
 PROMPT_LOG.md

@@ -18,7 +18,7 @@ public class BasicUsageExample {
     // 2. String validations
     Ensure.strings().notBlank(name);
     Ensure.strings().minLength(3, name);
-    //Ensure.strings().matches("^[A-Z][a-z]+$", name);
+    Ensure.strings().matches("^[A-Z][a-z]+$", name);
 
     // 3. Number validations
     int age = 25;
