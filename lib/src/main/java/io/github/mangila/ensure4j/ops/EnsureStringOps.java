@@ -31,8 +31,10 @@ public enum EnsureStringOps {
    * @return the non-blank {@code string}, or the value provided by the {@code fallbackSupplier}
    * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
    * @see #notBlankOrElse(String, String)
+   * @deprecated
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public String notBlankOrElseGet(String string, Supplier<String> fallbackSupplier) {
     if (isNull(string) || isBlank(string)) {
       return getSupplierOrThrow(fallbackSupplier);
@@ -48,8 +50,10 @@ public enum EnsureStringOps {
    * @param fallbackValue the default value to return if {@code string} is null or blank
    * @return {@code string} if it is not null or blank, otherwise {@code fallbackValue}
    * @see #notBlankOrElseGet(String, Supplier)
+   * @deprecated
    */
   @Contract("null, _ -> param2; !null, _ -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public String notBlankOrElse(String string, String fallbackValue) {
     if (isNull(string) || isBlank(string)) {
       return fallbackValue;
