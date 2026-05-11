@@ -91,19 +91,24 @@ jobs:
               "template": "#{{CHANGELOG}}",
               "categories": [
                 {
-                  "title": "## 🚀 New Features",
-                  "labels": [
-                    "feat"]
-                },        
+                  "title": "## New Features ",
+                  "labels": ["feat"]
+                },
                 {
-                  "title": "## 💬 Other",
-                  "labels": [
-                    "chore",
-                    "dependencies",
-                    "docs",
-                    "fix",
-                    "refactor",
-                    "test"]
+                  "title": "## Docs 📝",
+                  "labels": ["docs"]
+                },
+                {
+                  "title": "## Test 🧪",
+                  "labels": ["test"]
+                },
+                {
+                  "title": "## Dependency 📦",
+                  "labels": ["dependencies"]
+                },
+                {
+                  "title": "## Other 🔧 🧹 ⚙️",
+                  "labels": ["chore"]
                 }
               ]
             }
