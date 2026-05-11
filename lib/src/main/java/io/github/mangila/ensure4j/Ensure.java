@@ -104,7 +104,10 @@ public final class Ensure {
    * @return the non-null {@code object}, or the value provided by the {@code fallbackSupplier}
    * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
    * @see EnsureNullOps#notNullOrElseGet(Object, Supplier)
+   * @deprecated since 3.0.4, use {@link java.util.Objects#requireNonNullElseGet(Object, Supplier)}
+   *     instead
    */
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public static <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier)
       throws EnsureException {
     return NULL_OPS.notNullOrElseGet(object, fallbackSupplier);
@@ -119,8 +122,11 @@ public final class Ensure {
    * @param defaultObject the default object to return if {@code object} is null
    * @return {@code object} if it is not null, otherwise {@code defaultObject}
    * @see EnsureNullOps#notNullOrElse(Object, Object)
+   * @deprecated since 3.0.4, use {@link java.util.Objects#requireNonNullElse(Object, Object)}
+   *     instead
    */
   @Contract("null, _ -> param2; !null, _ -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public static <T> T notNullOrElse(T object, T defaultObject) {
     return NULL_OPS.notNullOrElse(object, defaultObject);
   }

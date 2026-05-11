@@ -1,7 +1,7 @@
 package io.github.mangila.ensure4j.ops;
 
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
-import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
+import static java.util.Objects.isNull;
 
 import io.github.mangila.ensure4j.EnsureException;
 import java.util.Collection;

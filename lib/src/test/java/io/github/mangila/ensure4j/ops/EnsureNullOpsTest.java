@@ -47,6 +47,7 @@ class EnsureNullOpsTest implements EnsureOpsTest<EnsureNullOps> {
         .hasMessage("message");
   }
 
+  // TODO: remove
   @Test
   void notNullOrElse() {
     var str = "test";
@@ -55,6 +56,7 @@ class EnsureNullOpsTest implements EnsureOpsTest<EnsureNullOps> {
     assertThat(instance().notNullOrElse(null, fallBack)).isEqualTo(fallBack);
   }
 
+  // TODO: remove
   @Test
   void notNullOrElseGet() {
     var str = "test";

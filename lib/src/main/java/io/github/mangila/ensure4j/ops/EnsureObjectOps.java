@@ -2,9 +2,10 @@ package io.github.mangila.ensure4j.ops;
 
 import static io.github.mangila.ensure4j.Ensure.notNull;
 import static io.github.mangila.ensure4j.internal.EnsureUtils.getSupplierOrThrow;
-import static io.github.mangila.ensure4j.internal.EnsureUtils.isNull;
+import static java.util.Objects.isNull;
 
 import io.github.mangila.ensure4j.EnsureException;
+import java.util.Objects;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.Contract;
 
@@ -94,9 +95,11 @@ public enum EnsureObjectOps {
    *     be equal"}
    * @see #isEquals(Enum, Enum, String)
    * @see #isEquals(Enum, Enum, Supplier)
+   * @deprecated use {@link #isEquals(Object, Object)} instead
    */
   @Contract(
       "null, !null -> fail; !null, null -> fail; null, null -> param1; !null, !null -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public <T extends Enum<T>> T isEquals(T enum1, T enum2) throws EnsureException {
     return isEquals(enum1, enum2, "enums must be equal");
   }
@@ -112,9 +115,11 @@ public enum EnsureObjectOps {
    * @throws EnsureException if the enum values are not equal, with the provided message
    * @see #isEquals(Enum, Enum)
    * @see #isEquals(Enum, Enum, Supplier)
+   * @deprecated use {@link #isEquals(Object, Object, String)} instead
    */
   @Contract(
       "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public <T extends Enum<T>> T isEquals(T enum1, T enum2, String exceptionMessage)
       throws EnsureException {
     return isEquals(enum1, enum2, () -> EnsureException.of(exceptionMessage));
@@ -133,9 +138,11 @@ public enum EnsureObjectOps {
    *     {@code exceptionSupplier}
    * @see #isEquals(Enum, Enum)
    * @see #isEquals(Enum, Enum, String)
+   * @deprecated use {@link #isEquals(Object, Object, Supplier)} instead
    */
   @Contract(
       "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
+  @Deprecated(since = "3.0.4", forRemoval = true)
   public <T extends Enum<T>> T isEquals(
       T enum1, T enum2, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
@@ -201,15 +208,11 @@ public enum EnsureObjectOps {
   public <T> T isEquals(
       T object, Object otherObject, Supplier<? extends RuntimeException> exceptionSupplier)
       throws RuntimeException {
-    if (object == otherObject) {
+    final boolean eq = Objects.equals(object, otherObject);
+    if (eq) {
       return object;
-    }
-    if (isNull(object)) {
+    } else {
       throw getSupplierOrThrow(exceptionSupplier);
     }
-    if (object.equals(otherObject)) {
-      return object;
-    }
-    throw getSupplierOrThrow(exceptionSupplier);
   }
 }
