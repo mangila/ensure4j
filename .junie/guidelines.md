@@ -6,22 +6,23 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 
 ### Prerequisites
 
-- **Java 25**: The project is compiled with Java 25 and is compatible with Java 17+.
+- **Java**: The project is compiled with Java 17 and developed with Java 25 for outermost compatibility.
 - **Maven**: Use the installed Mise Maven installation.
 
 ## How to contribute
 
 - Only contribute to the `lib` and `examples` module.
-- Always write tests unit tests for new methods.
-- Ignore the architecture tests if it fails, it's ok.
+- Always write unit tests for new methods.
 - The code shall follow the Google Java Style Guide
 
 ## Coding Guidelines and Javadocs
 
 - Make sure formatting is correct by runnig `mvn -f lib/pom.xml com.spotify.fmt:fmt-maven-plugin:format`
-- Make sure the methods are implemented for the overloaded methods following the Step-down Rule (or the Newspaper Metaphor).
+- Make sure the methods are implemented for the overloaded methods following the Step-down Rule (or the Newspaper
+  Metaphor).
 
 Create methods with descriptive names and javadocs in the following format:
+
 ```java
 /**
  * Ensures that the provided array is not null or empty.
@@ -87,11 +88,6 @@ Abort everything if tests fail in more than two iterations.
 - **AssertJ**: Used for fluent assertions.
 
 ### Writing Tests
-
-- Use descriptive `@DisplayName` where it adds clarity.
-- For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
-
-### Guidelines for New Tests
 
 - Use descriptive `@DisplayName` where it adds clarity.
 - For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
