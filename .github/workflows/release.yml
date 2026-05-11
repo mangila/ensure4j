@@ -83,10 +83,12 @@ jobs:
           fromTag: "${{ steps.previous_tag.outputs.tag }}"
           toTag: "${{ steps.current_tag.outputs.tag }}"
           mode: "PR"
+          owner: "mangila"
+          repository: "ensure4j"
           # language=JSON
           configurationJson: |
             {
-              "template": "## 📝 Release Notes\n\n#{{CHANGELOG}}",
+              "template": "#{{CHANGELOG}}",
               "categories": [
                 {
                   "title": "## 🚀 New Features",
