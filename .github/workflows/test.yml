@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
+        # https://github.com/actions/checkout
         uses: actions/checkout@v6
 
       - name: Setup Java
+        # https://github.com/actions/setup-java
         uses: actions/setup-java@v5
         with:
           java-version: 25

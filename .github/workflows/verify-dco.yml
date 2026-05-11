@@ -13,6 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-        # https://github.com/tisonkun/actions-dco
       - name: Run Verify Developer Certificate of Origin (DCO)
+        # https://github.com/tisonkun/actions-dco
         uses: tisonkun/actions-dco@v1.1
