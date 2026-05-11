@@ -28,6 +28,7 @@ public enum EnsureNullOps {
    * @param defaultObject the default object to return if {@code object} is null
    * @return {@code object} if it is not null, otherwise {@code defaultObject}
    * @see #notNullOrElseGet(Object, Supplier)
+   * @deprecated Use {@link java.util.Objects#requireNonNullElse(Object, Object)} instead.
    */
   @Contract("null, _ -> param2; !null, _ -> param1")
   @Deprecated(since = "3.0.4", forRemoval = true)
@@ -48,6 +49,7 @@ public enum EnsureNullOps {
    * @return the non-null {@code object}, or the value provided by the {@code fallbackSupplier}
    * @throws EnsureException if the {@code fallbackSupplier} is null or produces a null value
    * @see #notNullOrElse(Object, Object)
+   * @deprecated Use {@link java.util.Objects#requireNonNullElseGet(Object, Supplier)} instead.
    */
   @Deprecated(since = "3.0.4", forRemoval = true)
   public <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier) throws EnsureException {
