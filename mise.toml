@@ -6,9 +6,9 @@ python = "3.14.4"
 [env]
 _.python.venv = ".venv"
 
-[tasks."mvn:test"]
+[tasks."mvn:validate"]
 dir = "./lib"
-run = "mvn clean test"
+run = "mvn clean validate"
 
 [tasks.mvn-format]
 description = "Sort pom.xml and format java code"
@@ -17,3 +17,7 @@ run = [
     "mvn sortpom:sort",
     "mvn fmt:format",
 ]
+
+[tasks.megalint]
+description = "Megalint with Java flavor"
+run = "docker run --rm -v $(pwd):/tmp/lint:rw oxsecurity/megalinter-java"

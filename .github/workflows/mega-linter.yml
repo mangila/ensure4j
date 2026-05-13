@@ -1,0 +1,34 @@
+---
+# MegaLinter GitHub Action configuration file
+# More info at https://megalinter.io
+name: MegaLinter
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  megalinter:
+    name: MegaLinter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: MegaLinter
+        id: ml
+        # https://megalinter.io/latest/flavors/java/
+        uses: oxsecurity/megalinter/flavors/java@v9.4.0
+
+      - name: Archive MegaLinter report
+        if: success() || failure()
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: MegaLinter reports
+          path: |
+            megalinter-reports
+            mega-linter.log
+          if-no-files-found: error
+          retention-days: 3

@@ -119,6 +119,7 @@ Thumbs.db
 # Local
 # =========================================
 
+megalinter-reports/
 mykey.asc
 settings.xml
 CHANGES.md
