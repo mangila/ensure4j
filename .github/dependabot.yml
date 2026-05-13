@@ -13,4 +13,4 @@ updates:
   - package-ecosystem: "maven"
     directory: "/examples"
     schedule:
-      interval: "daily"
+      interval: "weekly"
