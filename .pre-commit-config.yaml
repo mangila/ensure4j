@@ -8,9 +8,9 @@ minimum_pre_commit_version: '4.6.0'
 repos:
   - repo: local
     hooks:
-      - id: mvn-test-ensure4j
-        name: Maven Test ensure4j
-        entry: mise mvn:test
+      - id: mvn-validate-ensure4j
+        name: Maven Validate ensure4j
+        entry: mise mvn:validate
         language: system
         files: ^lib/src
         require_serial: true
