@@ -14,15 +14,18 @@ jobs:
       id-token: write
       actions: read
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./lib
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: Configure Git User
+        # language=bash
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Setup Java
         # https://github.com/actions/setup-java
@@ -52,10 +55,8 @@ jobs:
         # language=bash
         run: |
           export GPG_TTY=$(tty)
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "olsson.erik1993@gmail.com"
-          mvn -B --no-transfer-progress --file pom.xml release:prepare
-          mvn -B --no-transfer-progress --file pom.xml release:perform
+          mvn -B --no-transfer-progress --file lib/pom.xml release:prepare
+          mvn -B --no-transfer-progress --file lib/pom.xml release:perform
           git push origin main --tags
 
       - name: Upload Pages Artifact
