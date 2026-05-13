@@ -5,10 +5,16 @@
 Install https://mise.jdx.dev/getting-started.html
 
 Trust this directory
-`mise trust`
+
+```bash
+mise trust
+```
 
 Install mise stuffs
-`mise install`
+
+```bash
+mise install
+```
 
 ## Pre commit Setup
 
@@ -18,11 +24,15 @@ Create a virtual environment in the root of this project (for convenience)
 
 Install the `requirements.txt` file.
 
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 Set up pre-commit hooks.
 
-`pre-commit install`
+```bash
+pre-commit install
+```
 
 ## Agent Setup
 
