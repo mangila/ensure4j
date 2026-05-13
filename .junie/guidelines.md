@@ -35,7 +35,7 @@ Create methods with descriptive names and javadocs in the following format:
  * @see #notEmpty(Object[], String)
  * @see #notEmpty(Object[], Supplier)
  */
-public <T> T[] notEmpty(T[] array) throws EnsureException {
+public <T> T[] notEmpty(T[] array) {
     return notEmpty(array, "array must not be empty");
 }
 
@@ -50,7 +50,7 @@ public <T> T[] notEmpty(T[] array) throws EnsureException {
  * @see #notEmpty(Object[])
  * @see #notEmpty(Object[], Supplier)
  */
-public <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
+public <T> T[] notEmpty(T[] array, String exceptionMessage) {
     return notEmpty(array, () -> EnsureException.of(exceptionMessage));
 }
 

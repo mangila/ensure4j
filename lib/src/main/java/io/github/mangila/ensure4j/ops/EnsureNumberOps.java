@@ -30,7 +30,7 @@ public enum EnsureNumberOps {
    * @see #max(long, long, Supplier)
    */
   @Contract("_, _ -> param2")
-  public long max(long boundary, long value) throws EnsureException {
+  public long max(long boundary, long value) {
     return max(
         boundary,
         value,
@@ -49,7 +49,7 @@ public enum EnsureNumberOps {
    * @see #max(long, long, Supplier)
    */
   @Contract("_, _, _ -> param2")
-  public long max(long boundary, long value, String exceptionMessage) throws EnsureException {
+  public long max(long boundary, long value, String exceptionMessage) {
     return max(boundary, value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -67,8 +67,8 @@ public enum EnsureNumberOps {
    * @see #max(long, long, String)
    */
   @Contract("_, _, _ -> param2")
-  public long max(long boundary, long value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public long max(
+      long boundary, long value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value > boundary) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -87,7 +87,7 @@ public enum EnsureNumberOps {
    * @see #max(int, int, Supplier)
    */
   @Contract("_, _ -> param2")
-  public int max(int boundary, int value) throws EnsureException {
+  public int max(int boundary, int value) {
     return max(
         boundary,
         value,
@@ -106,7 +106,7 @@ public enum EnsureNumberOps {
    * @see #max(int, int, Supplier)
    */
   @Contract("_, _, _ -> param2")
-  public int max(int boundary, int value, String exceptionMessage) throws EnsureException {
+  public int max(int boundary, int value, String exceptionMessage) {
     return max(boundary, value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -124,8 +124,7 @@ public enum EnsureNumberOps {
    * @see #max(int, int, String)
    */
   @Contract("_, _, _ -> param2")
-  public int max(int boundary, int value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public int max(int boundary, int value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value > boundary) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -144,7 +143,7 @@ public enum EnsureNumberOps {
    * @see #min(long, long, Supplier)
    */
   @Contract("_, _ -> param2")
-  public long min(long boundary, long value) throws EnsureException {
+  public long min(long boundary, long value) {
     return min(
         boundary,
         value,
@@ -163,7 +162,7 @@ public enum EnsureNumberOps {
    * @see #min(long, long, Supplier)
    */
   @Contract("_, _, _ -> param2")
-  public long min(long boundary, long value, String exceptionMessage) throws EnsureException {
+  public long min(long boundary, long value, String exceptionMessage) {
     return min(boundary, value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -181,8 +180,8 @@ public enum EnsureNumberOps {
    * @see #min(long, long, String)
    */
   @Contract("_, _, _ -> param2")
-  public long min(long boundary, long value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public long min(
+      long boundary, long value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value < boundary) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -201,7 +200,7 @@ public enum EnsureNumberOps {
    * @see #min(int, int, Supplier)
    */
   @Contract("_, _ -> param2")
-  public int min(int boundary, int value) throws EnsureException {
+  public int min(int boundary, int value) {
     return min(
         boundary,
         value,
@@ -220,7 +219,7 @@ public enum EnsureNumberOps {
    * @see #min(int, int, Supplier)
    */
   @Contract("_, _, _ -> param2")
-  public int min(int boundary, int value, String exceptionMessage) throws EnsureException {
+  public int min(int boundary, int value, String exceptionMessage) {
     return min(boundary, value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -238,8 +237,7 @@ public enum EnsureNumberOps {
    * @see #min(int, int, String)
    */
   @Contract("_, _, _ -> param2")
-  public int min(int boundary, int value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public int min(int boundary, int value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value < boundary) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -257,7 +255,7 @@ public enum EnsureNumberOps {
    * @see #positive(long, Supplier)
    */
   @Contract("_ -> param1")
-  public long positive(long value) throws EnsureException {
+  public long positive(long value) {
     return positive(value, "value must be positive - (%s)".formatted(value));
   }
 
@@ -272,7 +270,7 @@ public enum EnsureNumberOps {
    * @see #positive(long, Supplier)
    */
   @Contract("_, _ -> param1")
-  public long positive(long value, String exceptionMessage) throws EnsureException {
+  public long positive(long value, String exceptionMessage) {
     return positive(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -289,8 +287,7 @@ public enum EnsureNumberOps {
    * @see #positive(long, String)
    */
   @Contract("_, _ -> param1")
-  public long positive(long value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public long positive(long value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value <= 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -308,7 +305,7 @@ public enum EnsureNumberOps {
    * @see #positive(int, Supplier)
    */
   @Contract("_ -> param1")
-  public int positive(int value) throws EnsureException {
+  public int positive(int value) {
     return positive(value, "value must be positive - (%s)".formatted(value));
   }
 
@@ -323,7 +320,7 @@ public enum EnsureNumberOps {
    * @see #positive(int, Supplier)
    */
   @Contract("_, _ -> param1")
-  public int positive(int value, String exceptionMessage) throws EnsureException {
+  public int positive(int value, String exceptionMessage) {
     return positive(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -340,8 +337,7 @@ public enum EnsureNumberOps {
    * @see #positive(int, String)
    */
   @Contract("_, _ -> param1")
-  public int positive(int value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public int positive(int value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value <= 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -359,7 +355,7 @@ public enum EnsureNumberOps {
    * @see #positiveWithZero(long, Supplier)
    */
   @Contract("_ -> param1")
-  public long positiveWithZero(long value) throws EnsureException {
+  public long positiveWithZero(long value) {
     return positiveWithZero(value, "value must be positive or zero - (%s)".formatted(value));
   }
 
@@ -374,7 +370,7 @@ public enum EnsureNumberOps {
    * @see #positiveWithZero(long, Supplier)
    */
   @Contract("_, _ -> param1")
-  public long positiveWithZero(long value, String exceptionMessage) throws EnsureException {
+  public long positiveWithZero(long value, String exceptionMessage) {
     return positiveWithZero(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -391,8 +387,7 @@ public enum EnsureNumberOps {
    * @see #positiveWithZero(long, String)
    */
   @Contract("_, _ -> param1")
-  public long positiveWithZero(long value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public long positiveWithZero(long value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value < 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -410,7 +405,7 @@ public enum EnsureNumberOps {
    * @see #positiveWithZero(int, Supplier)
    */
   @Contract("_ -> param1")
-  public int positiveWithZero(int value) throws EnsureException {
+  public int positiveWithZero(int value) {
     return positiveWithZero(value, "value must be positive or zero - (%s)".formatted(value));
   }
 
@@ -425,7 +420,7 @@ public enum EnsureNumberOps {
    * @see #positiveWithZero(int, Supplier)
    */
   @Contract("_, _ -> param1")
-  public int positiveWithZero(int value, String exceptionMessage) throws EnsureException {
+  public int positiveWithZero(int value, String exceptionMessage) {
     return positiveWithZero(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -442,8 +437,7 @@ public enum EnsureNumberOps {
    * @see #positiveWithZero(int, String)
    */
   @Contract("_, _ -> param1")
-  public int positiveWithZero(int value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public int positiveWithZero(int value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value < 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -461,7 +455,7 @@ public enum EnsureNumberOps {
    * @see #negative(long, Supplier)
    */
   @Contract("_ -> param1")
-  public long negative(long value) throws EnsureException {
+  public long negative(long value) {
     return negative(value, "value must be negative - (%s)".formatted(value));
   }
 
@@ -476,7 +470,7 @@ public enum EnsureNumberOps {
    * @see #negative(long, Supplier)
    */
   @Contract("_, _ -> param1")
-  public long negative(long value, String exceptionMessage) throws EnsureException {
+  public long negative(long value, String exceptionMessage) {
     return negative(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -493,8 +487,7 @@ public enum EnsureNumberOps {
    * @see #negative(long, String)
    */
   @Contract("_, _ -> param1")
-  public long negative(long value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public long negative(long value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value >= 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -512,7 +505,7 @@ public enum EnsureNumberOps {
    * @see #negative(int, Supplier)
    */
   @Contract("_ -> param1")
-  public int negative(int value) throws EnsureException {
+  public int negative(int value) {
     return negative(value, "value must be negative - (%s)".formatted(value));
   }
 
@@ -527,7 +520,7 @@ public enum EnsureNumberOps {
    * @see #negative(int, Supplier)
    */
   @Contract("_, _ -> param1")
-  public int negative(int value, String exceptionMessage) throws EnsureException {
+  public int negative(int value, String exceptionMessage) {
     return negative(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -544,8 +537,7 @@ public enum EnsureNumberOps {
    * @see #negative(int, String)
    */
   @Contract("_, _ -> param1")
-  public int negative(int value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public int negative(int value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value >= 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -563,7 +555,7 @@ public enum EnsureNumberOps {
    * @see #negativeWithZero(long, Supplier)
    */
   @Contract("_ -> param1")
-  public long negativeWithZero(long value) throws EnsureException {
+  public long negativeWithZero(long value) {
     return negativeWithZero(value, "value must be negative or zero - (%s)".formatted(value));
   }
 
@@ -578,7 +570,7 @@ public enum EnsureNumberOps {
    * @see #negativeWithZero(long, Supplier)
    */
   @Contract("_, _ -> param1")
-  public long negativeWithZero(long value, String exceptionMessage) throws EnsureException {
+  public long negativeWithZero(long value, String exceptionMessage) {
     return negativeWithZero(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -595,8 +587,7 @@ public enum EnsureNumberOps {
    * @see #negativeWithZero(long, String)
    */
   @Contract("_, _ -> param1")
-  public long negativeWithZero(long value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public long negativeWithZero(long value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value > 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -614,7 +605,7 @@ public enum EnsureNumberOps {
    * @see #negativeWithZero(int, Supplier)
    */
   @Contract("_ -> param1")
-  public int negativeWithZero(int value) throws EnsureException {
+  public int negativeWithZero(int value) {
     return negativeWithZero(value, "value must be negative or zero - (%s)".formatted(value));
   }
 
@@ -629,7 +620,7 @@ public enum EnsureNumberOps {
    * @see #negativeWithZero(int, Supplier)
    */
   @Contract("_, _ -> param1")
-  public int negativeWithZero(int value, String exceptionMessage) throws EnsureException {
+  public int negativeWithZero(int value, String exceptionMessage) {
     return negativeWithZero(value, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -646,8 +637,7 @@ public enum EnsureNumberOps {
    * @see #negativeWithZero(int, String)
    */
   @Contract("_, _ -> param1")
-  public int negativeWithZero(int value, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public int negativeWithZero(int value, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (value > 0) {
       throw getSupplierOrThrow(exceptionSupplier);
     }

@@ -101,15 +101,13 @@ class EnsureObjectOpsTest implements EnsureOpsTest<EnsureObjectOps> {
 
   @Test
   void isEqualsObjectSuccess() {
-    String val1 = "test";
-    String val2 = new String("test");
-    String result = instance().isEquals(val1, val2);
-    assertThat(result).isEqualTo(val1);
 
-    String val3 = "test";
-    String val4 = val3;
-    String result2 = instance().isEquals(val3, val4);
-    assertThat(result2).isEqualTo(val3);
+    record TestRecord(String value) {}
+
+    TestRecord val1 = new TestRecord("test");
+    TestRecord val2 = new TestRecord("test");
+    TestRecord result = instance().isEquals(val1, val2);
+    assertThat(result).isEqualTo(val1);
   }
 
   @Test

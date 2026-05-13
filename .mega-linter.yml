@@ -21,7 +21,7 @@ ENABLE_LINTERS:
 JAVA_CHECKSTYLE_CONFIG_FILE: megalinter-config/google-checks.xml
 JAVA_PMD_CONFIG_FILE: megalinter-config/pmd-ruleset.xml
 
-FILTER_REGEX_INCLUDE: (lib/)
+FILTER_REGEX_INCLUDE: (lib/src)
 
 # Exclude unessential directories
 FILTER_REGEX_EXCLUDE: (target/|.venv/|.idea/|.git/)

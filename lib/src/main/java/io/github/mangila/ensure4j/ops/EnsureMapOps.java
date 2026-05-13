@@ -32,7 +32,7 @@ public enum EnsureMapOps {
    * @see #notEmpty(Map, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public <T extends Map<?, ?>> T notEmpty(T map) throws EnsureException {
+  public <T extends Map<?, ?>> T notEmpty(T map) {
     return notEmpty(map, "map must not be empty or null");
   }
 
@@ -48,7 +48,7 @@ public enum EnsureMapOps {
    * @see #notEmpty(Map, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T extends Map<?, ?>> T notEmpty(T map, String exceptionMessage) throws EnsureException {
+  public <T extends Map<?, ?>> T notEmpty(T map, String exceptionMessage) {
     return notEmpty(map, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -67,7 +67,7 @@ public enum EnsureMapOps {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public <T extends Map<?, ?>> T notEmpty(
-      T map, Supplier<? extends RuntimeException> exceptionSupplier) throws RuntimeException {
+      T map, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(map) || map.isEmpty()) {
       throw getSupplierOrThrow(exceptionSupplier);
     }

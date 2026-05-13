@@ -108,8 +108,7 @@ public final class Ensure {
    *     instead
    */
   @Deprecated(since = "3.0.4", forRemoval = true)
-  public static <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier)
-      throws EnsureException {
+  public static <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier) {
     return NULL_OPS.notNullOrElseGet(object, fallbackSupplier);
   }
 
@@ -144,8 +143,7 @@ public final class Ensure {
    * @see EnsureNullOps#notNull(Object, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public static <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public static <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier) {
     return NULL_OPS.notNull(object, exceptionSupplier);
   }
 
@@ -160,7 +158,7 @@ public final class Ensure {
    * @see EnsureNullOps#notNull(Object, String)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public static <T> T notNull(T object, String exceptionMessage) throws EnsureException {
+  public static <T> T notNull(T object, String exceptionMessage) {
     return NULL_OPS.notNull(object, exceptionMessage);
   }
 
@@ -175,7 +173,7 @@ public final class Ensure {
    * @see EnsureNullOps#notNull(Object)
    */
   @Contract("null -> fail; !null -> param1")
-  public static <T> T notNull(T object) throws EnsureException {
+  public static <T> T notNull(T object) {
     return NULL_OPS.notNull(object);
   }
 
@@ -191,8 +189,7 @@ public final class Ensure {
    */
   @Contract("false, _ -> fail")
   public static void isTrue(
-      boolean expression, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      boolean expression, Supplier<? extends RuntimeException> exceptionSupplier) {
     BOOLEAN_OPS.isTrue(expression, exceptionSupplier);
   }
 
@@ -205,7 +202,7 @@ public final class Ensure {
    * @see EnsureBooleanOps#isTrue(boolean, String)
    */
   @Contract("false, _ -> fail")
-  public static void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
+  public static void isTrue(boolean expression, String exceptionMessage) {
     BOOLEAN_OPS.isTrue(expression, exceptionMessage);
   }
 
@@ -218,7 +215,7 @@ public final class Ensure {
    * @see EnsureBooleanOps#isTrue(boolean)
    */
   @Contract("false -> fail")
-  public static void isTrue(boolean expression) throws EnsureException {
+  public static void isTrue(boolean expression) {
     BOOLEAN_OPS.isTrue(expression);
   }
 
@@ -234,8 +231,7 @@ public final class Ensure {
    */
   @Contract("true, _ -> fail")
   public static void isFalse(
-      boolean expression, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      boolean expression, Supplier<? extends RuntimeException> exceptionSupplier) {
     BOOLEAN_OPS.isFalse(expression, exceptionSupplier);
   }
 
@@ -248,7 +244,7 @@ public final class Ensure {
    * @see EnsureBooleanOps#isFalse(boolean, String)
    */
   @Contract("true, _ -> fail")
-  public static void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
+  public static void isFalse(boolean expression, String exceptionMessage) {
     BOOLEAN_OPS.isFalse(expression, exceptionMessage);
   }
 
@@ -261,7 +257,7 @@ public final class Ensure {
    * @see EnsureBooleanOps#isFalse(boolean)
    */
   @Contract("true -> fail")
-  public static void isFalse(boolean expression) throws EnsureException {
+  public static void isFalse(boolean expression) {
     BOOLEAN_OPS.isFalse(expression);
   }
 }

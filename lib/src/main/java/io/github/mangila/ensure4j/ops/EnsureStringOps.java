@@ -72,7 +72,7 @@ public enum EnsureStringOps {
    * @see #notBlank(String, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public String notBlank(String string) throws EnsureException {
+  public String notBlank(String string) {
     return notBlank(string, "string must not be blank");
   }
 
@@ -87,7 +87,7 @@ public enum EnsureStringOps {
    * @see #notBlank(String, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public String notBlank(String string, String exceptionMessage) throws EnsureException {
+  public String notBlank(String string, String exceptionMessage) {
     return notBlank(string, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -104,8 +104,7 @@ public enum EnsureStringOps {
    * @see #notBlank(String, String)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public String notBlank(String string, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public String notBlank(String string, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(string) || isBlank(string)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -124,7 +123,7 @@ public enum EnsureStringOps {
    * @see #minLength(int, String, Supplier)
    */
   @Contract("_, null -> fail; _, !null -> param2")
-  public String minLength(int min, String string) throws EnsureException {
+  public String minLength(int min, String string) {
     return minLength(min, string, "string length must be at least %d".formatted(min));
   }
 
@@ -141,7 +140,7 @@ public enum EnsureStringOps {
    * @see #minLength(int, String, Supplier)
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
-  public String minLength(int min, String string, String exceptionMessage) throws EnsureException {
+  public String minLength(int min, String string, String exceptionMessage) {
     return minLength(min, string, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -160,8 +159,7 @@ public enum EnsureStringOps {
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
   public String minLength(
-      int min, String string, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      int min, String string, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(string) || string.length() < min) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -180,7 +178,7 @@ public enum EnsureStringOps {
    * @see #maxLength(int, String, Supplier)
    */
   @Contract("_, null -> fail; _, !null -> param2")
-  public String maxLength(int max, String string) throws EnsureException {
+  public String maxLength(int max, String string) {
     return maxLength(max, string, "string length must be at most %d".formatted(max));
   }
 
@@ -196,7 +194,7 @@ public enum EnsureStringOps {
    * @see #maxLength(int, String, Supplier)
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
-  public String maxLength(int max, String string, String exceptionMessage) throws EnsureException {
+  public String maxLength(int max, String string, String exceptionMessage) {
     return maxLength(max, string, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -215,8 +213,7 @@ public enum EnsureStringOps {
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
   public String maxLength(
-      int max, String string, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      int max, String string, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(string) || string.length() > max) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -235,7 +232,7 @@ public enum EnsureStringOps {
    * @see #startsWith(String, String, Supplier)
    */
   @Contract("_, null -> fail; _, !null -> param2")
-  public String startsWith(String prefix, String string) throws EnsureException {
+  public String startsWith(String prefix, String string) {
     return startsWith(prefix, string, "string must start with %s".formatted(prefix));
   }
 
@@ -251,8 +248,7 @@ public enum EnsureStringOps {
    * @see #startsWith(String, String, Supplier)
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
-  public String startsWith(String prefix, String string, String exceptionMessage)
-      throws EnsureException {
+  public String startsWith(String prefix, String string, String exceptionMessage) {
     return startsWith(prefix, string, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -271,8 +267,7 @@ public enum EnsureStringOps {
    */
   @Contract("null, _, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param2")
   public String startsWith(
-      String prefix, String string, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      String prefix, String string, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(prefix)) {
       throw EnsureException.of("prefix must not be null");
     }
@@ -294,7 +289,7 @@ public enum EnsureStringOps {
    * @see #endsWith(String, String, Supplier)
    */
   @Contract("_, null -> fail; _, !null -> param2")
-  public String endsWith(String suffix, String string) throws EnsureException {
+  public String endsWith(String suffix, String string) {
     return endsWith(suffix, string, "string must end with %s".formatted(suffix));
   }
 
@@ -310,8 +305,7 @@ public enum EnsureStringOps {
    * @see #endsWith(String, String, Supplier)
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
-  public String endsWith(String suffix, String string, String exceptionMessage)
-      throws EnsureException {
+  public String endsWith(String suffix, String string, String exceptionMessage) {
     return endsWith(suffix, string, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -330,8 +324,7 @@ public enum EnsureStringOps {
    */
   @Contract("null, _, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param2")
   public String endsWith(
-      String suffix, String string, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      String suffix, String string, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(suffix)) {
       throw EnsureException.of("suffix must not be null");
     }
@@ -353,7 +346,7 @@ public enum EnsureStringOps {
    * @see #matches(String, String, Supplier)
    */
   @Contract("_, null -> fail; _, !null -> param2")
-  public String matches(@RegExp String regex, String string) throws EnsureException {
+  public String matches(@RegExp String regex, String string) {
     return matches(regex, string, "string must match regex '%s'".formatted(regex));
   }
 
@@ -370,8 +363,7 @@ public enum EnsureStringOps {
    * @see #matches(String, String, Supplier)
    */
   @Contract("_, null, _ -> fail; _, !null, _ -> param2")
-  public String matches(@RegExp String regex, String string, String exceptionMessage)
-      throws EnsureException {
+  public String matches(@RegExp String regex, String string, String exceptionMessage) {
     return matches(regex, string, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -390,8 +382,7 @@ public enum EnsureStringOps {
    */
   @Contract("null, _, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param2")
   public String matches(
-      @RegExp String regex, String string, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      @RegExp String regex, String string, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(regex)) {
       throw EnsureException.of("regex must not be null");
     }
