@@ -1,14 +1,20 @@
 # Development Setup
 
-This is optional but mostly for local development.
+## Mise Setup
 
-To speed up the development process and quality assurance.
+Install https://mise.jdx.dev/getting-started.html
+
+Trust this directory
+`mise trust`
+
+Install mise stuffs
+`mise install`
 
 ## Pre commit Setup
 
 - https://pre-commit.com/
 
-Create a virtual environment for the project in the root directory or use the existing one installed from Mise
+Create a virtual environment in the root of this project (for convenience)
 
 Install the `requirements.txt` file.
 
