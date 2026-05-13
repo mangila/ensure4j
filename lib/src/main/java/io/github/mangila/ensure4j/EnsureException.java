@@ -1,5 +1,7 @@
 package io.github.mangila.ensure4j;
 
+import java.io.Serial;
+
 /**
  * Represents an exception that can be used for validation or ensuring specific conditions are met
  * during runtime. This exception is unchecked and extends {@code RuntimeException}. <br>
@@ -7,6 +9,8 @@ package io.github.mangila.ensure4j;
  * static factory method for creating new instances using a provided message.
  */
 public class EnsureException extends RuntimeException {
+
+  @Serial private static final long serialVersionUID = 1L;
 
   /**
    * Constructs a new {@code EnsureException} with the specified detail message.

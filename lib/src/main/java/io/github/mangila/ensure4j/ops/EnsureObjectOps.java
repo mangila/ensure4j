@@ -34,7 +34,7 @@ public enum EnsureObjectOps {
    * @see #isInstanceOf(Class, Object, Supplier)
    */
   @Contract("_, null -> fail; !null, !null -> param2")
-  public <T> T isInstanceOf(Class<T> clazz, Object object) throws EnsureException {
+  public <T> T isInstanceOf(Class<T> clazz, Object object) {
     notNull(clazz, "class must not be null");
     return isInstanceOf(
         clazz, object, "object must be an instance of %s".formatted(clazz.getName()));
@@ -54,8 +54,7 @@ public enum EnsureObjectOps {
    * @see #isInstanceOf(Class, Object, Supplier)
    */
   @Contract("_, null, _ -> fail; !null, !null, _ -> param2")
-  public <T> T isInstanceOf(Class<T> clazz, Object object, String exceptionMessage)
-      throws EnsureException {
+  public <T> T isInstanceOf(Class<T> clazz, Object object, String exceptionMessage) {
     return isInstanceOf(clazz, object, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -76,8 +75,7 @@ public enum EnsureObjectOps {
   @Contract("null, _, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param2")
   @SuppressWarnings("unchecked")
   public <T> T isInstanceOf(
-      Class<T> clazz, Object object, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      Class<T> clazz, Object object, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(clazz) || !clazz.isInstance(object)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -100,7 +98,7 @@ public enum EnsureObjectOps {
   @Contract(
       "null, !null -> fail; !null, null -> fail; null, null -> param1; !null, !null -> param1")
   @Deprecated(since = "3.0.4", forRemoval = true)
-  public <T extends Enum<T>> T isEquals(T enum1, T enum2) throws EnsureException {
+  public <T extends Enum<T>> T isEquals(T enum1, T enum2) {
     return isEquals(enum1, enum2, "enums must be equal");
   }
 
@@ -120,8 +118,7 @@ public enum EnsureObjectOps {
   @Contract(
       "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
   @Deprecated(since = "3.0.4", forRemoval = true)
-  public <T extends Enum<T>> T isEquals(T enum1, T enum2, String exceptionMessage)
-      throws EnsureException {
+  public <T extends Enum<T>> T isEquals(T enum1, T enum2, String exceptionMessage) {
     return isEquals(enum1, enum2, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -144,8 +141,7 @@ public enum EnsureObjectOps {
       "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
   @Deprecated(since = "3.0.4", forRemoval = true)
   public <T extends Enum<T>> T isEquals(
-      T enum1, T enum2, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      T enum1, T enum2, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (enum1 != enum2) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -166,7 +162,7 @@ public enum EnsureObjectOps {
    */
   @Contract(
       "null, !null -> fail; !null, null -> fail; null, null -> param1; !null, !null -> param1")
-  public <T> T isEquals(T object, Object otherObject) throws EnsureException {
+  public <T> T isEquals(T object, Object otherObject) {
     return isEquals(object, otherObject, "objects must be equal");
   }
 
@@ -184,8 +180,7 @@ public enum EnsureObjectOps {
    */
   @Contract(
       "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
-  public <T> T isEquals(T object, Object otherObject, String exceptionMessage)
-      throws EnsureException {
+  public <T> T isEquals(T object, Object otherObject, String exceptionMessage) {
     return isEquals(object, otherObject, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -206,8 +201,7 @@ public enum EnsureObjectOps {
   @Contract(
       "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
   public <T> T isEquals(
-      T object, Object otherObject, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      T object, Object otherObject, Supplier<? extends RuntimeException> exceptionSupplier) {
     final boolean eq = Objects.equals(object, otherObject);
     if (eq) {
       return object;

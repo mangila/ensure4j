@@ -52,7 +52,7 @@ public enum EnsureNullOps {
    * @deprecated Use {@link java.util.Objects#requireNonNullElseGet(Object, Supplier)} instead.
    */
   @Deprecated(since = "3.0.4", forRemoval = true)
-  public <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier) throws EnsureException {
+  public <T> T notNullOrElseGet(T object, Supplier<T> fallbackSupplier) {
     if (isNull(object)) {
       return getSupplierOrThrow(fallbackSupplier);
     }
@@ -71,7 +71,7 @@ public enum EnsureNullOps {
    * @see #notNull(Object, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public <T> T notNull(T object) throws EnsureException {
+  public <T> T notNull(T object) {
     return notNull(object, "object must not be null");
   }
 
@@ -87,7 +87,7 @@ public enum EnsureNullOps {
    * @see #notNull(Object, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T> T notNull(T object, String exceptionMessage) throws EnsureException {
+  public <T> T notNull(T object, String exceptionMessage) {
     return notNull(object, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -105,8 +105,7 @@ public enum EnsureNullOps {
    * @see #notNull(Object, String)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+  public <T> T notNull(T object, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(object)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }

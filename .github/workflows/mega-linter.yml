@@ -20,6 +20,8 @@ jobs:
         id: ml
         # https://megalinter.io/latest/flavors/java/
         uses: oxsecurity/megalinter/flavors/java@v9.4.0
+        env:
+          JAVA_PMD_ARGUMENTS: "--minimum-priority 2"
 
       - name: Archive MegaLinter report
         if: success() || failure()

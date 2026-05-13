@@ -31,7 +31,7 @@ public enum EnsureDateTimeOps {
    * @see #isFuture(Instant, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public Instant isFuture(Instant instant) throws EnsureException {
+  public Instant isFuture(Instant instant) {
     return isFuture(instant, "instant must be in the future");
   }
 
@@ -46,7 +46,7 @@ public enum EnsureDateTimeOps {
    * @see #isFuture(Instant, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public Instant isFuture(Instant instant, String exceptionMessage) throws EnsureException {
+  public Instant isFuture(Instant instant, String exceptionMessage) {
     return isFuture(instant, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -81,7 +81,7 @@ public enum EnsureDateTimeOps {
    * @see #isPastOrPresent(Instant, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public Instant isPastOrPresent(Instant instant) throws EnsureException {
+  public Instant isPastOrPresent(Instant instant) {
     return isPastOrPresent(instant, "instant must be in the past or present");
   }
 
@@ -96,7 +96,7 @@ public enum EnsureDateTimeOps {
    * @see #isPastOrPresent(Instant, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public Instant isPastOrPresent(Instant instant, String exceptionMessage) throws EnsureException {
+  public Instant isPastOrPresent(Instant instant, String exceptionMessage) {
     return isPastOrPresent(instant, () -> EnsureException.of(exceptionMessage));
   }
 

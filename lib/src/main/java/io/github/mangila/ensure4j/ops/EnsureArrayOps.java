@@ -30,7 +30,7 @@ public enum EnsureArrayOps {
    * @see #notEmpty(Object[], Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public <T> T[] notEmpty(T[] array) throws EnsureException {
+  public <T> T[] notEmpty(T[] array) {
     return notEmpty(array, "array must not be empty");
   }
 
@@ -46,7 +46,7 @@ public enum EnsureArrayOps {
    * @see #notEmpty(Object[], Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T> T[] notEmpty(T[] array, String exceptionMessage) throws EnsureException {
+  public <T> T[] notEmpty(T[] array, String exceptionMessage) {
     return notEmpty(array, () -> EnsureException.of(exceptionMessage));
   }
 

@@ -33,8 +33,7 @@ public enum EnsureCollectionOps {
    * @see #containsElement(Collection, Object, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T extends Collection<?>> T containsElement(T collection, Object element)
-      throws RuntimeException {
+  public <T extends Collection<?>> T containsElement(T collection, Object element) {
     return containsElement(
         collection, element, "collection must contain element '%s'".formatted(element));
   }
@@ -54,7 +53,7 @@ public enum EnsureCollectionOps {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public <T extends Collection<?>> T containsElement(
-      T collection, Object element, String exceptionMessage) throws RuntimeException {
+      T collection, Object element, String exceptionMessage) {
     return containsElement(collection, element, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -74,8 +73,7 @@ public enum EnsureCollectionOps {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public <T extends Collection<?>> T containsElement(
-      T collection, Object element, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      T collection, Object element, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(collection) || !collection.contains(element)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -94,7 +92,7 @@ public enum EnsureCollectionOps {
    * @see #notContainsNullIterate(Collection, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public <T extends Collection<?>> T notContainsNullIterate(T collection) throws EnsureException {
+  public <T extends Collection<?>> T notContainsNullIterate(T collection) {
     return notContainsNullIterate(collection, "collection must not contain null elements");
   }
 
@@ -110,8 +108,7 @@ public enum EnsureCollectionOps {
    * @see #notContainsNullIterate(Collection, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T extends Collection<?>> T notContainsNullIterate(T collection, String exceptionMessage)
-      throws EnsureException {
+  public <T extends Collection<?>> T notContainsNullIterate(T collection, String exceptionMessage) {
     return notContainsNullIterate(collection, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -130,12 +127,11 @@ public enum EnsureCollectionOps {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public <T extends Collection<?>> T notContainsNullIterate(
-      T collection, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      T collection, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(collection)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
-    for (Object element : collection) {
+    for (final Object element : collection) {
       if (isNull(element)) {
         throw getSupplierOrThrow(exceptionSupplier);
       }
@@ -155,7 +151,7 @@ public enum EnsureCollectionOps {
    * @see #notContainsNull(Collection, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public <T extends Collection<?>> T notContainsNull(T collection) throws EnsureException {
+  public <T extends Collection<?>> T notContainsNull(T collection) {
     return notContainsNull(collection, "collection must not contain null elements");
   }
 
@@ -171,8 +167,7 @@ public enum EnsureCollectionOps {
    * @see #notContainsNull(Collection, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T extends Collection<?>> T notContainsNull(T collection, String exceptionMessage)
-      throws EnsureException {
+  public <T extends Collection<?>> T notContainsNull(T collection, String exceptionMessage) {
     return notContainsNull(collection, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -191,8 +186,7 @@ public enum EnsureCollectionOps {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public <T extends Collection<?>> T notContainsNull(
-      T collection, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      T collection, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(collection) || collection.contains(null)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -211,7 +205,7 @@ public enum EnsureCollectionOps {
    * @see #notEmpty(Collection, Supplier)
    */
   @Contract("null -> fail; !null -> param1")
-  public <T extends Collection<?>> T notEmpty(T collection) throws EnsureException {
+  public <T extends Collection<?>> T notEmpty(T collection) {
     return notEmpty(collection, "collection must not be empty or null");
   }
 
@@ -227,8 +221,7 @@ public enum EnsureCollectionOps {
    * @see #notEmpty(Collection, Supplier)
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
-  public <T extends Collection<?>> T notEmpty(T collection, String exceptionMessage)
-      throws EnsureException {
+  public <T extends Collection<?>> T notEmpty(T collection, String exceptionMessage) {
     return notEmpty(collection, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -247,8 +240,7 @@ public enum EnsureCollectionOps {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public <T extends Collection<?>> T notEmpty(
-      T collection, Supplier<? extends RuntimeException> exceptionSupplier)
-      throws RuntimeException {
+      T collection, Supplier<? extends RuntimeException> exceptionSupplier) {
     if (isNull(collection) || collection.isEmpty()) {
       throw getSupplierOrThrow(exceptionSupplier);
     }

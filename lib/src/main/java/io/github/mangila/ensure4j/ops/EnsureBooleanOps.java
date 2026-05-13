@@ -28,7 +28,7 @@ public enum EnsureBooleanOps {
    * @see #isTrue(boolean, Supplier)
    */
   @Contract("false -> fail")
-  public void isTrue(boolean expression) throws EnsureException {
+  public void isTrue(boolean expression) {
     isTrue(expression, "boolean must be true");
   }
 
@@ -42,7 +42,7 @@ public enum EnsureBooleanOps {
    * @see #isTrue(boolean, Supplier)
    */
   @Contract("false, _ -> fail")
-  public void isTrue(boolean expression, String exceptionMessage) throws EnsureException {
+  public void isTrue(boolean expression, String exceptionMessage) {
     isTrue(expression, () -> EnsureException.of(exceptionMessage));
   }
 
@@ -74,7 +74,7 @@ public enum EnsureBooleanOps {
    * @see #isFalse(boolean, Supplier)
    */
   @Contract("true -> fail")
-  public void isFalse(boolean expression) throws EnsureException {
+  public void isFalse(boolean expression) {
     isFalse(expression, "boolean must be false");
   }
 
@@ -88,7 +88,7 @@ public enum EnsureBooleanOps {
    * @see #isFalse(boolean, Supplier)
    */
   @Contract("true, _ -> fail")
-  public void isFalse(boolean expression, String exceptionMessage) throws EnsureException {
+  public void isFalse(boolean expression, String exceptionMessage) {
     isFalse(expression, () -> EnsureException.of(exceptionMessage));
   }
 
