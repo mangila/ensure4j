@@ -20,7 +20,7 @@ class EnsureArrayOpsTest implements EnsureOpsTest<EnsureArrayOps> {
 
   @Override
   public long expectedPublicMethodCount() {
-    return 5;
+    return 11;
   }
 
   @Test
@@ -41,5 +41,61 @@ class EnsureArrayOpsTest implements EnsureOpsTest<EnsureArrayOps> {
   @Test
   void notEmptyNullFailure() {
     assertThatThrownBy(() -> instance().notEmpty(null)).isInstanceOf(EnsureException.class);
+  }
+
+  @Test
+  void equalToSuccess() {
+    String[] val1 = {"test"};
+    String[] val2 = {"test"};
+    String[] result = instance().equalTo(val1, val2);
+    assertThat(result).isSameAs(val1);
+  }
+
+  @Test
+  void equalToFailure() {
+    String[] val1 = {"test"};
+    String[] val2 = {"not equal"}; // different instance, same content
+    assertThatThrownBy(() -> instance().equalTo(val1, val2))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("arrays must be equal");
+  }
+
+  @Test
+  void deepEqualToSuccess() {
+    Object[] val1 = {new int[] {1, 2}};
+    Object[] val2 = {new int[] {1, 2}};
+    Object[] result = instance().deepEqualTo(val1, val2);
+    assertThat(result).isSameAs(val1);
+  }
+
+  @Test
+  void deepEqualToFailure() {
+    String[] val1 = {"test"};
+    String[] val2 = {"other"};
+    assertThatThrownBy(() -> instance().deepEqualTo(val1, val2))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("arrays must be deeply equal");
+  }
+
+  @Test
+  void deepEqualToCustomMessage() {
+    String[] val1 = {"test"};
+    String[] val2 = {"other"};
+    assertThatThrownBy(() -> instance().deepEqualTo(val1, val2, "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
+  }
+
+  @Test
+  void deepEqualToCustomException() {
+    String[] val1 = {"test"};
+    String[] val2 = {"other"};
+    assertThatThrownBy(
+            () ->
+                instance()
+                    .deepEqualTo(
+                        val1, val2, () -> new IllegalArgumentException("custom exception")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom exception");
   }
 }
