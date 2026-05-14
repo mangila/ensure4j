@@ -4,6 +4,16 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'SemVer Release Type'
+        required: true
+        default: 'Patch'
+        type: choice
+        options:
+          - Major
+          - Minor
+          - Patch
 
 jobs:
   release:

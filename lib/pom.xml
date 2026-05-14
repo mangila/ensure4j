@@ -7,7 +7,7 @@
   <version>4.0.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>Ensure your java code with preconditions checks</description>
+  <description>Ensure your Java code with preconditions checks</description>
   <url>https://mangila.github.io/ensure4j</url>
   <organization>
     <name>mangila</name>
