@@ -63,9 +63,11 @@ jobs:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         # language=bash
         run: |
-          export GPG_TTY=$(tty)
-          mvn -B --no-transfer-progress --file lib/pom.xml release:prepare
-          mvn -B --no-transfer-progress --file lib/pom.xml release:perform
+          MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -DskipTests=true -f lib/pom.xml"
+          RELEASE_ARGS="-Darguments=-B -V -e -ntp -Dstyle.color=always -DskipTests=true"
+          mvn ${MAVEN_ARGS} \
+          "${RELEASE_ARGS}" \
+          release:prepare release:perform
           git push origin main --tags
 
       - name: Set the Current Git tag for GitHub Release
@@ -102,7 +104,8 @@ jobs:
       - name: Build site
         # language=bash
         run: |
-          mvn -B --no-transfer-progress --file lib/pom.xml clean test site
+          MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -f lib/pom.xml"
+          mvn ${MAVEN_ARGS} clean test site
 
       - name: Upload Pages Artifact
         # https://github.com/actions/upload-pages-artifact
@@ -156,7 +159,8 @@ jobs:
                 {
                   "title": "## Test 🧪",
                   "labels": [
-                    "test"]
+                    "test"
+                  ]
                 },
                 {
                   "title": "## Dependency 📦",
