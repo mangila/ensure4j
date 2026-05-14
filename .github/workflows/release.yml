@@ -19,6 +19,7 @@ jobs:
         # https://github.com/actions/checkout
         uses: actions/checkout@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Configure Git User
@@ -51,8 +52,6 @@ jobs:
           SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
           MAVEN_GPG_KEY: ${{ secrets.GPG_KEY }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        with: 
-          token: ${{ secrets.PAT_TOKEN }}
         # language=bash
         run: |
           export GPG_TTY=$(tty)
