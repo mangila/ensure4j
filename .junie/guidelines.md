@@ -17,14 +17,21 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 
 ## Coding Guidelines and Javadocs
 
-- Make sure formatting is correct by runnig `mvn -f lib/pom.xml com.spotify.fmt:fmt-maven-plugin:format`
+Make sure the formatting is correct by running the mise task:
+```bash
+mise run mvn:format
+```
+
 - Make sure the methods are implemented for the overloaded methods following the Step-down Rule (or the Newspaper
   Metaphor).
+- Create methods with descriptive name
+- Use contracts for methods with the annotation `@org.jetbrains.annotations.Contract;`
+- Use Javadocs for all public methods
 
-Create methods with descriptive names and javadocs in the following format:
+Add Javadocs in the following format:
 
 ```java
-/**
+ /**
  * Ensures that the provided array is not null or empty.
  *
  * @param <T> the component type of the array
@@ -35,8 +42,9 @@ Create methods with descriptive names and javadocs in the following format:
  * @see #notEmpty(Object[], String)
  * @see #notEmpty(Object[], Supplier)
  */
+@Contract("null -> fail; !null -> param1")
 public <T> T[] notEmpty(T[] array) {
-    return notEmpty(array, "array must not be empty");
+  return notEmpty(array, "array must not be empty");
 }
 
 /**
@@ -50,8 +58,9 @@ public <T> T[] notEmpty(T[] array) {
  * @see #notEmpty(Object[])
  * @see #notEmpty(Object[], Supplier)
  */
+@Contract("null, _ -> fail; !null, _ -> param1")
 public <T> T[] notEmpty(T[] array, String exceptionMessage) {
-    return notEmpty(array, () -> EnsureException.of(exceptionMessage));
+  return notEmpty(array, () -> EnsureException.of(exceptionMessage));
 }
 
 /**
@@ -67,11 +76,12 @@ public <T> T[] notEmpty(T[] array, String exceptionMessage) {
  * @see #notEmpty(Object[])
  * @see #notEmpty(Object[], String)
  */
+@Contract("null, _ -> fail; !null, _ -> param1")
 public <T> T[] notEmpty(T[] array, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (isNull(array) || array.length == 0) {
-        throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return array;
+  if (isNull(array) || array.length == 0) {
+    throw getSupplierOrThrow(exceptionSupplier);
+  }
+  return array;
 }
 ```
 

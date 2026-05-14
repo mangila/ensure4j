@@ -39,7 +39,6 @@ jobs:
           cache: maven
 
       - name: Set previous Git tag for GitHub Release
-        id: previous_tag
         # language=bash
         run: |
           TAG=$(git describe --tags --abbrev=0)
@@ -71,7 +70,6 @@ jobs:
         uses: actions/deploy-pages@v5
 
       - name: Set the Current Git tag for GitHub Release
-        id: current_tag
         # language=bash
         run: |
           TAG=$(git describe --tags --abbrev=0)
