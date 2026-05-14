@@ -9,8 +9,9 @@
 APPLY_FIXES: none
 PRINT_ALL_FILES: true
 
-LOG_LEVEL: DEBUG
+CLEAR_REPORT_FOLDER: true
 
+LOG_LEVEL: DEBUG
 FAIL_IF_MISSING_LINTER_IN_FLAVOR: true
 ENABLE_LINTERS:
   # https://megalinter.io/latest/descriptors/java_checkstyle/

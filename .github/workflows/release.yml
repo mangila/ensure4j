@@ -69,7 +69,7 @@ jobs:
         id: deployment
         # https://github.com/actions/deploy-pages
         uses: actions/deploy-pages@v5
-        # Set the new tag
+
       - name: Set the Current Git tag for GitHub Release
         id: current_tag
         # language=bash
