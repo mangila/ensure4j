@@ -1,7 +1,7 @@
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.mangila/ensure4j)
+[![Maven Test](https://github.com/mangila/ensure4j/actions/workflows/test.yml/badge.svg)](https://github.com/mangila/ensure4j/actions/workflows/test.yml)
 [![Release and Upload Pages](https://github.com/mangila/ensure4j/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/mangila/ensure4j/actions/workflows/release.yml)
 [![Hits](https://hits.sh/github.com/mangila/ensure4j.svg)](https://hits.sh/github.com/mangila/ensure4j/)
-
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 
 # ensure4j
 
@@ -9,8 +9,6 @@ Ensure4j is an implementation of the precondition pattern in Java. It's a lightw
 dependencies.
 
 https://mangila.github.io/ensure4j/
-
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.mangila/ensure4j)
 
 There is also support for functional programming pipelines and Java Streams.
 
