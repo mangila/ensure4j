@@ -55,6 +55,30 @@ jobs:
           echo "PREVIOUS_TAG: $TAG"
           echo "previous_tag=$TAG" >> $GITHUB_OUTPUT
 
+      - name: Determine Maven Version Type (projectVersionPolicyId)
+        id: determine_version_type
+        env:
+          VERSION_TYPE: ${{ github.event.inputs.version_type }}
+        # language=bash
+        run: |
+          case "$VERSION_TYPE" in
+            Major)
+              RELEASE_TYPE="SemVerMajorDevelopment"
+              ;;
+            Minor)
+              RELEASE_TYPE="SemVerMinorDevelopment"
+              ;;
+            Patch)
+              RELEASE_TYPE="SemVerPatchDevelopment"
+              ;;
+            *)
+              echo "Unknown version type: $VERSION_TYPE"
+              exit 1
+              ;;
+          esac
+          echo "VERSION_POLICY=$RELEASE_TYPE" >> $GITHUB_ENV
+          echo "projectVersionPolicyId: $RELEASE_TYPE"
+
       - name: Release to Maven Central
         env:
           SONAR_USERNAME: ${{ secrets.SONAR_USERNAME }}
@@ -66,6 +90,7 @@ jobs:
           MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -DskipTests=true -f lib/pom.xml"
           RELEASE_ARGS="-Darguments=-B -V -e -ntp -Dstyle.color=always -DskipTests=true"
           mvn ${MAVEN_ARGS} \
+          -DprojectVersionPolicyId=${{ env.VERSION_POLICY }} \
           "${RELEASE_ARGS}" \
           release:prepare release:perform
           git push origin main --tags
