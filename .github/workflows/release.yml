@@ -8,8 +8,6 @@ on:
 jobs:
   release:
     name: Maven Release & Upload Artifact to Maven Central
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     outputs:
       previous_tag: ${{ steps.set_previous_tag.outputs.previous_tag }}
