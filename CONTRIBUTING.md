@@ -5,7 +5,7 @@ accept contributions.
 
 Especially from new developers that want to contribute.
 
-For a detailed guide on how to set up an optional local development environment, see [Development Setup](DEVELOPMENT_SETUP.md).
+For a detailed guide on how to set up the local development environment, see [Development Setup](DEVELOPMENT_SETUP.md).
 
 ## First-time contributors
 
