@@ -209,4 +209,66 @@ public enum EnsureObjectOps {
       throw getSupplierOrThrow(exceptionSupplier);
     }
   }
+
+  /**
+   * Ensures that the provided objects are deeply equal.
+   *
+   * @param <T> the type of the object
+   * @param object the first object
+   * @param otherObject the second object
+   * @return the first object if they are deeply equal
+   * @throws EnsureException if the objects are not deeply equal, with the message {@code "objects
+   *     must be deeply equal"}
+   * @see #isDeepEquals(Object, Object, String)
+   * @see #isDeepEquals(Object, Object, Supplier)
+   */
+  @Contract(
+      "null, !null -> fail; !null, null -> fail; null, null -> param1; !null, !null -> param1")
+  public <T> T isDeepEquals(T object, Object otherObject) {
+    return isDeepEquals(object, otherObject, "objects must be deeply equal");
+  }
+
+  /**
+   * Ensures that the provided objects are deeply equal.
+   *
+   * @param <T> the type of the object
+   * @param object the first object
+   * @param otherObject the second object
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the first object if they are deeply equal
+   * @throws EnsureException if the objects are not deeply equal, with the provided message
+   * @see #isDeepEquals(Object, Object)
+   * @see #isDeepEquals(Object, Object, Supplier)
+   */
+  @Contract(
+      "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
+  public <T> T isDeepEquals(T object, Object otherObject, String exceptionMessage) {
+    return isDeepEquals(object, otherObject, () -> EnsureException.of(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided objects are deeply equal.
+   *
+   * @param <T> the type of the object
+   * @param object the first object
+   * @param otherObject the second object
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the first object if they are deeply equal
+   * @throws RuntimeException if the objects are not deeply equal; the thrown exception is provided
+   *     by {@code exceptionSupplier}
+   * @see #isDeepEquals(Object, Object)
+   * @see #isDeepEquals(Object, Object, String)
+   */
+  @Contract(
+      "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
+  public <T> T isDeepEquals(
+      T object, Object otherObject, Supplier<? extends RuntimeException> exceptionSupplier) {
+    final boolean eq = Objects.deepEquals(object, otherObject);
+    if (eq) {
+      return object;
+    } else {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+  }
 }
