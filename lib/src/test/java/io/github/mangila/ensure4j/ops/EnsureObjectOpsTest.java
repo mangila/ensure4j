@@ -20,7 +20,46 @@ class EnsureObjectOpsTest implements EnsureOpsTest<EnsureObjectOps> {
 
   @Override
   public long expectedPublicMethodCount() {
-    return 11;
+    return 14;
+  }
+
+  @Test
+  void isDeepEqualsSuccess() {
+    String[] val1 = {"test"};
+    String[] val2 = {"test"};
+    String[] result = instance().isDeepEquals(val1, val2);
+    assertThat(result).isEqualTo(val1);
+  }
+
+  @Test
+  void isDeepEqualsFailure() {
+    String[] val1 = {"test"};
+    String[] val2 = {"other"};
+    assertThatThrownBy(() -> instance().isDeepEquals(val1, val2))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("objects must be deeply equal");
+  }
+
+  @Test
+  void isDeepEqualsCustomMessage() {
+    String[] val1 = {"test"};
+    String[] val2 = {"other"};
+    assertThatThrownBy(() -> instance().isDeepEquals(val1, val2, "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
+  }
+
+  @Test
+  void isDeepEqualsCustomException() {
+    String[] val1 = {"test"};
+    String[] val2 = {"other"};
+    assertThatThrownBy(
+            () ->
+                instance()
+                    .isDeepEquals(
+                        val1, val2, () -> new IllegalArgumentException("custom exception")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom exception");
   }
 
   @Test
