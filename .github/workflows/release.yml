@@ -63,10 +63,10 @@ jobs:
         run: |
           case "$VERSION_TYPE" in
             Major)
-              RELEASE_TYPE="SemVerMajorDevelopment"
+              RELEASE_TYPE="SemVerMajorRelease"
               ;;
             Minor)
-              RELEASE_TYPE="SemVerMinorDevelopment"
+              RELEASE_TYPE="SemVerMinorRelease"
               ;;
             Patch)
               RELEASE_TYPE="SemVerPatchDevelopment"
