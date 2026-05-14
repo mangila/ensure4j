@@ -15,7 +15,8 @@ jobs:
     name: MegaLinter
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout
+        # https://github.com/actions/checkout
         uses: actions/checkout@v6
 
       - name: MegaLinter

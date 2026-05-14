@@ -1,0 +1,29 @@
+name: Add Release Label to PR
+
+on:
+  pull_request:
+    types: [ opened, reopened ]
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+
+jobs:
+  add-release-label:
+    runs-on: ubuntu-latest
+    env:
+      LABEL: "3.0.4"
+      LABEL_COLOR: "000000"
+      LABEL_DESCRIPTION: "Release Tag"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v6
+
+      - name: Create Label
+        run: gh label create ${{ env.LABEL }} -f -d "${{ env.LABEL_DESCRIPTION }}" -c ${{ env.LABEL_COLOR }}
+
+      - name: Add hardcoded release label
+        run: gh pr edit ${{ github.event.pull_request.number }} --add-label ${{ env.LABEL }}
