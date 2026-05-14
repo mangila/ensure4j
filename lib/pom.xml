@@ -201,7 +201,7 @@
         <configuration>
           <pushChanges>false</pushChanges>
           <localCheckout>true</localCheckout>
-          <projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
+          <projectVersionPolicyId>SemVerMinorDevelopment</projectVersionPolicyId>
         </configuration>
       </plugin>
       <plugin>
