@@ -10,7 +10,7 @@ repos:
     hooks:
       - id: mvn-validate-ensure4j
         name: Maven Validate ensure4j
-        entry: mise mvn:validate
+        entry: mise run mvn:validate
         language: system
         files: ^lib/src
         require_serial: true

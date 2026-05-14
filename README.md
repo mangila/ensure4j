@@ -130,8 +130,9 @@ public void placeOrder(Order order) {
 
 Predefined exception messages are builtin in the library if you don't want to provide a custom one.
 
-**NOTE: Use well-defined exception messages. They should be self-explanatory and provide enough context to help
-understand the problem. The default ones might not be enough for your use case.**
+> [!WARNING]
+> Use well-defined exception messages. They should be self-explanatory and provide enough context to help
+understand the problem. The default ones might not be enough for your use case.
 
 ```java
 import io.github.mangila.ensure4j.Ensure;

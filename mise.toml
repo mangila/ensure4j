@@ -10,7 +10,7 @@ _.python.venv = ".venv"
 dir = "./lib"
 run = "mvn clean validate"
 
-[tasks.mvn-format]
+[tasks."mvn:format"]
 description = "Sort pom.xml and format java code"
 dir = "./lib"
 run = [
