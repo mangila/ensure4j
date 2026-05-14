@@ -13,14 +13,30 @@ jobs:
   add-release-label:
     runs-on: ubuntu-latest
     env:
-      LABEL: "3.0.4"
       LABEL_COLOR: "000000"
-      LABEL_DESCRIPTION: "Release Tag"
+      LABEL_DESCRIPTION: "Release tag"
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
         uses: actions/checkout@v6
+
+      - name: Setup xmllint
+        run: sudo apt install libxml2-utils
+
+      - name: Extract pom.xml version
+        working-directory: ./lib
+        # language=bash
+        run: |
+          VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)
+          
+          if [ -z "$VERSION" ]; then
+            echo "Error: Could not extract version from pom.xml"
+            exit 1
+          fi
+          
+          echo "LABEL=$VERSION" >> $GITHUB_ENV
+          echo "Extracted Version: $VERSION"
 
       - name: Create Label
         run: gh label create ${{ env.LABEL }} -f -d "${{ env.LABEL_DESCRIPTION }}" -c ${{ env.LABEL_COLOR }}
