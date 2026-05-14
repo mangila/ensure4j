@@ -86,7 +86,7 @@ jobs:
           toTag: "${{ env.CURRENT_TAG }}"
           mode: "PR"
           owner: "mangila"
-          repository: "ensure4j"
+          repo: "ensure4j"
           # language=JSON
           configurationJson: |
             {
