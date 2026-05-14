@@ -24,39 +24,39 @@ class EnsureObjectOpsTest implements EnsureOpsTest<EnsureObjectOps> {
   }
 
   @Test
-  void isDeepEqualsSuccess() {
+  void deepEqualToSuccess() {
     String[] val1 = {"test"};
     String[] val2 = {"test"};
-    String[] result = instance().isDeepEquals(val1, val2);
+    String[] result = instance().deepEqualTo(val1, val2);
     assertThat(result).isEqualTo(val1);
   }
 
   @Test
-  void isDeepEqualsFailure() {
+  void deepEqualToFailure() {
     String[] val1 = {"test"};
     String[] val2 = {"other"};
-    assertThatThrownBy(() -> instance().isDeepEquals(val1, val2))
+    assertThatThrownBy(() -> instance().deepEqualTo(val1, val2))
         .isInstanceOf(EnsureException.class)
         .hasMessage("objects must be deeply equal");
   }
 
   @Test
-  void isDeepEqualsCustomMessage() {
+  void deepEqualToCustomMessage() {
     String[] val1 = {"test"};
     String[] val2 = {"other"};
-    assertThatThrownBy(() -> instance().isDeepEquals(val1, val2, "custom message"))
+    assertThatThrownBy(() -> instance().deepEqualTo(val1, val2, "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
   }
 
   @Test
-  void isDeepEqualsCustomException() {
+  void deepEqualToCustomException() {
     String[] val1 = {"test"};
     String[] val2 = {"other"};
     assertThatThrownBy(
             () ->
                 instance()
-                    .isDeepEquals(
+                    .deepEqualTo(
                         val1, val2, () -> new IllegalArgumentException("custom exception")))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("custom exception");
