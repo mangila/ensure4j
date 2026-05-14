@@ -42,9 +42,9 @@ jobs:
         id: previous_tag
         # language=bash
         run: |
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0)
-          echo "PREVIOUS_TAG: $PREVIOUS_TAG"
-          echo "tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+          TAG=$(git describe --tags --abbrev=0)
+          echo "PREVIOUS_TAG: $TAG"
+          echo "PREVIOUS_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Release to Maven Central
         env:
@@ -74,17 +74,17 @@ jobs:
         id: current_tag
         # language=bash
         run: |
-          CURRENT_TAG=$(git describe --tags --abbrev=0)
-          echo "CURRENT_TAG: $CURRENT_TAG"
-          echo "tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
+          TAG=$(git describe --tags --abbrev=0)
+          echo "CURRENT_TAG: $TAG"
+          echo "CURRENT_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Build Github Changelog
         id: github_release
         # https://github.com/mikepenz/release-changelog-builder-action
         uses: mikepenz/release-changelog-builder-action@v6
         with:
-          fromTag: "${{ steps.previous_tag.outputs.tag }}"
-          toTag: "${{ steps.current_tag.outputs.tag }}"
+          fromTag: "${{ env.PREVIOUS_TAG }}"
+          toTag: "${{ env.CURRENT_TAG }}"
           mode: "PR"
           owner: "mangila"
           repository: "ensure4j"
@@ -122,5 +122,5 @@ jobs:
         # https://github.com/softprops/action-gh-release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ steps.current_tag.outputs.tag }}
+          tag_name: ${{ env.CURRENT_TAG }}
           body: ${{steps.github_release.outputs.changelog}}
