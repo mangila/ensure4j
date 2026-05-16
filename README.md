@@ -76,6 +76,8 @@ You most likely already use preconditions in your code. If you have heard about 
 same
 mechanism, but preconditions are leaning more towards a contract-based approach.
 
+And of course, **postconditions** can be used also to ensure that the method has completed its task successfully.
+
 It's a great and simple way to ensure that your code is in a predictable state.
 
 Here's a basic example of what usage of preconditions can look like in the wild:
@@ -156,7 +158,7 @@ Libs with preconditions support:
 - Java's builtin Objects
 - Spring's Assert class
 
-Using a precondition library is a great way to save time. However, with a library there are always drawbacks like a
+Using a precondition/postcondition library is a great way to save time. However, with a library there are always drawbacks like a
 performance penalty that might waste some CPU cycles/stack frames.
 
 And of course, you can always roll your own or do explicit checks, and I have done that in the past; that's why I
