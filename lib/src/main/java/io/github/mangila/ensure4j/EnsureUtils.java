@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import org.intellij.lang.annotations.RegExp;
 
 final class EnsureUtils {
@@ -104,11 +105,7 @@ final class EnsureUtils {
     return value <= 0;
   }
 
-  static boolean isAlphanumeric(String string) {
-    return string != null && EnsurePatternOps.ALPHANUMERIC_PATTERN.matcher(string).matches();
-  }
-
-  public static boolean isEmail(String string) {
-    return string != null && EnsurePatternOps.EMAIL_PATTERN.matcher(string).matches();
+  static boolean matches(String string, Pattern pattern) {
+    return string != null && pattern.matcher(string).matches();
   }
 }

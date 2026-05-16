@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 
@@ -1669,6 +1670,62 @@ public final class Ensure {
   public static String matches(
       String string, @RegExp String regex, Supplier<? extends RuntimeException> exceptionSupplier) {
     return EnsureStringOps.matches(string, regex, exceptionSupplier);
+  }
+
+  /**
+   * Ensures that the provided string matches the specified pattern.
+   *
+   * @param string the string to check
+   * @param pattern the pattern to match against
+   * @return the provided string if it matches the pattern
+   * @throws EnsureException if the string is {@code null} or does not match the pattern, with the
+   *     message {@code "string must match pattern %s"}
+   * @see #matches(String, Pattern, String)
+   * @see #matches(String, Pattern, Supplier)
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  public static String matches(String string, Pattern pattern) {
+    return Ensure.matches(
+        string,
+        pattern,
+        EnsureStringOps.STRING_MUST_MATCH_REGEX_FORMAT.formatted(
+            pattern == null ? "null" : pattern.pattern()));
+  }
+
+  /**
+   * Ensures that the provided string matches the specified pattern.
+   *
+   * @param string the string to check
+   * @param pattern the pattern to match against
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it matches the pattern
+   * @throws EnsureException if the string is {@code null} or does not match the pattern, with the
+   *     provided message
+   * @see #matches(String, Pattern)
+   * @see #matches(String, Pattern, Supplier)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static String matches(String string, Pattern pattern, String exceptionMessage) {
+    return Ensure.matches(string, pattern, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string matches the specified pattern.
+   *
+   * @param string the string to check
+   * @param pattern the pattern to match against
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it matches the pattern
+   * @throws RuntimeException if the string is {@code null} or does not match the pattern; the
+   *     thrown exception is provided by {@code exceptionSupplier}
+   * @see #matches(String, Pattern)
+   * @see #matches(String, Pattern, String)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static String matches(
+      String string, Pattern pattern, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsurePatternOps.matches(string, pattern, exceptionSupplier);
   }
 
   /**

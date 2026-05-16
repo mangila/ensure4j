@@ -14,6 +14,7 @@ final class EnsurePatternOps {
   static final String STRING_MUST_MATCH_EMAIL_MESSAGE = "string must match email pattern";
   static final String STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE =
       "string must match alphanumeric pattern";
+  static final String PATTERN_MUST_NOT_BE_NULL_MESSAGE = "pattern must not be null";
 
   /**
    * While RFC 5322 is notoriously complex, this is a highly reliable, performant pattern for 99.9%
@@ -29,6 +30,17 @@ final class EnsurePatternOps {
     throw new AssertionError("No Ensure4j for you!");
   }
 
+  static String matches(
+      String string, Pattern pattern, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (pattern == null) {
+      throw EnsureException.from(PATTERN_MUST_NOT_BE_NULL_MESSAGE);
+    }
+    if (!EnsureUtils.matches(string, pattern)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
+  }
+
   /**
    * Ensures that the provided string matches the alphanumeric pattern (including spaces).
    *
@@ -41,7 +53,7 @@ final class EnsurePatternOps {
    */
   static String matchesAlphanumeric(
       String string, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!EnsureUtils.isAlphanumeric(string)) {
+    if (!EnsureUtils.matches(string, ALPHANUMERIC_PATTERN)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
 
@@ -60,7 +72,7 @@ final class EnsurePatternOps {
    */
   static String matchesEmail(
       String string, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!EnsureUtils.isEmail(string)) {
+    if (!EnsureUtils.matches(string, EMAIL_PATTERN)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
 
