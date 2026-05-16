@@ -3,6 +3,7 @@ package io.github.mangila.ensure4j;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,51 @@ class EnsurePatternOpsTest implements EnsureOpsArchTest<EnsurePatternOps> {
 
   @Override
   public long expectedMethodCount() {
-    return 2;
+    return 3;
+  }
+
+  @Test
+  @DisplayName("matches should return string when it matches pattern")
+  void matchesShouldReturnStringWhenItMatchesPattern() {
+    String value = "test";
+    Pattern pattern = Pattern.compile("^t.*t$");
+    assertThat(Ensure.matches(value, pattern)).isEqualTo(value);
+  }
+
+  @Test
+  @DisplayName("matches should throw exception when it does not match pattern")
+  void matchesShouldThrowExceptionWhenItDoesNotMatchPattern() {
+    Pattern pattern = Pattern.compile("^abc$");
+    assertThatThrownBy(() -> Ensure.matches("test", pattern))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string must match regex: ^abc$");
+  }
+
+  @Test
+  @DisplayName("matches should throw exception with custom message")
+  void matchesShouldThrowExceptionWithCustomMessage() {
+    Pattern pattern = Pattern.compile("^abc$");
+    assertThatThrownBy(() -> Ensure.matches("test", pattern, "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
+  }
+
+  @Test
+  @DisplayName("matches should throw custom exception")
+  void matchesShouldThrowCustomException() {
+    Pattern pattern = Pattern.compile("^abc$");
+    assertThatThrownBy(
+            () -> Ensure.matches("test", pattern, () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("matches should throw exception when pattern is null")
+  void matchesShouldThrowExceptionWhenPatternIsNull() {
+    assertThatThrownBy(() -> Ensure.matches("test", (Pattern) null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("pattern must not be null");
   }
 
   @Test

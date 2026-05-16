@@ -252,7 +252,7 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
   @Test
   @DisplayName("matches should throw exception when regex is null")
   void matchesShouldThrowExceptionWhenRegexIsNull() {
-    assertThatThrownBy(() -> Ensure.matches("test", null))
+    assertThatThrownBy(() -> Ensure.matches("test", (String) null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("regex must not be null");
   }
