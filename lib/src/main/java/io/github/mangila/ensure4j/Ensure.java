@@ -7,6 +7,13 @@ import java.util.function.Supplier;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 
+/**
+ * Ensure4j is a lightweight, fluent Java library for parameter validation and preconditions.
+ *
+ * <p>It provides a comprehensive set of static methods in the {@link
+ * io.github.mangila.ensure4j.Ensure} class to validate various data types including objects,
+ * strings, numbers, collections, maps, arrays, and date/time objects.
+ */
 public final class Ensure {
 
   private Ensure() {
