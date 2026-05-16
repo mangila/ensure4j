@@ -1670,4 +1670,103 @@ public final class Ensure {
       String string, @RegExp String regex, Supplier<? extends RuntimeException> exceptionSupplier) {
     return EnsureStringOps.matches(string, regex, exceptionSupplier);
   }
+
+  /**
+   * Ensures that the provided string matches the alphanumeric pattern (including spaces).
+   *
+   * @param string the string to check
+   * @return the provided string if it matches the alphanumeric pattern
+   * @throws EnsureException if the string does not match the alphanumeric pattern, with the message
+   *     {@code "string must match alphanumeric pattern"}
+   * @see #matchesAlphanumeric(String, String)
+   * @see #matchesAlphanumeric(String, Supplier)
+   */
+  @Contract("null -> fail; !null -> param1")
+  public static String matchesAlphanumeric(String string) {
+    return Ensure.matchesAlphanumeric(
+        string, EnsurePatternOps.STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE);
+  }
+
+  /**
+   * Ensures that the provided string matches the alphanumeric pattern (including spaces).
+   *
+   * @param string the string to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it matches the alphanumeric pattern
+   * @throws EnsureException if the string does not match the alphanumeric pattern, with the
+   *     provided message
+   * @see #matchesAlphanumeric(String)
+   * @see #matchesAlphanumeric(String, Supplier)
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  public static String matchesAlphanumeric(String string, String exceptionMessage) {
+    return Ensure.matchesAlphanumeric(string, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string matches the alphanumeric pattern (including spaces).
+   *
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it matches the alphanumeric pattern
+   * @throws RuntimeException if the string does not match the alphanumeric pattern; the thrown
+   *     exception is provided by {@code exceptionSupplier}
+   * @see #matchesAlphanumeric(String)
+   * @see #matchesAlphanumeric(String, String)
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  public static String matchesAlphanumeric(
+      String string, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsurePatternOps.matchesAlphanumeric(string, exceptionSupplier);
+  }
+
+  /**
+   * Ensures that the provided string matches the email pattern.
+   *
+   * @param string the string to check
+   * @return the provided string if it matches the email pattern
+   * @throws EnsureException if the string does not match the email pattern, with the message {@code
+   *     "string must match email pattern"}
+   * @see #matchesEmail(String, String)
+   * @see #matchesEmail(String, Supplier)
+   */
+  @Contract("null -> fail; !null -> param1")
+  public static String matchesEmail(String string) {
+    return Ensure.matchesEmail(string, EnsurePatternOps.STRING_MUST_MATCH_EMAIL_MESSAGE);
+  }
+
+  /**
+   * Ensures that the provided string matches the email pattern.
+   *
+   * @param string the string to check
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided string if it matches the email pattern
+   * @throws EnsureException if the string does not match the email pattern, with the provided
+   *     message
+   * @see #matchesEmail(String)
+   * @see #matchesEmail(String, Supplier)
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  public static String matchesEmail(String string, String exceptionMessage) {
+    return Ensure.matchesEmail(string, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided string matches the email pattern.
+   *
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it matches the email pattern
+   * @throws RuntimeException if the string does not match the email pattern; the thrown exception
+   *     is provided by {@code exceptionSupplier}
+   * @see #matchesEmail(String)
+   * @see #matchesEmail(String, String)
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  public static String matchesEmail(
+      String string, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsurePatternOps.matchesEmail(string, exceptionSupplier);
+  }
 }
