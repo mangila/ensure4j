@@ -1,0 +1,80 @@
+package io.github.mangila.ensure4j;
+
+import static io.github.mangila.ensure4j.EnsureUtils.getSupplierOrThrow;
+
+import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
+
+final class EnsureArrayOps {
+
+  static final String ARRAY_MUST_NOT_BE_EMPTY_MESSAGE = "array must not be empty";
+  static final String ARRAYS_MUST_BE_EQUAL_MESSAGE = "arrays must be equal";
+  static final String ARRAYS_MUST_BE_DEEP_EQUAL_MESSAGE = "arrays must be deep equal";
+
+  private EnsureArrayOps() {
+    throw new AssertionError("No Ensure4j for you!");
+  }
+
+  /**
+   * Ensures that the provided array is not {@code null} or empty.
+   *
+   * @param <T> the component type of the array
+   * @param array the array to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided array if it is not {@code null} or empty
+   * @throws RuntimeException if the array is {@code null} or empty; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  static <T> T[] notEmpty(T[] array, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (EnsureUtils.isEmpty(array)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return array;
+  }
+
+  /**
+   * Ensures that the provided arrays are equal.
+   *
+   * @param <T> the component type of the arrays
+   * @param array the first array
+   * @param otherArray the second array
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the first array if they are equal
+   * @throws RuntimeException if the arrays are not equal; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   */
+  @Contract(
+      "null, null, _ -> param1; null, !null, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param1")
+  static <T> T[] equalTo(
+      T[] array, T[] otherArray, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (EnsureUtils.equals(array, otherArray)) {
+      return array;
+    }
+    throw getSupplierOrThrow(exceptionSupplier);
+  }
+
+  /**
+   * Ensures that the provided arrays are deeply equal.
+   *
+   * @param <T> the component type of the arrays
+   * @param array the first array
+   * @param otherArray the second array
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the first array if they are deeply equal
+   * @throws RuntimeException if the arrays are not deeply equal; the thrown exception is provided
+   *     by {@code exceptionSupplier}
+   */
+  @Contract(
+      "null, null, _ -> param1; null, !null, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param1")
+  static <T> T[] deepEqualTo(
+      T[] array, T[] otherArray, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (EnsureUtils.deepEquals(array, otherArray)) {
+      return array;
+    }
+    throw getSupplierOrThrow(exceptionSupplier);
+  }
+}
