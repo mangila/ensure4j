@@ -1,5 +1,6 @@
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.mangila/ensure4j)
-[![Maven Test](https://github.com/mangila/ensure4j/actions/workflows/test.yml/badge.svg)](https://github.com/mangila/ensure4j/actions/workflows/test.yml)
+[![Test](https://github.com/mangila/ensure4j/actions/workflows/test.yml/badge.svg)](https://github.com/mangila/ensure4j/actions/workflows/test.yml)
+[![MegaLinter](https://github.com/mangila/ensure4j/actions/workflows/mega-linter.yml/badge.svg)](https://github.com/mangila/ensure4j/actions/workflows/mega-linter.yml)
 [![Release and Upload Pages](https://github.com/mangila/ensure4j/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/mangila/ensure4j/actions/workflows/release.yml)
 [![Hits](https://hits.sh/github.com/mangila/ensure4j.svg)](https://hits.sh/github.com/mangila/ensure4j/)
 
