@@ -14,10 +14,14 @@ jobs:
   megalinter:
     name: MegaLinter
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: MegaLinter
         id: ml

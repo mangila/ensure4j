@@ -19,9 +19,11 @@ jobs:
   release:
     name: Maven Release & Upload Artifact to Maven Central
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
-      previous_tag: ${{ steps.set_previous_tag.outputs.previous_tag }}
-      current_tag: ${{ steps.set_current_tag.outputs.current_tag }}
+      previous_tag: ${{ env.PREVIOUS_TAG }}
+      current_tag: ${{ env.CURRENT_TAG }}
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
@@ -29,6 +31,7 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Configure Git User
         # language=bash
@@ -85,12 +88,13 @@ jobs:
           SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
           MAVEN_GPG_KEY: ${{ secrets.GPG_KEY }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          VERSION_POLICY: ${{ env.VERSION_POLICY }}
         # language=bash
         run: |
           MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -DskipTests=true -f lib/pom.xml"
           RELEASE_ARGS="-Darguments=-B -V -e -ntp -Dstyle.color=always -DskipTests=true"
           mvn ${MAVEN_ARGS} \
-          -DprojectVersionPolicyId=${{ env.VERSION_POLICY }} \
+          -DprojectVersionPolicyId=$VERSION_POLICY \
           "${RELEASE_ARGS}" \
           release:prepare release:perform
           git push origin main --tags
@@ -109,14 +113,17 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    env:
+      CURRENT_TAG: ${{ needs.release.outputs.current_tag }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
         uses: actions/checkout@v6
         with:
-          ref: ${{ needs.release.outputs.current_tag }}
+          ref: ${{ env.CURRENT_TAG }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Java
         # https://github.com/actions/setup-java
@@ -148,6 +155,10 @@ jobs:
     needs: release
     permissions:
       contents: write
+      pull-requests: read
+    env:
+      FROM_TAG: ${{ needs.release.outputs.previous_tag }}
+      TO_TAG: ${{ needs.release.outputs.current_tag }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -155,17 +166,16 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Build Github Changelog
         id: github_release
         # https://github.com/mikepenz/release-changelog-builder-action
         uses: mikepenz/release-changelog-builder-action@v6
         with:
-          fromTag: "${{ needs.release.outputs.previous_tag }}"
-          toTag: "${{ needs.release.outputs.current_tag }}"
+          fromTag: "${{ env.FROM_TAG }}"
+          toTag: "${{ env.TO_TAG }}"
           mode: "PR"
-          owner: "mangila"
-          repo: "ensure4j"
           # language=JSON
           configurationJson: |
             {
@@ -190,7 +200,8 @@ jobs:
                 {
                   "title": "## Dependency 📦",
                   "labels": [
-                    "dependencies"]
+                    "dependencies"
+                  ]
                 },
                 {
                   "title": "## Other 🔧 🧹 ⚙️",
@@ -206,5 +217,5 @@ jobs:
         # https://github.com/softprops/action-gh-release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ needs.release.outputs.current_tag }}
+          tag_name: "${{ env.TO_TAG }}"
           body: ${{steps.github_release.outputs.changelog}}
