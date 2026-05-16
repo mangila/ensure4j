@@ -2,7 +2,6 @@
 java = "25"
 maven = "3"
 python = "3"
-zizmor = "1"
 
 [env]
 _.python.venv = ".venv"

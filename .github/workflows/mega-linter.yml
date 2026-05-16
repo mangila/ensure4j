@@ -19,21 +19,21 @@ jobs:
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # 6.0.2
         with:
           persist-credentials: false
 
       - name: MegaLinter
         id: ml
-        # https://megalinter.io/latest/flavors/java/
-        uses: oxsecurity/megalinter/flavors/java@v9.4.0
+        # https://github.com/oxsecurity/megalinter
+        uses: oxsecurity/megalinter/flavors/java@0e3ce9b9c8c10effb9b269509cc47ca17cae31c7 # 9.5.0
         env:
           JAVA_PMD_ARGUMENTS: "--minimum-priority 2"
 
       - name: Archive MegaLinter report
         if: success() || failure()
         # https://github.com/actions/upload-artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # 7.0.1
         with:
           name: MegaLinter reports
           path: |
