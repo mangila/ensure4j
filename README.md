@@ -38,7 +38,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>3.0.5</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
@@ -96,11 +96,10 @@ Here's what the same code looks like with Ensure4j:
 
 ```java
 import io.github.mangila.ensure4j.Ensure;
-import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
 public void placeOrder(Order order) {
     Ensure.notNull(order, "Order cannot be null");
-    Ensure.numbers().positive(order.getAmount(), "Order amount must be positive");
+    Ensure.positive(order.getAmount(), "Order amount must be positive");
     // do business logic
 }
 ```
@@ -114,15 +113,13 @@ need. For more complex cases, you can use the ops APIs to get more granular prec
 import io.github.mangila.ensure4j.Ensure;
 import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
-private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
-private static final EnsureCollectionOps ENSURE_COLLECTION_OPS = Ensure.collections();
 // other class members
 
 public void placeOrder(Order order) {
-    Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
-    ENSURE_NUMBER_OPS.positive(order.getAmount(), () -> new OrderException("Order amount must be positive"));
-    ENSURE_COLLECTION_OPS.notEmpty(order.getItems(), () -> new OrderException("Order items cannot be empty"));
-    // do business logic
+  Ensure.notNull(order, () -> new OrderException("Order cannot be null"));
+  Ensure.positive(order.getAmount(), () -> new OrderException("Order amount must be positive"));
+  Ensure.notEmpty(order.getItems(), () -> new OrderException("Order items cannot be empty"));
+  // do business logic
 }
 ```
 
@@ -134,17 +131,15 @@ understand the problem. The default ones might not be enough for your use case.
 
 ```java
 import io.github.mangila.ensure4j.Ensure;
-import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
-private static final EnsureNumberOps ENSURE_NUMBER_OPS = Ensure.numbers();
-private static final EnsureCollectionOps ENSURE_COLLECTION_OPS = Ensure.collections();
 // other class members
 
+// throws EnsureException with message:
 public void placeOrder(Order order) {
-    Ensure.notNull(order); // will throw an EnsureException with the message "object must not be null"
-    ENSURE_NUMBER_OPS.positive(1, order.getAmount()); // will throw an EnsureException with the message "value must be positive - (%s)"
-    ENSURE_COLLECTION_OPS.notEmpty(order.getItems()); // will throw an EnsureException with the message "collection must not be empty or null"
-    // do business logic
+  Ensure.notNull(order); // object must not be null
+  Ensure.positive(order.getAmount()); // value must be positive - %s
+  Ensure.notEmpty(order.getItems()); // collection must not be empty or null
+  // do business logic
 }
 ```
 

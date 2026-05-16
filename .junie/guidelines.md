@@ -11,78 +11,127 @@ You are a Java developer and an QA Engineer, and you want to contribute to the p
 
 ## How to contribute
 
-- Only contribute to the `lib` and `examples` module.
+- Only contribute to the `./lib` directory.
 - Always write unit tests for new methods.
 - The code shall follow the Google Java Style Guide
 
 ## Coding Guidelines and Javadocs
 
-Make sure the formatting is correct by running the mise task:
-```bash
-mise run mvn:format
-```
+Ensure.java is the public API methods that are used by the users.
+
+The **Ops classes** are the classes that are used to implement the methods and are not meant to be used directly.
+
+Make sure the formatting is correct by running the following command: "mvn com.spotify.fmt:fmt-maven-plugin:format"
 
 - Make sure the methods are implemented for the overloaded methods following the Step-down Rule (or the Newspaper
   Metaphor).
-- Create methods with descriptive name
+- Create methods with descriptive names
 - Use contracts for methods with the annotation `@org.jetbrains.annotations.Contract;`
 - Use Javadocs for all public methods
 
-Add Javadocs in the following format:
+Follow the example below in implementation for public methods in Ensure.java:
 
 ```java
- /**
- * Ensures that the provided array is not null or empty.
- *
- * @param <T> the component type of the array
- * @param array the array to check
- * @return the provided array if it is not null or empty
- * @throws EnsureException if the array is null or empty, with the message {@code "array must not
- *     be empty"}
- * @see #notEmpty(Object[], String)
- * @see #notEmpty(Object[], Supplier)
- */
-@Contract("null -> fail; !null -> param1")
-public <T> T[] notEmpty(T[] array) {
-  return notEmpty(array, "array must not be empty");
-}
+// ... existing code ...
+
+import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
+
+// ... existing code ...
 
 /**
- * Ensures that the provided array is not null or empty.
+ * Ensures that the provided string ends with the specified suffix.
  *
- * @param <T> the component type of the array
- * @param array the array to check
- * @param exceptionMessage the message to include in the exception if validation fails
- * @return the provided array if it is not null or empty
- * @throws EnsureException if the array is null or empty, with the provided message
- * @see #notEmpty(Object[])
- * @see #notEmpty(Object[], Supplier)
+ * @param string the string to check
+ * @param suffix the required suffix
+ * @return the provided string if it ends with the suffix
+ * @throws EnsureException if the string is {@code null} or does not end with the suffix, with the
+ *     message {@code "string must end with %s"}
+ * @see #endsWith(String, String, String)
+ * @see #endsWith(String, String, Supplier)
  */
 @Contract("null, _ -> fail; !null, _ -> param1")
-public <T> T[] notEmpty(T[] array, String exceptionMessage) {
-  return notEmpty(array, () -> EnsureException.of(exceptionMessage));
+public static String endsWith(String string, String suffix) {
+  return Ensure.endsWith(
+          string, suffix, EnsureStringOps.STRING_MUST_END_WITH_FORMAT.formatted(suffix));
 }
 
 /**
- * Ensures that the provided array is not null or empty.
+ * Ensures that the provided string ends with the specified suffix.
  *
- * @param <T> the component type of the array
- * @param array the array to check
+ * @param string the string to check
+ * @param suffix the required suffix
+ * @param exceptionMessage the message to include in the exception if validation fails
+ * @return the provided string if it ends with the suffix
+ * @throws EnsureException if the string is {@code null} or does not end with the suffix, with the
+ *     provided message
+ * @see #endsWith(String, String)
+ * @see #endsWith(String, String, Supplier)
+ */
+@Contract("null, _, _ -> fail; !null, _, _ -> param1")
+public static String endsWith(String string, String suffix, String exceptionMessage) {
+  return Ensure.endsWith(string, suffix, () -> EnsureException.from(exceptionMessage));
+}
+
+/**
+ * Ensures that the provided string ends with the specified suffix.
+ *
+ * @param string the string to check
+ * @param suffix the required suffix
  * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
  *     fails
- * @return the provided array if it is not null or empty
- * @throws RuntimeException if the array is null or empty; the thrown exception is provided by
- *     {@code exceptionSupplier}
- * @see #notEmpty(Object[])
- * @see #notEmpty(Object[], String)
+ * @return the provided string if it ends with the suffix
+ * @throws RuntimeException if the string is {@code null} or does not end with the suffix; the
+ *     thrown exception is provided by {@code exceptionSupplier}
+ * @see #endsWith(String, String)
+ * @see #endsWith(String, String, String)
  */
-@Contract("null, _ -> fail; !null, _ -> param1")
-public <T> T[] notEmpty(T[] array, Supplier<? extends RuntimeException> exceptionSupplier) {
-  if (isNull(array) || array.length == 0) {
+@Contract("null, _, _ -> fail; !null, _, _ -> param1")
+public static String endsWith(
+        String string, String suffix, Supplier<? extends RuntimeException> exceptionSupplier) {
+  return EnsureStringOps.endsWith(string, suffix, exceptionSupplier);
+}
+
+// ... existing code ...
+```
+
+And for the methods in the Ops classes:
+
+```java
+// ... existing code ...
+
+import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Contract;
+
+// ... existing code ...
+
+static final String SUFFIX_MUST_NOT_BE_NULL_MESSAGE = "suffix must not be null";
+
+/**
+ * Ensures that the provided string ends with the specified suffix.
+ *
+ * @param string the string to check
+ * @param suffix the suffix to check for
+ * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+ *     fails
+ * @return the provided string if it ends with the suffix
+ * @throws RuntimeException if the string does not end with the suffix; the thrown exception is
+ *     provided by {@code exceptionSupplier}
+ */
+@Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
+static String endsWith(
+        String string, String suffix, Supplier<? extends RuntimeException> exceptionSupplier) {
+  if (suffix == null) {
+    throw EnsureException.from(SUFFIX_MUST_NOT_BE_NULL_MESSAGE);
+  }
+  if (!EnsureUtils.hasSuffix(string, suffix)) {
     throw getSupplierOrThrow(exceptionSupplier);
   }
-  return array;
+  return string;
 }
+
+// ... existing code ...
 ```
 
 ## Testing
@@ -101,6 +150,8 @@ Abort everything if tests fail in more than two iterations.
 
 - Use descriptive `@DisplayName` where it adds clarity.
 - For negative cases, use `assertThatThrownBy` or `assertThatCode(...).throwsException()`.
+- Get the full structure of all the classes and test classes to get a full understanding of the code. To know which Ensure.java methods are tested, to the right Ops test class.
+- Only write tests for the Ensure.java methods, to the delegated methods in the Ops test classes.
 
 ### Performance
 
