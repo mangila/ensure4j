@@ -41,7 +41,7 @@
  * <h3>Custom Exceptions</h3>
  *
  * <pre>{@code
- * public void withdraw(double amount) {
+ * public void withdraw(int amount, int balance) {
  *     Ensure.positive(amount, () -> new InsufficientFundsException("Amount must be positive"));
  *     Ensure.max(amount, balance, () -> new InsufficientFundsException("Insufficient funds"));
  *     // ...
