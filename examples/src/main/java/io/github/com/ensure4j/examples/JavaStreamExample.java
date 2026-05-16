@@ -12,6 +12,7 @@ public class JavaStreamExample {
         Ensure.notEmpty(stringCollection);
         stringCollection.stream()
                 .map(Ensure::notBlank)
+                // maybe not efficent, but it's just an example
                 .map(s -> Ensure.matches(s, "[a-z]+", "invalid string"))
                 .forEach(s -> System.out.println("i have ensured my string!"));
     }
