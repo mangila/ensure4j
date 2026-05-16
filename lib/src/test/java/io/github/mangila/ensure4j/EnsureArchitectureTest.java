@@ -50,7 +50,7 @@ class EnsureArchitectureTest {
 
   @Test
   void shouldCountOpsClasses() {
-    final int expectedOpsCount = 9;
+    final int expectedOpsCount = 10;
     final var ensureOpsClasses =
         ArchTestUtils.ENSURE_PACKAGE.stream()
             .filter(javaClass -> javaClass.getSimpleName().endsWith("Ops"))
@@ -74,7 +74,7 @@ class EnsureArchitectureTest {
               @Override
               public void check(JavaClass item, ConditionEvents events) {
                 final long count = getMethodCount(item);
-                final long expectedMethodCount = 96;
+                final long expectedMethodCount = 102;
                 assertThat(count)
                     .as(
                         "Expected methods: %s - %s"

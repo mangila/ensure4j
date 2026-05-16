@@ -103,4 +103,12 @@ final class EnsureUtils {
   static boolean isNegativeWithZero(long value) {
     return value <= 0;
   }
+
+  static boolean isAlphanumeric(String string) {
+    return string != null && EnsurePatternOps.ALPHANUMERIC_PATTERN.matcher(string).matches();
+  }
+
+  public static boolean isEmail(String string) {
+    return string != null && EnsurePatternOps.EMAIL_PATTERN.matcher(string).matches();
+  }
 }
