@@ -22,8 +22,8 @@ jobs:
     permissions:
       contents: read
     outputs:
-      previous_tag: ${{ env.PREVIOUS_TAG }}
-      current_tag: ${{ env.CURRENT_TAG }}
+      previous_tag: ${{ steps.set_previous_tag.outputs.tag }}
+      current_tag: ${{ steps.set_current_tag.outputs.tag }}
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
@@ -56,7 +56,7 @@ jobs:
         run: |
           TAG=$(git describe --tags --abbrev=0)
           echo "PREVIOUS_TAG: $TAG"
-          echo "previous_tag=$TAG" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Determine Maven Version Type (projectVersionPolicyId)
         id: determine_version_type
@@ -105,7 +105,7 @@ jobs:
         run: |
           TAG=$(git describe --tags --abbrev=0)
           echo "CURRENT_TAG: $TAG"
-          echo "current_tag=$TAG" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
 
   deploy_pages:
     name: Deploy Maven Site to GitHub Pages
