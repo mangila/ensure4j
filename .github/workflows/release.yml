@@ -31,7 +31,7 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Configure Git User
         # language=bash
