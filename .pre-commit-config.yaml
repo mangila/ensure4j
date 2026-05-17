@@ -9,18 +9,24 @@ repos:
   - repo: local
     hooks:
       - id: mvn-validate-ensure4j
-        name: Maven Validate ensure4j
+        name: Maven Validate
         entry: mise run mvn:validate
         language: system
         files: ^lib/src
         require_serial: true
         pass_filenames: false
 
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+        name: Actionlint
+
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
     rev: v1.25.2
     hooks:
       - id: zizmor
-        name: Zizmor pre-commit
+        name: Zizmor
         args: [ --min-severity=low, --min-confidence=medium ]
 
   - repo: https://github.com/compilerla/conventional-pre-commit
