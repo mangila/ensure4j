@@ -120,7 +120,4 @@ Thumbs.db
 # =========================================
 
 megalinter-reports/
-mykey.asc
-settings.xml
 CHANGES.md
-PROMPT_LOG.md
