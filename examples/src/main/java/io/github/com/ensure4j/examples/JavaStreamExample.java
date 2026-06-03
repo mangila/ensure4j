@@ -6,14 +6,13 @@ import java.util.List;
 
 public class JavaStreamExample {
 
-    private static final List<String> stringCollection = List.of("hello-se", "world-se", "mot a valid strig");
+    private static final List<String> stringCollection = List.of("hello se", "world se", "mot a valid strig");
 
     static void streamIt() {
         Ensure.notEmpty(stringCollection);
         stringCollection.stream()
                 .map(Ensure::notBlank)
-                // maybe not efficient, but it's just an example
-                .map(s -> Ensure.matches(s, "[a-z-]+"))
+                .map(Ensure::matchesAlphanumeric)
                 .map(s -> Ensure.endsWith(s, "se"))
                 .forEach(s -> System.out.println(s + "was ensured!"));
     }

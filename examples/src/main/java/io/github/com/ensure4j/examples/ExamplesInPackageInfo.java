@@ -4,7 +4,6 @@ import io.github.mangila.ensure4j.Ensure;
 
 public class ExamplesInPackageInfo {
 
-    private static final String EMAIL_REGEX = "the email regex";
 
     public void processOrder(Order order) {
         Ensure.notNull(order);
@@ -14,7 +13,7 @@ public class ExamplesInPackageInfo {
 
     public void sendEmail(String email) {
         Ensure.notBlank(email, "Email must not be blank");
-        Ensure.matches(email, EMAIL_REGEX, "Invalid email format");
+        Ensure.matchesEmail(email, "Invalid email format");
         // ...
     }
 

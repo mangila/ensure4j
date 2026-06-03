@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Contract;
  *
  * <p>It provides a comprehensive set of static methods in the {@link
  * io.github.mangila.ensure4j.Ensure} class to validate various data types including objects,
- * strings, numbers, collections, maps, arrays, and date/time objects.
+ * strings, numbers, collections, maps, regex, arrays, and date/time objects.
  */
 public final class Ensure {
 
