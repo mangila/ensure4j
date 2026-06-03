@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
@@ -31,4 +32,15 @@ jobs:
       - name: Run tests (lib)
         run: |
           MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -f lib/pom.xml"
-          mvn $MAVEN_ARGS test
+          mvn $MAVEN_ARGS package
+
+      - name: JaCoCo Report to PR
+        uses: madrapps/jacoco-report@e51ce1f46f7f8b5331593f935e59cbaf44b84920 # v1.8.0
+        with:
+          paths: lib/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 90
+          title: '# :bar_chart: Coverage Report'
+          pass-emoji: ':green_circle:'
+          fail-emoji: ':red_circle:'
+          update-comment: true

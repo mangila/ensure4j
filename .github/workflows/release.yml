@@ -206,7 +206,8 @@ jobs:
                 {
                   "title": "## Other 🔧 🧹 ⚙️",
                   "labels": [
-                    "chore"]
+                    "chore",
+                    "github-actions"]
                 }
               ]
             }
