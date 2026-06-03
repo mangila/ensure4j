@@ -4,7 +4,7 @@
 
   <groupId>io.github.mangila</groupId>
   <artifactId>ensure4j</artifactId>
-  <version>4.0.3-SNAPSHOT</version>
+  <version>4.0.2-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Ensure your Java code with preconditions checks</description>
@@ -199,6 +199,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>3.3.1</version>
         <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
           <pushChanges>false</pushChanges>
           <localCheckout>true</localCheckout>
         </configuration>
