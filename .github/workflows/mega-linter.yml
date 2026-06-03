@@ -15,7 +15,12 @@ jobs:
     name: MegaLinter
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      security-events: write
+      contents: write
+      issues: write
+      statuses: write
+      checks: write
+      pull-requests: write
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
@@ -24,11 +29,10 @@ jobs:
           persist-credentials: false
 
       - name: MegaLinter
-        id: ml
         # https://github.com/oxsecurity/megalinter
         uses: oxsecurity/megalinter/flavors/java@0e3ce9b9c8c10effb9b269509cc47ca17cae31c7 # 9.5.0
         env:
-          JAVA_PMD_ARGUMENTS: "--minimum-priority 2"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive MegaLinter report
         if: success() || failure()
@@ -38,6 +42,12 @@ jobs:
           name: MegaLinter reports
           path: |
             megalinter-reports
-            mega-linter.log
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 3
+
+      - name: Upload MegaLinter scan results to GitHub Security tab
+        if: success() || failure()
+        # https://github.com/github/codeql-action
+        uses: github/codeql-action/upload-sarif@v4 # zizmor: ignore[unpinned-uses]
+        with:
+          sarif_file: 'megalinter-reports/megalinter-report.sarif'

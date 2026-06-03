@@ -1,5 +1,16 @@
 package io.github.mangila.ensure4j;
 
+import static io.github.mangila.ensure4j.EnsureArrayOps.*;
+import static io.github.mangila.ensure4j.EnsureBooleanOps.*;
+import static io.github.mangila.ensure4j.EnsureCollectionOps.*;
+import static io.github.mangila.ensure4j.EnsureDateTimeOps.*;
+import static io.github.mangila.ensure4j.EnsureMapOps.*;
+import static io.github.mangila.ensure4j.EnsureNullOps.*;
+import static io.github.mangila.ensure4j.EnsureNumberOps.*;
+import static io.github.mangila.ensure4j.EnsureObjectOps.*;
+import static io.github.mangila.ensure4j.EnsurePatternOps.*;
+import static io.github.mangila.ensure4j.EnsureStringOps.*;
+
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
@@ -34,7 +45,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static <T> T notNull(T object) {
-    return Ensure.notNull(object, EnsureNullOps.OBJECT_MUST_NOT_BE_NULL_MESSAGE);
+    return notNull(object, OBJECT_MUST_NOT_BE_NULL_MESSAGE);
   }
 
   /**
@@ -50,7 +61,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T> T notNull(T object, String exceptionMessage) {
-    return Ensure.notNull(object, () -> EnsureException.from(exceptionMessage));
+    return notNull(object, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -82,7 +93,7 @@ public final class Ensure {
    */
   @Contract("false -> fail")
   public static void isTrue(boolean expression) {
-    Ensure.isTrue(expression, EnsureBooleanOps.BOOLEAN_MUST_BE_TRUE_MESSAGE);
+    isTrue(expression, BOOLEAN_MUST_BE_TRUE_MESSAGE);
   }
 
   /**
@@ -96,7 +107,7 @@ public final class Ensure {
    */
   @Contract("false, _ -> fail")
   public static void isTrue(boolean expression, String exceptionMessage) {
-    Ensure.isTrue(expression, () -> EnsureException.from(exceptionMessage));
+    isTrue(expression, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -127,7 +138,7 @@ public final class Ensure {
    */
   @Contract("true -> fail")
   public static void isFalse(boolean expression) {
-    Ensure.isFalse(expression, EnsureBooleanOps.BOOLEAN_MUST_BE_FALSE_MESSAGE);
+    isFalse(expression, BOOLEAN_MUST_BE_FALSE_MESSAGE);
   }
 
   /**
@@ -141,7 +152,7 @@ public final class Ensure {
    */
   @Contract("true, _ -> fail")
   public static void isFalse(boolean expression, String exceptionMessage) {
-    Ensure.isFalse(expression, () -> EnsureException.from(exceptionMessage));
+    isFalse(expression, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -174,7 +185,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static <T> T[] notEmpty(T[] array) {
-    return Ensure.notEmpty(array, EnsureArrayOps.ARRAY_MUST_NOT_BE_EMPTY_MESSAGE);
+    return notEmpty(array, ARRAY_MUST_NOT_BE_EMPTY_MESSAGE);
   }
 
   /**
@@ -190,7 +201,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T> T[] notEmpty(T[] array, String exceptionMessage) {
-    return Ensure.notEmpty(array, () -> EnsureException.from(exceptionMessage));
+    return notEmpty(array, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -227,7 +238,7 @@ public final class Ensure {
   @Contract(
       "null, null -> param1; null, !null -> fail; !null, null -> fail; !null, !null -> param1")
   public static <T> T[] equalTo(T[] array, T[] otherArray) {
-    return Ensure.equalTo(array, otherArray, EnsureArrayOps.ARRAYS_MUST_BE_EQUAL_MESSAGE);
+    return equalTo(array, otherArray, ARRAYS_MUST_BE_EQUAL_MESSAGE);
   }
 
   /**
@@ -245,7 +256,7 @@ public final class Ensure {
   @Contract(
       "null, null, _ -> param1; null, !null, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param1")
   public static <T> T[] equalTo(T[] array, T[] otherArray, String exceptionMessage) {
-    return Ensure.equalTo(array, otherArray, () -> EnsureException.from(exceptionMessage));
+    return equalTo(array, otherArray, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -284,7 +295,7 @@ public final class Ensure {
   @Contract(
       "null, null -> param1; null, !null -> fail; !null, null -> fail; !null, !null -> param1")
   public static <T> T[] deepEqualTo(T[] array, T[] otherArray) {
-    return Ensure.deepEqualTo(array, otherArray, EnsureArrayOps.ARRAYS_MUST_BE_DEEP_EQUAL_MESSAGE);
+    return deepEqualTo(array, otherArray, ARRAYS_MUST_BE_DEEP_EQUAL_MESSAGE);
   }
 
   /**
@@ -302,7 +313,7 @@ public final class Ensure {
   @Contract(
       "null, null, _ -> param1; null, !null, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param1")
   public static <T> T[] deepEqualTo(T[] array, T[] otherArray, String exceptionMessage) {
-    return Ensure.deepEqualTo(array, otherArray, () -> EnsureException.from(exceptionMessage));
+    return deepEqualTo(array, otherArray, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -339,8 +350,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static <T extends Collection<?>> T notEmpty(T collection) {
-    return Ensure.notEmpty(
-        collection, EnsureCollectionOps.COLLECTION_MUST_NOT_BE_EMPTY_OR_NULL_MESSAGE);
+    return notEmpty(collection, COLLECTION_MUST_NOT_BE_EMPTY_OR_NULL_MESSAGE);
   }
 
   /**
@@ -356,7 +366,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T extends Collection<?>> T notEmpty(T collection, String exceptionMessage) {
-    return Ensure.notEmpty(collection, () -> EnsureException.from(exceptionMessage));
+    return notEmpty(collection, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -392,8 +402,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T extends Collection<?>> T containsElement(T collection, Object element) {
-    return Ensure.containsElement(
-        collection, element, EnsureCollectionOps.COLLECTION_MUST_CONTAIN_ELEMENT_MESSAGE);
+    return containsElement(collection, element, COLLECTION_MUST_CONTAIN_ELEMENT_MESSAGE);
   }
 
   /**
@@ -412,8 +421,7 @@ public final class Ensure {
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static <T extends Collection<?>> T containsElement(
       T collection, Object element, String exceptionMessage) {
-    return Ensure.containsElement(
-        collection, element, () -> EnsureException.from(exceptionMessage));
+    return containsElement(collection, element, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -449,7 +457,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; _, null -> fail; !null, !null -> param1")
   public static Instant future(Instant instant, Instant boundary) {
-    return Ensure.future(instant, boundary, EnsureDateTimeOps.INSTANT_MUST_BE_IN_FUTURE);
+    return future(instant, boundary, INSTANT_MUST_BE_IN_FUTURE);
   }
 
   /**
@@ -465,7 +473,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
   public static Instant future(Instant instant, Instant boundary, String exceptionMessage) {
-    return Ensure.future(instant, boundary, () -> EnsureException.from(exceptionMessage));
+    return future(instant, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -500,8 +508,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; _, null -> fail; !null, !null -> param1")
   public static Instant pastOrPresent(Instant instant, Instant boundary) {
-    return Ensure.pastOrPresent(
-        instant, boundary, EnsureDateTimeOps.INSTANT_MUST_BE_PAST_OR_PRESENT);
+    return pastOrPresent(instant, boundary, INSTANT_MUST_BE_PAST_OR_PRESENT);
   }
 
   /**
@@ -517,7 +524,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
   public static Instant pastOrPresent(Instant instant, Instant boundary, String exceptionMessage) {
-    return Ensure.pastOrPresent(instant, boundary, () -> EnsureException.from(exceptionMessage));
+    return pastOrPresent(instant, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -552,7 +559,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static <T extends Map<?, ?>> T notEmpty(T map) {
-    return Ensure.notEmpty(map, EnsureMapOps.MAP_MUST_NOT_BE_EMPTY_MESSAGE);
+    return notEmpty(map, MAP_MUST_NOT_BE_EMPTY_MESSAGE);
   }
 
   /**
@@ -568,7 +575,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T extends Map<?, ?>> T notEmpty(T map, String exceptionMessage) {
-    return Ensure.notEmpty(map, () -> EnsureException.from(exceptionMessage));
+    return notEmpty(map, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -603,10 +610,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static long max(long value, long boundary) {
-    return Ensure.max(
-        value,
-        boundary,
-        EnsureNumberOps.NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
+    return max(value, boundary, NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
   }
 
   /**
@@ -622,7 +626,7 @@ public final class Ensure {
    */
   @Contract("_, _, _ -> param1")
   public static long max(long value, long boundary, String exceptionMessage) {
-    return Ensure.max(value, boundary, () -> EnsureException.from(exceptionMessage));
+    return max(value, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -657,10 +661,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static int max(int value, int boundary) {
-    return Ensure.max(
-        value,
-        boundary,
-        EnsureNumberOps.NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
+    return max(value, boundary, NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
   }
 
   /**
@@ -676,7 +677,7 @@ public final class Ensure {
    */
   @Contract("_, _, _ -> param1")
   public static int max(int value, int boundary, String exceptionMessage) {
-    return Ensure.max(value, boundary, () -> EnsureException.from(exceptionMessage));
+    return max(value, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -711,10 +712,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static long min(long value, long boundary) {
-    return Ensure.min(
-        value,
-        boundary,
-        EnsureNumberOps.NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
+    return min(value, boundary, NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
   }
 
   /**
@@ -730,7 +728,7 @@ public final class Ensure {
    */
   @Contract("_, _, _ -> param1")
   public static long min(long value, long boundary, String exceptionMessage) {
-    return Ensure.min(value, boundary, () -> EnsureException.from(exceptionMessage));
+    return min(value, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -765,10 +763,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static int min(int value, int boundary) {
-    return Ensure.min(
-        value,
-        boundary,
-        EnsureNumberOps.NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
+    return min(value, boundary, NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT.formatted(boundary, value));
   }
 
   /**
@@ -784,7 +779,7 @@ public final class Ensure {
    */
   @Contract("_, _, _ -> param1")
   public static int min(int value, int boundary, String exceptionMessage) {
-    return Ensure.min(value, boundary, () -> EnsureException.from(exceptionMessage));
+    return min(value, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -818,7 +813,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static long positive(long value) {
-    return Ensure.positive(value, EnsureNumberOps.NUMBER_MUST_BE_POSITIVE_FORMAT.formatted(value));
+    return positive(value, NUMBER_MUST_BE_POSITIVE_FORMAT.formatted(value));
   }
 
   /**
@@ -833,7 +828,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static long positive(long value, String exceptionMessage) {
-    return Ensure.positive(value, () -> EnsureException.from(exceptionMessage));
+    return positive(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -865,7 +860,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static int positive(int value) {
-    return Ensure.positive(value, EnsureNumberOps.NUMBER_MUST_BE_POSITIVE_FORMAT.formatted(value));
+    return positive(value, NUMBER_MUST_BE_POSITIVE_FORMAT.formatted(value));
   }
 
   /**
@@ -880,7 +875,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static int positive(int value, String exceptionMessage) {
-    return Ensure.positive(value, () -> EnsureException.from(exceptionMessage));
+    return positive(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -912,8 +907,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static long positiveWithZero(long value) {
-    return Ensure.positiveWithZero(
-        value, EnsureNumberOps.NUMBER_MUST_BE_POSITIVE_OR_ZERO_FORMAT.formatted(value));
+    return positiveWithZero(value, NUMBER_MUST_BE_POSITIVE_OR_ZERO_FORMAT.formatted(value));
   }
 
   /**
@@ -928,7 +922,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static long positiveWithZero(long value, String exceptionMessage) {
-    return Ensure.positiveWithZero(value, () -> EnsureException.from(exceptionMessage));
+    return positiveWithZero(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -961,8 +955,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static int positiveWithZero(int value) {
-    return Ensure.positiveWithZero(
-        value, EnsureNumberOps.NUMBER_MUST_BE_POSITIVE_OR_ZERO_FORMAT.formatted(value));
+    return positiveWithZero(value, NUMBER_MUST_BE_POSITIVE_OR_ZERO_FORMAT.formatted(value));
   }
 
   /**
@@ -977,7 +970,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static int positiveWithZero(int value, String exceptionMessage) {
-    return Ensure.positiveWithZero(value, () -> EnsureException.from(exceptionMessage));
+    return positiveWithZero(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1010,7 +1003,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static long negative(long value) {
-    return Ensure.negative(value, EnsureNumberOps.NUMBER_MUST_BE_NEGATIVE_FORMAT.formatted(value));
+    return negative(value, NUMBER_MUST_BE_NEGATIVE_FORMAT.formatted(value));
   }
 
   /**
@@ -1025,7 +1018,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static long negative(long value, String exceptionMessage) {
-    return Ensure.negative(value, () -> EnsureException.from(exceptionMessage));
+    return negative(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1057,7 +1050,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static int negative(int value) {
-    return Ensure.negative(value, EnsureNumberOps.NUMBER_MUST_BE_NEGATIVE_FORMAT.formatted(value));
+    return negative(value, NUMBER_MUST_BE_NEGATIVE_FORMAT.formatted(value));
   }
 
   /**
@@ -1072,7 +1065,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static int negative(int value, String exceptionMessage) {
-    return Ensure.negative(value, () -> EnsureException.from(exceptionMessage));
+    return negative(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1104,8 +1097,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static long negativeWithZero(long value) {
-    return Ensure.negativeWithZero(
-        value, EnsureNumberOps.NUMBER_MUST_BE_NEGATIVE_OR_ZERO_FORMAT.formatted(value));
+    return negativeWithZero(value, NUMBER_MUST_BE_NEGATIVE_OR_ZERO_FORMAT.formatted(value));
   }
 
   /**
@@ -1120,7 +1112,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static long negativeWithZero(long value, String exceptionMessage) {
-    return Ensure.negativeWithZero(value, () -> EnsureException.from(exceptionMessage));
+    return negativeWithZero(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1153,8 +1145,7 @@ public final class Ensure {
    */
   @Contract("_ -> param1")
   public static int negativeWithZero(int value) {
-    return Ensure.negativeWithZero(
-        value, EnsureNumberOps.NUMBER_MUST_BE_NEGATIVE_OR_ZERO_FORMAT.formatted(value));
+    return negativeWithZero(value, NUMBER_MUST_BE_NEGATIVE_OR_ZERO_FORMAT.formatted(value));
   }
 
   /**
@@ -1169,7 +1160,7 @@ public final class Ensure {
    */
   @Contract("_, _ -> param1")
   public static int negativeWithZero(int value, String exceptionMessage) {
-    return Ensure.negativeWithZero(value, () -> EnsureException.from(exceptionMessage));
+    return negativeWithZero(value, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1204,7 +1195,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static <T> T typeOf(Object object, Class<T> clazz) {
-    return Ensure.typeOf(object, clazz, EnsureObjectOps.OBJECT_MUST_BE_OF_TYPE_MESSAGE);
+    return typeOf(object, clazz, OBJECT_MUST_BE_OF_TYPE_MESSAGE);
   }
 
   /**
@@ -1221,7 +1212,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static <T> T typeOf(Object object, Class<T> clazz, String exceptionMessage) {
-    return Ensure.typeOf(object, clazz, () -> EnsureException.from(exceptionMessage));
+    return typeOf(object, clazz, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1259,7 +1250,7 @@ public final class Ensure {
   @Contract(
       "null, null -> param1; null, !null -> fail; !null, null -> fail; !null, !null -> param1")
   public static <T> T equalTo(T actual, Object expected) {
-    return Ensure.equalTo(actual, expected, EnsureObjectOps.OBJECTS_MUST_BE_EQUAL_MESSAGE);
+    return equalTo(actual, expected, OBJECTS_MUST_BE_EQUAL_MESSAGE);
   }
 
   /**
@@ -1277,7 +1268,7 @@ public final class Ensure {
   @Contract(
       "null, null, _ -> param1; null, !null, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param1")
   public static <T> T equalTo(T actual, Object expected, String exceptionMessage) {
-    return Ensure.equalTo(actual, expected, () -> EnsureException.from(exceptionMessage));
+    return equalTo(actual, expected, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1316,7 +1307,7 @@ public final class Ensure {
   @Contract(
       "null, null -> param1; null, !null -> fail; !null, null -> fail; !null, !null -> param1")
   public static <T> T deepEqualTo(T actual, Object expected) {
-    return Ensure.deepEqualTo(actual, expected, EnsureObjectOps.OBJECTS_DEEP_EQUAL_MESSAGE);
+    return deepEqualTo(actual, expected, OBJECTS_DEEP_EQUAL_MESSAGE);
   }
 
   /**
@@ -1334,7 +1325,7 @@ public final class Ensure {
   @Contract(
       "null, null, _ -> param1; null, !null, _ -> fail; !null, null, _ -> fail; !null, !null, _ -> param1")
   public static <T> T deepEqualTo(T actual, Object expected, String exceptionMessage) {
-    return Ensure.deepEqualTo(actual, expected, () -> EnsureException.from(exceptionMessage));
+    return deepEqualTo(actual, expected, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1370,7 +1361,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static String notBlank(String string) {
-    return Ensure.notBlank(string, EnsureStringOps.STRING_MUST_NOT_BE_BLANK_MESSAGE);
+    return notBlank(string, STRING_MUST_NOT_BE_BLANK_MESSAGE);
   }
 
   /**
@@ -1386,7 +1377,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String notBlank(String string, String exceptionMessage) {
-    return Ensure.notBlank(string, () -> EnsureException.from(exceptionMessage));
+    return notBlank(string, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1420,8 +1411,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String minLength(String string, int boundary) {
-    return Ensure.minLength(
-        string, boundary, EnsureStringOps.STRING_LENGTH_AT_LEAST_FORMAT.formatted(boundary));
+    return minLength(string, boundary, STRING_LENGTH_AT_LEAST_FORMAT.formatted(boundary));
   }
 
   /**
@@ -1438,7 +1428,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static String minLength(String string, int boundary, String exceptionMessage) {
-    return Ensure.minLength(string, boundary, () -> EnsureException.from(exceptionMessage));
+    return minLength(string, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1473,8 +1463,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String maxLength(String string, int boundary) {
-    return Ensure.maxLength(
-        string, boundary, EnsureStringOps.STRING_LENGTH_AT_MOST_FORMAT.formatted(boundary));
+    return maxLength(string, boundary, STRING_LENGTH_AT_MOST_FORMAT.formatted(boundary));
   }
 
   /**
@@ -1491,7 +1480,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static String maxLength(String string, int boundary, String exceptionMessage) {
-    return Ensure.maxLength(string, boundary, () -> EnsureException.from(exceptionMessage));
+    return maxLength(string, boundary, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1526,8 +1515,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String startsWith(String string, String prefix) {
-    return Ensure.startsWith(
-        string, prefix, EnsureStringOps.STRING_MUST_START_WITH_FORMAT.formatted(prefix));
+    return startsWith(string, prefix, STRING_MUST_START_WITH_FORMAT.formatted(prefix));
   }
 
   /**
@@ -1544,7 +1532,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static String startsWith(String string, String prefix, String exceptionMessage) {
-    return Ensure.startsWith(string, prefix, () -> EnsureException.from(exceptionMessage));
+    return startsWith(string, prefix, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1579,8 +1567,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String endsWith(String string, String suffix) {
-    return Ensure.endsWith(
-        string, suffix, EnsureStringOps.STRING_MUST_END_WITH_FORMAT.formatted(suffix));
+    return endsWith(string, suffix, STRING_MUST_END_WITH_FORMAT.formatted(suffix));
   }
 
   /**
@@ -1597,7 +1584,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static String endsWith(String string, String suffix, String exceptionMessage) {
-    return Ensure.endsWith(string, suffix, () -> EnsureException.from(exceptionMessage));
+    return endsWith(string, suffix, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1632,8 +1619,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String matches(String string, @RegExp String regex) {
-    return Ensure.matches(
-        string, regex, EnsureStringOps.STRING_MUST_MATCH_REGEX_FORMAT.formatted(regex));
+    return matches(string, regex, STRING_MUST_MATCH_REGEX_FORMAT.formatted(regex));
   }
 
   /**
@@ -1650,7 +1636,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static String matches(String string, @RegExp String regex, String exceptionMessage) {
-    return Ensure.matches(string, regex, () -> EnsureException.from(exceptionMessage));
+    return matches(string, regex, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1685,11 +1671,10 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String matches(String string, Pattern pattern) {
-    return Ensure.matches(
+    return matches(
         string,
         pattern,
-        EnsureStringOps.STRING_MUST_MATCH_REGEX_FORMAT.formatted(
-            pattern == null ? "null" : pattern.pattern()));
+        STRING_MUST_MATCH_REGEX_FORMAT.formatted(pattern == null ? "null" : pattern.pattern()));
   }
 
   /**
@@ -1706,7 +1691,7 @@ public final class Ensure {
    */
   @Contract("null, _, _ -> fail; !null, _, _ -> param1")
   public static String matches(String string, Pattern pattern, String exceptionMessage) {
-    return Ensure.matches(string, pattern, () -> EnsureException.from(exceptionMessage));
+    return matches(string, pattern, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1740,8 +1725,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static String matchesAlphanumeric(String string) {
-    return Ensure.matchesAlphanumeric(
-        string, EnsurePatternOps.STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE);
+    return matchesAlphanumeric(string, STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE);
   }
 
   /**
@@ -1757,7 +1741,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String matchesAlphanumeric(String string, String exceptionMessage) {
-    return Ensure.matchesAlphanumeric(string, () -> EnsureException.from(exceptionMessage));
+    return matchesAlphanumeric(string, () -> EnsureException.from(exceptionMessage));
   }
 
   /**
@@ -1790,7 +1774,7 @@ public final class Ensure {
    */
   @Contract("null -> fail; !null -> param1")
   public static String matchesEmail(String string) {
-    return Ensure.matchesEmail(string, EnsurePatternOps.STRING_MUST_MATCH_EMAIL_MESSAGE);
+    return matchesEmail(string, STRING_MUST_MATCH_EMAIL_MESSAGE);
   }
 
   /**
@@ -1806,7 +1790,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String matchesEmail(String string, String exceptionMessage) {
-    return Ensure.matchesEmail(string, () -> EnsureException.from(exceptionMessage));
+    return matchesEmail(string, () -> EnsureException.from(exceptionMessage));
   }
 
   /**

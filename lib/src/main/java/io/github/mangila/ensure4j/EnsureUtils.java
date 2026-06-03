@@ -14,10 +14,6 @@ final class EnsureUtils {
     throw new AssertionError("Cannot instantiate utility class");
   }
 
-  static boolean isEmpty(Object[] array) {
-    return array == null || array.length == 0;
-  }
-
   static boolean isBlankOrNull(String string) {
     return string == null || string.isBlank();
   }
@@ -49,16 +45,20 @@ final class EnsureUtils {
     return collection == null || collection.isEmpty();
   }
 
+  static boolean isEmpty(Map<?, ?> map) {
+    return map == null || map.isEmpty();
+  }
+
+  static boolean isEmpty(Object[] array) {
+    return array == null || array.length == 0;
+  }
+
   static boolean isFuture(Instant instant, Instant boundary) {
     return instant != null && boundary != null && instant.isAfter(boundary);
   }
 
   static boolean isPastOrPresent(Instant instant, Instant boundary) {
     return instant != null && boundary != null && !instant.isAfter(boundary);
-  }
-
-  static boolean isEmpty(Map<?, ?> map) {
-    return map == null || map.isEmpty();
   }
 
   static boolean isAtLeast(int value, int boundary) {

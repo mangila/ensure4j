@@ -5,23 +5,41 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
     <description>
-        Custom PMD ruleset for quarkus-scratch
+        Custom PMD ruleset for Ensure4j
     </description>
 
     <!-- Best Practices -->
-    <rule ref="category/java/bestpractices.xml"/>
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="UseVarargs"/>
+    </rule>
 
     <!-- Code Style -->
-    <rule ref="category/java/codestyle.xml"/>
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LongVariable"/>
+        <exclude name="CommentDefaultAccessModifier"/>
+        <exclude name="TooManyStaticImports"/>
+        <exclude name="ShortVariable"/>
+    </rule>
 
     <!-- Design -->
-    <rule ref="category/java/design.xml"/>
+    <rule ref="category/java/design.xml">
+        <exclude name="TooManyMethods"/>
+        <exclude name="ExcessivePublicCount"/>
+        <exclude name="CyclomaticComplexity"/>
+        <exclude name="CouplingBetweenObjects"/>
+    </rule>
 
     <!-- Documentation -->
-    <rule ref="category/java/documentation.xml"/>
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentSize"/>
+        <exclude name="CommentRequired"/>
+    </rule>
 
     <!-- Error Prone -->
-    <rule ref="category/java/errorprone.xml"/>
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="AvoidDuplicateLiterals"/>
+    </rule>
 
     <!-- Multithreading -->
     <rule ref="category/java/multithreading.xml"/>

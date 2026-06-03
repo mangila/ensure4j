@@ -8,8 +8,10 @@
 # https://megalinter.io/latest/configuration/#all-available-variables
 APPLY_FIXES: none
 PRINT_ALL_FILES: true
-
-CLEAR_REPORT_FOLDER: true
+LOG_FILE: none
+FLAVOR_SUGGESTIONS: false
+SECURITY_SUGGESTIONS: false
+ADDITIONAL_EXCLUDED_DIRECTORIES: [.idea, .junie, .venv, examples, .github]
 
 LOG_LEVEL: DEBUG
 FAIL_IF_MISSING_LINTER_IN_FLAVOR: true
@@ -20,9 +22,15 @@ ENABLE_LINTERS:
   - JAVA_PMD
 
 JAVA_CHECKSTYLE_CONFIG_FILE: megalinter-config/google-checks.xml
+JAVA_CHECKSTYLE_FILTER_REGEX_INCLUDE: (lib/src/main/java)
 JAVA_PMD_CONFIG_FILE: megalinter-config/pmd-ruleset.xml
+JAVA_PMD_FILTER_REGEX_INCLUDE: (lib/src/main/java)
 
-FILTER_REGEX_INCLUDE: (lib/src)
-
-# Exclude unessential directories
-FILTER_REGEX_EXCLUDE: (target/|.venv/|.idea/|.git/)
+# Reporters
+CONSOLE_REPORTER: false
+GITHUB_COMMENT_REPORTER: true
+REPORTERS_MARKDOWN_TYPE: simple
+GITHUB_STATUS_REPORTER: true
+SARIF_REPORTER: true
+CONFIG_REPORTER: false
+UPDATED_SOURCES_REPORTER: false

@@ -11,6 +11,7 @@ import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +52,7 @@ class EnsureArchitectureTest {
   @Test
   void shouldCountOpsClasses() {
     final int expectedOpsCount = 10;
-    final var ensureOpsClasses =
+    final List<JavaClass> ensureOpsClasses =
         ArchTestUtils.ENSURE_PACKAGE.stream()
             .filter(javaClass -> javaClass.getSimpleName().endsWith("Ops"))
             .toList();

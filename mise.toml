@@ -21,4 +21,4 @@ run = [
 
 [tasks.megalint]
 description = "Megalint with Java flavor"
-run = "docker run --rm -v $(pwd):/tmp/lint:rw oxsecurity/megalinter-java"
+run = "podman run --rm -v $(pwd):/tmp/lint:rw oxsecurity/megalinter-java"
