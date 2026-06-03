@@ -32,8 +32,6 @@ Make sure the formatting is correct by running the following command: "mvn com.s
 Follow the example below in implementation for public methods in Ensure.java:
 
 ```java
-// ... existing code ...
-
 import java.util.function.Supplier;
 import org.jetbrains.annotations.Contract;
 
@@ -98,8 +96,6 @@ public static String endsWith(
 And for the methods in the Ops classes:
 
 ```java
-// ... existing code ...
-
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Contract;
