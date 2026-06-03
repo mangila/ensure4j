@@ -598,6 +598,117 @@ public final class Ensure {
   }
 
   /**
+   * Ensures that the provided map contains the specified key.
+   *
+   * @param <T> the type of the map
+   * @param map the map to check
+   * @param key the key whose presence in the map is to be tested
+   * @return the provided map if it contains the specified key
+   * @throws EnsureException if the map is {@code null} or does not contain the specified key, with
+   *     the message {@code "map must contain key %s"}
+   * @see #containsKey(Map, Object, String)
+   * @see #containsKey(Map, Object, Supplier)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static <T extends Map<?, ?>> T containsKey(T map, Object key) {
+    return containsKey(map, key, MAP_MUST_CONTAIN_KEY_MESSAGE.formatted(key));
+  }
+
+  /**
+   * Ensures that the provided map contains the specified key.
+   *
+   * @param <T> the type of the map
+   * @param map the map to check
+   * @param key the key whose presence in the map is to be tested
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided map if it contains the specified key
+   * @throws EnsureException if the map is {@code null} or does not contain the specified key, with
+   *     the provided message
+   * @see #containsKey(Map, Object)
+   * @see #containsKey(Map, Object, Supplier)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static <T extends Map<?, ?>> T containsKey(T map, Object key, String exceptionMessage) {
+    return containsKey(map, key, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided map contains the specified key.
+   *
+   * @param <T> the type of the map
+   * @param map the map to check
+   * @param key the key whose presence in the map is to be tested
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided map if it contains the specified key
+   * @throws RuntimeException if the map is {@code null} or does not contain the specified key; the
+   *     thrown exception is provided by {@code exceptionSupplier}
+   * @see #containsKey(Map, Object)
+   * @see #containsKey(Map, Object, String)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static <T extends Map<?, ?>> T containsKey(
+      T map, Object key, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsureMapOps.containsKey(map, key, exceptionSupplier);
+  }
+
+  /**
+   * Ensures that the provided map contains the specified value.
+   *
+   * @param <T> the type of the map
+   * @param map the map to check
+   * @param value the value whose presence in the map is to be tested
+   * @return the provided map if it contains the specified value
+   * @throws EnsureException if the map is {@code null} or does not contain the specified value,
+   *     with the message {@code "map must contain value %s"}
+   * @see #containsValue(Map, Object, String)
+   * @see #containsValue(Map, Object, Supplier)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static <T extends Map<?, ?>> T containsValue(T map, Object value) {
+    return containsValue(map, value, MAP_MUST_CONTAIN_VALUE_MESSAGE.formatted(value));
+  }
+
+  /**
+   * Ensures that the provided map contains the specified value.
+   *
+   * @param <T> the type of the map
+   * @param map the map to check
+   * @param value the value whose presence in the map is to be tested
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided map if it contains the specified value
+   * @throws EnsureException if the map is {@code null} or does not contain the specified value,
+   *     with the provided message
+   * @see #containsValue(Map, Object)
+   * @see #containsValue(Map, Object, Supplier)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static <T extends Map<?, ?>> T containsValue(
+      T map, Object value, String exceptionMessage) {
+    return containsValue(map, value, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided map contains the specified value.
+   *
+   * @param <T> the type of the map
+   * @param map the map to check
+   * @param value the value whose presence in the map is to be tested
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided map if it contains the specified value
+   * @throws RuntimeException if the map is {@code null} or does not contain the specified value;
+   *     the thrown exception is provided by {@code exceptionSupplier}
+   * @see #containsValue(Map, Object)
+   * @see #containsValue(Map, Object, String)
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  public static <T extends Map<?, ?>> T containsValue(
+      T map, Object value, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsureMapOps.containsValue(map, value, exceptionSupplier);
+  }
+
+  /**
    * Ensures that the provided value does not exceed the specified boundary.
    *
    * @param value the value to check
