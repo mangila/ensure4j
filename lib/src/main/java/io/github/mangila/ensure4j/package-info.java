@@ -33,7 +33,7 @@
  * <pre>{@code
  * public void sendEmail(String email) {
  *  Ensure.notBlank(email, "Email must not be blank");
- *  Ensure.matches(email, EMAIL_REGEX, "Invalid email format");
+ *  Ensure.matchesEmail(email, "Invalid email format");
  *  // ...
  * }
  * }</pre>
