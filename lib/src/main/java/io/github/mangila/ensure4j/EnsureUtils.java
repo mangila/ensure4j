@@ -49,6 +49,14 @@ final class EnsureUtils {
     return map == null || map.isEmpty();
   }
 
+  static boolean containsKey(Map<?, ?> map, Object key) {
+    return map != null && map.containsKey(key);
+  }
+
+  static boolean containsValue(Map<?, ?> map, Object value) {
+    return map != null && map.containsValue(value);
+  }
+
   static boolean isEmpty(Object[] array) {
     return array == null || array.length == 0;
   }
