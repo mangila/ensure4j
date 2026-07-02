@@ -12,11 +12,10 @@ dir = "./lib"
 run = "mvn clean validate"
 
 [tasks."mvn:format"]
-description = "Sort pom.xml and format java code"
+description = "Format pom.xml and Java code"
 dir = "./lib"
 run = [
-    "mvn sortpom:sort",
-    "mvn fmt:format",
+    "mvn spotless:apply",
 ]
 
 [tasks.megalint]

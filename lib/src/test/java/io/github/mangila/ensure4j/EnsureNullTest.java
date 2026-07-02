@@ -26,6 +26,14 @@ class EnsureNullTest implements EnsureOpsArchTest<EnsureNullOps> {
   }
 
   @Test
+  @DisplayName("notNull should throw custom exception")
+  void notNullShouldThrowCustomException() {
+    assertThatThrownBy(() -> Ensure.notNull(null, () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
+  }
+
+  @Test
   @DisplayName("notNull should throw exception when null")
   void notNullShouldThrowExceptionWhenNull() {
     assertThatThrownBy(() -> Ensure.notNull(null))
@@ -39,13 +47,5 @@ class EnsureNullTest implements EnsureOpsArchTest<EnsureNullOps> {
     assertThatThrownBy(() -> Ensure.notNull(null, "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
-  }
-
-  @Test
-  @DisplayName("notNull should throw custom exception")
-  void notNullShouldThrowCustomException() {
-    assertThatThrownBy(() -> Ensure.notNull(null, () -> new IllegalArgumentException("custom")))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("custom");
   }
 }

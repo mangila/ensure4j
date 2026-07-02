@@ -9,13 +9,55 @@ import org.jetbrains.annotations.Contract;
 
 final class EnsureObjectOps {
 
-  static final String OBJECT_MUST_BE_OF_TYPE_MESSAGE = "object must be a type of";
   static final String CLASS_MUST_NOT_BE_NULL_MESSAGE = "class must not be null";
-  static final String OBJECTS_MUST_BE_EQUAL_MESSAGE = "objects must be equal";
+  static final String OBJECT_MUST_BE_OF_TYPE_MESSAGE = "object must be a type of";
   static final String OBJECTS_DEEP_EQUAL_MESSAGE = "objects must be deeply equal";
+  static final String OBJECTS_MUST_BE_EQUAL_MESSAGE = "objects must be equal";
 
-  private EnsureObjectOps() {
-    throw new AssertionError("No Ensure4j for you!");
+  /**
+   * Ensures that the provided objects are deeply equal.
+   *
+   * @param <T> the type of the object
+   * @param actual the first object
+   * @param expected the second object
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the first object if they are deeply equal
+   * @throws RuntimeException if the objects are not deeply equal; the thrown exception is provided
+   *     by {@code exceptionSupplier}
+   */
+  @Contract(
+      "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ ->"
+          + " param1")
+  static <T> T deepEqualTo(
+      T actual, Object expected, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (!Objects.deepEquals(actual, expected)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return actual;
+  }
+
+  /**
+   * Ensures that the provided objects are equal.
+   *
+   * @param <T> the type of the object
+   * @param actual the first object
+   * @param expected the second object
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the first object if they are equal
+   * @throws RuntimeException if the objects are not equal; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   */
+  @Contract(
+      "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ ->"
+          + " param1")
+  static <T> T equalTo(
+      T actual, Object expected, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (!Objects.equals(actual, expected)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return actual;
   }
 
   /**
@@ -42,47 +84,7 @@ final class EnsureObjectOps {
     return clazz.cast(object);
   }
 
-  /**
-   * Ensures that the provided objects are equal.
-   *
-   * @param <T> the type of the object
-   * @param actual the first object
-   * @param expected the second object
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the first object if they are equal
-   * @throws RuntimeException if the objects are not equal; the thrown exception is provided by
-   *     {@code exceptionSupplier}
-   */
-  @Contract(
-      "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
-  static <T> T equalTo(
-      T actual, Object expected, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!Objects.equals(actual, expected)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return actual;
-  }
-
-  /**
-   * Ensures that the provided objects are deeply equal.
-   *
-   * @param <T> the type of the object
-   * @param actual the first object
-   * @param expected the second object
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the first object if they are deeply equal
-   * @throws RuntimeException if the objects are not deeply equal; the thrown exception is provided
-   *     by {@code exceptionSupplier}
-   */
-  @Contract(
-      "null, !null, _ -> fail; !null, null, _ -> fail; null, null, _ -> param1; !null, !null, _ -> param1")
-  static <T> T deepEqualTo(
-      T actual, Object expected, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!Objects.deepEquals(actual, expected)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return actual;
+  private EnsureObjectOps() {
+    throw new AssertionError("No Ensure4j for you!");
   }
 }

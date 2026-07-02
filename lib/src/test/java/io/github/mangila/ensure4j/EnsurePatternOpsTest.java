@@ -20,54 +20,20 @@ class EnsurePatternOpsTest implements EnsureOpsArchTest<EnsurePatternOps> {
   }
 
   @Test
-  @DisplayName("matches should return string when it matches pattern")
-  void matchesShouldReturnStringWhenItMatchesPattern() {
-    String value = "test";
-    Pattern pattern = Pattern.compile("^t.*t$");
-    assertThat(Ensure.matches(value, pattern)).isEqualTo(value);
-  }
-
-  @Test
-  @DisplayName("matches should throw exception when it does not match pattern")
-  void matchesShouldThrowExceptionWhenItDoesNotMatchPattern() {
-    Pattern pattern = Pattern.compile("^abc$");
-    assertThatThrownBy(() -> Ensure.matches("test", pattern))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("string must match regex: ^abc$");
-  }
-
-  @Test
-  @DisplayName("matches should throw exception with custom message")
-  void matchesShouldThrowExceptionWithCustomMessage() {
-    Pattern pattern = Pattern.compile("^abc$");
-    assertThatThrownBy(() -> Ensure.matches("test", pattern, "custom message"))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("custom message");
-  }
-
-  @Test
-  @DisplayName("matches should throw custom exception")
-  void matchesShouldThrowCustomException() {
-    Pattern pattern = Pattern.compile("^abc$");
-    assertThatThrownBy(
-            () -> Ensure.matches("test", pattern, () -> new IllegalArgumentException("custom")))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("custom");
-  }
-
-  @Test
-  @DisplayName("matches should throw exception when pattern is null")
-  void matchesShouldThrowExceptionWhenPatternIsNull() {
-    assertThatThrownBy(() -> Ensure.matches("test", (Pattern) null))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("pattern must not be null");
-  }
-
-  @Test
   @DisplayName("matchesAlphanumeric should return string when it matches alphanumeric pattern")
   void matchesAlphanumericShouldReturnStringWhenItMatchesAlphanumericPattern() {
     String value = "abc 123";
     assertThat(Ensure.matchesAlphanumeric(value)).isEqualTo(value);
+  }
+
+  @Test
+  @DisplayName("matchesAlphanumeric should throw custom exception")
+  void matchesAlphanumericShouldThrowCustomException() {
+    assertThatThrownBy(
+            () ->
+                Ensure.matchesAlphanumeric("abc_123", () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
   }
 
   @Test
@@ -88,20 +54,20 @@ class EnsurePatternOpsTest implements EnsureOpsArchTest<EnsurePatternOps> {
   }
 
   @Test
-  @DisplayName("matchesAlphanumeric should throw custom exception")
-  void matchesAlphanumericShouldThrowCustomException() {
-    assertThatThrownBy(
-            () ->
-                Ensure.matchesAlphanumeric("abc_123", () -> new IllegalArgumentException("custom")))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("custom");
-  }
-
-  @Test
   @DisplayName("matchesEmail should return string when it matches email pattern")
   void matchesEmailShouldReturnStringWhenItMatchesEmailPattern() {
     String value = "test@example.com";
     assertThat(Ensure.matchesEmail(value)).isEqualTo(value);
+  }
+
+  @Test
+  @DisplayName("matchesEmail should throw custom exception")
+  void matchesEmailShouldThrowCustomException() {
+    assertThatThrownBy(
+            () ->
+                Ensure.matchesEmail("invalid-email", () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
   }
 
   @Test
@@ -121,12 +87,46 @@ class EnsurePatternOpsTest implements EnsureOpsArchTest<EnsurePatternOps> {
   }
 
   @Test
-  @DisplayName("matchesEmail should throw custom exception")
-  void matchesEmailShouldThrowCustomException() {
+  @DisplayName("matches should return string when it matches pattern")
+  void matchesShouldReturnStringWhenItMatchesPattern() {
+    String value = "test";
+    Pattern pattern = Pattern.compile("^t.*t$");
+    assertThat(Ensure.matches(value, pattern)).isEqualTo(value);
+  }
+
+  @Test
+  @DisplayName("matches should throw custom exception")
+  void matchesShouldThrowCustomException() {
+    Pattern pattern = Pattern.compile("^abc$");
     assertThatThrownBy(
-            () ->
-                Ensure.matchesEmail("invalid-email", () -> new IllegalArgumentException("custom")))
+            () -> Ensure.matches("test", pattern, () -> new IllegalArgumentException("custom")))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("matches should throw exception when it does not match pattern")
+  void matchesShouldThrowExceptionWhenItDoesNotMatchPattern() {
+    Pattern pattern = Pattern.compile("^abc$");
+    assertThatThrownBy(() -> Ensure.matches("test", pattern))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string must match regex: ^abc$");
+  }
+
+  @Test
+  @DisplayName("matches should throw exception when pattern is null")
+  void matchesShouldThrowExceptionWhenPatternIsNull() {
+    assertThatThrownBy(() -> Ensure.matches("test", (Pattern) null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("pattern must not be null");
+  }
+
+  @Test
+  @DisplayName("matches should throw exception with custom message")
+  void matchesShouldThrowExceptionWithCustomMessage() {
+    Pattern pattern = Pattern.compile("^abc$");
+    assertThatThrownBy(() -> Ensure.matches("test", pattern, "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
   }
 }

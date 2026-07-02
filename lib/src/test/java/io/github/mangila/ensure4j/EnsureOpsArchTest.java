@@ -21,17 +21,6 @@ public interface EnsureOpsArchTest<T> {
   long expectedMethodCount();
 
   @Test
-  @DisplayName("EnsureOps Classes should throw if instantiated")
-  default void shouldThrowIfCallingConstructor() throws NoSuchMethodException {
-    Constructor<?> constructor = clazz().getDeclaredConstructor();
-    constructor.setAccessible(true);
-    assertThatThrownBy(constructor::newInstance)
-        .isInstanceOf(InvocationTargetException.class)
-        .hasCauseInstanceOf(AssertionError.class)
-        .hasRootCauseMessage("No Ensure4j for you!");
-  }
-
-  @Test
   @DisplayName("EnsureOps Classes should have expected architecture")
   default void shouldHaveExpectedArch() {
     ArchRuleDefinition.theClass(clazz())
@@ -59,5 +48,16 @@ public interface EnsureOpsArchTest<T> {
               }
             })
         .check(ArchTestUtils.ENSURE_PACKAGE);
+  }
+
+  @Test
+  @DisplayName("EnsureOps Classes should throw if instantiated")
+  default void shouldThrowIfCallingConstructor() throws NoSuchMethodException {
+    Constructor<?> constructor = clazz().getDeclaredConstructor();
+    constructor.setAccessible(true);
+    assertThatThrownBy(constructor::newInstance)
+        .isInstanceOf(InvocationTargetException.class)
+        .hasCauseInstanceOf(AssertionError.class)
+        .hasRootCauseMessage("No Ensure4j for you!");
   }
 }

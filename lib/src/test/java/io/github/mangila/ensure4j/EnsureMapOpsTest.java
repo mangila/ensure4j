@@ -20,44 +20,20 @@ class EnsureMapOpsTest implements EnsureOpsArchTest<EnsureMapOps> {
   }
 
   @Test
-  @DisplayName("notEmpty should return map when not empty")
-  void notEmptyShouldReturnMapWhenNotEmpty() {
-    Map<String, String> map = Map.of("key", "value");
-    assertThat(Ensure.notEmpty(map)).isEqualTo(map);
-  }
-
-  @Test
-  @DisplayName("notEmpty should throw exception when empty")
-  void notEmptyShouldThrowExceptionWhenEmpty() {
-    Map<String, String> map = Map.of();
-    assertThatThrownBy(() -> Ensure.notEmpty(map))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("map must not be empty");
-  }
-
-  @Test
-  @DisplayName("notEmpty should throw exception with custom message")
-  void notEmptyShouldThrowExceptionWithCustomMessage() {
-    Map<String, String> map = Map.of();
-    assertThatThrownBy(() -> Ensure.notEmpty(map, "custom message"))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("custom message");
-  }
-
-  @Test
-  @DisplayName("notEmpty should throw custom exception")
-  void notEmptyShouldThrowCustomException() {
-    Map<String, String> map = Map.of();
-    assertThatThrownBy(() -> Ensure.notEmpty(map, () -> new IllegalArgumentException("custom")))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("custom");
-  }
-
-  @Test
   @DisplayName("containsKey should return map when key exists")
   void containsKeyShouldReturnMapWhenKeyExists() {
     Map<String, String> map = Map.of("key", "value");
     assertThat(Ensure.containsKey(map, "key")).isEqualTo(map);
+  }
+
+  @Test
+  @DisplayName("containsKey should throw custom exception")
+  void containsKeyShouldThrowCustomException() {
+    Map<String, String> map = Map.of("key", "value");
+    assertThatThrownBy(
+            () -> Ensure.containsKey(map, "other", () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
   }
 
   @Test
@@ -79,20 +55,20 @@ class EnsureMapOpsTest implements EnsureOpsArchTest<EnsureMapOps> {
   }
 
   @Test
-  @DisplayName("containsKey should throw custom exception")
-  void containsKeyShouldThrowCustomException() {
-    Map<String, String> map = Map.of("key", "value");
-    assertThatThrownBy(
-            () -> Ensure.containsKey(map, "other", () -> new IllegalArgumentException("custom")))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("custom");
-  }
-
-  @Test
   @DisplayName("containsValue should return map when value exists")
   void containsValueShouldReturnMapWhenValueExists() {
     Map<String, String> map = Map.of("key", "value");
     assertThat(Ensure.containsValue(map, "value")).isEqualTo(map);
+  }
+
+  @Test
+  @DisplayName("containsValue should throw custom exception")
+  void containsValueShouldThrowCustomException() {
+    Map<String, String> map = Map.of("key", "value");
+    assertThatThrownBy(
+            () -> Ensure.containsValue(map, "other", () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
   }
 
   @Test
@@ -114,12 +90,36 @@ class EnsureMapOpsTest implements EnsureOpsArchTest<EnsureMapOps> {
   }
 
   @Test
-  @DisplayName("containsValue should throw custom exception")
-  void containsValueShouldThrowCustomException() {
+  @DisplayName("notEmpty should return map when not empty")
+  void notEmptyShouldReturnMapWhenNotEmpty() {
     Map<String, String> map = Map.of("key", "value");
-    assertThatThrownBy(
-            () -> Ensure.containsValue(map, "other", () -> new IllegalArgumentException("custom")))
+    assertThat(Ensure.notEmpty(map)).isEqualTo(map);
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw custom exception")
+  void notEmptyShouldThrowCustomException() {
+    Map<String, String> map = Map.of();
+    assertThatThrownBy(() -> Ensure.notEmpty(map, () -> new IllegalArgumentException("custom")))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw exception when empty")
+  void notEmptyShouldThrowExceptionWhenEmpty() {
+    Map<String, String> map = Map.of();
+    assertThatThrownBy(() -> Ensure.notEmpty(map))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("map must not be empty");
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw exception with custom message")
+  void notEmptyShouldThrowExceptionWithCustomMessage() {
+    Map<String, String> map = Map.of();
+    assertThatThrownBy(() -> Ensure.notEmpty(map, "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
   }
 }

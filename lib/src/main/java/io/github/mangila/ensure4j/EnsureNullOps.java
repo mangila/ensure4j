@@ -9,10 +9,6 @@ final class EnsureNullOps {
 
   static final String OBJECT_MUST_NOT_BE_NULL_MESSAGE = "object must not be null";
 
-  private EnsureNullOps() {
-    throw new AssertionError("No Ensure4j for you!");
-  }
-
   /**
    * Ensures that the provided object is not {@code null}.
    *
@@ -30,5 +26,9 @@ final class EnsureNullOps {
       throw getSupplierOrThrow(exceptionSupplier);
     }
     return object;
+  }
+
+  private EnsureNullOps() {
+    throw new AssertionError("No Ensure4j for you!");
   }
 }

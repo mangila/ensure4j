@@ -11,10 +11,6 @@ final class EnsureDateTimeOps {
   static final String INSTANT_MUST_BE_IN_FUTURE = "instant must be in the future";
   static final String INSTANT_MUST_BE_PAST_OR_PRESENT = "instant must be in the past or present";
 
-  private EnsureDateTimeOps() {
-    throw new AssertionError("No Ensure4j for you!");
-  }
-
   /**
    * Ensures that the provided instant is in the future.
    *
@@ -53,5 +49,9 @@ final class EnsureDateTimeOps {
       throw getSupplierOrThrow(exceptionSupplier);
     }
     return instant;
+  }
+
+  private EnsureDateTimeOps() {
+    throw new AssertionError("No Ensure4j for you!");
   }
 }

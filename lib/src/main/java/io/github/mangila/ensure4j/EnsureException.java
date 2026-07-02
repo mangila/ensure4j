@@ -8,15 +8,6 @@ public class EnsureException extends RuntimeException {
   @Serial private static final long serialVersionUID = 1L;
 
   /**
-   * Constructs a new EnsureException with the specified detail message.
-   *
-   * @param message the detail message.
-   */
-  public EnsureException(String message) {
-    super(message);
-  }
-
-  /**
    * Creates a new EnsureException with the specified detail message.
    *
    * @param message the detail message.
@@ -24,5 +15,14 @@ public class EnsureException extends RuntimeException {
    */
   public static EnsureException from(String message) {
     return new EnsureException(message);
+  }
+
+  /**
+   * Constructs a new EnsureException with the specified detail message.
+   *
+   * @param message the detail message.
+   */
+  public EnsureException(String message) {
+    super(message);
   }
 }

@@ -11,10 +11,8 @@ import java.util.regex.Pattern;
  */
 final class EnsurePatternOps {
 
-  static final String STRING_MUST_MATCH_EMAIL_MESSAGE = "string must match email pattern";
-  static final String STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE =
-      "string must match alphanumeric pattern";
-  static final String PATTERN_MUST_NOT_BE_NULL_MESSAGE = "pattern must not be null";
+  /** Matches any alphanumeric character, including spaces. */
+  static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("[a-zA-Z0-9\\s]+");
 
   /**
    * While RFC 5322 is notoriously complex, this is a highly reliable, performant pattern for 99.9%
@@ -23,12 +21,12 @@ final class EnsurePatternOps {
   static final Pattern EMAIL_PATTERN =
       Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
-  /** Matches any alphanumeric character, including spaces. */
-  static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("[a-zA-Z0-9\\s]+");
+  static final String PATTERN_MUST_NOT_BE_NULL_MESSAGE = "pattern must not be null";
 
-  private EnsurePatternOps() {
-    throw new AssertionError("No Ensure4j for you!");
-  }
+  static final String STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE =
+      "string must match alphanumeric pattern";
+
+  static final String STRING_MUST_MATCH_EMAIL_MESSAGE = "string must match email pattern";
 
   static String matches(
       String string, Pattern pattern, Supplier<? extends RuntimeException> exceptionSupplier) {
@@ -77,5 +75,9 @@ final class EnsurePatternOps {
     }
 
     return string;
+  }
+
+  private EnsurePatternOps() {
+    throw new AssertionError("No Ensure4j for you!");
   }
 }

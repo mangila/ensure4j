@@ -12,8 +12,25 @@ final class EnsureCollectionOps {
   static final String COLLECTION_MUST_NOT_BE_EMPTY_OR_NULL_MESSAGE =
       "collection must not be empty or null";
 
-  private EnsureCollectionOps() {
-    throw new AssertionError("No Ensure4j for you!");
+  /**
+   * Ensures that the provided collection contains the specified element.
+   *
+   * @param <T> the type of the collection
+   * @param collection the collection to check
+   * @param element the element to check for
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided collection if it contains the element
+   * @throws RuntimeException if the collection does not contain the element; the thrown exception
+   *     is provided by {@code exceptionSupplier}
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  static <T extends Collection<?>> T containsElement(
+      T collection, Object element, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (!EnsureUtils.contains(collection, element)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return collection;
   }
 
   /**
@@ -36,24 +53,7 @@ final class EnsureCollectionOps {
     return collection;
   }
 
-  /**
-   * Ensures that the provided collection contains the specified element.
-   *
-   * @param <T> the type of the collection
-   * @param collection the collection to check
-   * @param element the element to check for
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the provided collection if it contains the element
-   * @throws RuntimeException if the collection does not contain the element; the thrown exception
-   *     is provided by {@code exceptionSupplier}
-   */
-  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
-  static <T extends Collection<?>> T containsElement(
-      T collection, Object element, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!EnsureUtils.contains(collection, element)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return collection;
+  private EnsureCollectionOps() {
+    throw new AssertionError("No Ensure4j for you!");
   }
 }

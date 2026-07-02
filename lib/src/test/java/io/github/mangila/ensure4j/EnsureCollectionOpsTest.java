@@ -20,44 +20,21 @@ class EnsureCollectionOpsTest implements EnsureOpsArchTest<EnsureCollectionOps> 
   }
 
   @Test
-  @DisplayName("notEmpty should return collection when not empty")
-  void notEmptyShouldReturnCollectionWhenNotEmpty() {
-    List<String> list = List.of("test");
-    assertThat(Ensure.notEmpty(list)).isEqualTo(list);
-  }
-
-  @Test
-  @DisplayName("notEmpty should throw exception when empty")
-  void notEmptyShouldThrowExceptionWhenEmpty() {
-    List<String> list = List.of();
-    assertThatThrownBy(() -> Ensure.notEmpty(list))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("collection must not be empty or null");
-  }
-
-  @Test
-  @DisplayName("notEmpty should throw exception with custom message")
-  void notEmptyShouldThrowExceptionWithCustomMessage() {
-    List<String> list = List.of();
-    assertThatThrownBy(() -> Ensure.notEmpty(list, "custom message"))
-        .isInstanceOf(EnsureException.class)
-        .hasMessage("custom message");
-  }
-
-  @Test
-  @DisplayName("notEmpty should throw custom exception")
-  void notEmptyShouldThrowCustomException() {
-    List<String> list = List.of();
-    assertThatThrownBy(() -> Ensure.notEmpty(list, () -> new IllegalArgumentException("custom")))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("custom");
-  }
-
-  @Test
   @DisplayName("containsElement should return collection when element is present")
   void containsElementShouldReturnCollectionWhenElementIsPresent() {
     List<String> list = List.of("test");
     assertThat(Ensure.containsElement(list, "test")).isEqualTo(list);
+  }
+
+  @Test
+  @DisplayName("containsElement should throw custom exception")
+  void containsElementShouldThrowCustomException() {
+    List<String> list = List.of("test");
+    assertThatThrownBy(
+            () ->
+                Ensure.containsElement(list, "other", () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
   }
 
   @Test
@@ -79,13 +56,36 @@ class EnsureCollectionOpsTest implements EnsureOpsArchTest<EnsureCollectionOps> 
   }
 
   @Test
-  @DisplayName("containsElement should throw custom exception")
-  void containsElementShouldThrowCustomException() {
+  @DisplayName("notEmpty should return collection when not empty")
+  void notEmptyShouldReturnCollectionWhenNotEmpty() {
     List<String> list = List.of("test");
-    assertThatThrownBy(
-            () ->
-                Ensure.containsElement(list, "other", () -> new IllegalArgumentException("custom")))
+    assertThat(Ensure.notEmpty(list)).isEqualTo(list);
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw custom exception")
+  void notEmptyShouldThrowCustomException() {
+    List<String> list = List.of();
+    assertThatThrownBy(() -> Ensure.notEmpty(list, () -> new IllegalArgumentException("custom")))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw exception when empty")
+  void notEmptyShouldThrowExceptionWhenEmpty() {
+    List<String> list = List.of();
+    assertThatThrownBy(() -> Ensure.notEmpty(list))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("collection must not be empty or null");
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw exception with custom message")
+  void notEmptyShouldThrowExceptionWithCustomMessage() {
+    List<String> list = List.of();
+    assertThatThrownBy(() -> Ensure.notEmpty(list, "custom message"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom message");
   }
 }

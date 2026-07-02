@@ -29,6 +29,11 @@
         <exclude name="CyclomaticComplexity"/>
         <exclude name="CouplingBetweenObjects"/>
     </rule>
+    <rule ref="category/java/design.xml/ExcessiveImports">
+        <properties>
+            <property name="minimum" value="45"/>
+        </properties>
+    </rule>
 
     <!-- Documentation -->
     <rule ref="category/java/documentation.xml">

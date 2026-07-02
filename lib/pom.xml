@@ -90,38 +90,45 @@
   <build>
     <plugins>
       <plugin>
-        <!-- https://mvnrepository.com/artifact/com.github.ekryd.sortpom/sortpom-maven-plugin -->
-        <groupId>com.github.ekryd.sortpom</groupId>
-        <artifactId>sortpom-maven-plugin</artifactId>
-        <version>4.0.0</version>
+        <!-- https://github.com/diffplug/spotless/tree/main/plugin-maven -->
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>3.8.0</version>
         <configuration>
-          <createBackupFile>false</createBackupFile>
-          <endWithNewline>true</endWithNewline>
-          <sortProperties>true</sortProperties>
-          <sortDependencies>scope,groupId,artifactId</sortDependencies>
-          <sortPlugins>groupId,artifactId</sortPlugins>
-          <keepBlankLines>true</keepBlankLines>
-          <expandEmptyElements>true</expandEmptyElements>
-          <verifyFail>stop</verifyFail>
+          <java>
+            <trimTrailingWhitespace/>
+            <endWithNewline/>
+            <cleanthat/>
+            <eclipse>
+              <sortMembersEnabled>true</sortMembersEnabled>
+              <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
+              <sortMembersDoNotSortFields>false</sortMembersDoNotSortFields>
+              <sortMembersVisibilityOrderEnabled>true</sortMembersVisibilityOrderEnabled>
+              <sortMembersVisibilityOrder>B,R,D,V</sortMembersVisibilityOrder>
+            </eclipse>
+            <googleJavaFormat>
+              <style>GOOGLE</style>
+              <reflowLongStrings>true</reflowLongStrings>
+              <formatJavadoc>true</formatJavadoc>
+            </googleJavaFormat>
+            <removeUnusedImports/>
+            <forbidWildcardImports/>
+            <forbidModuleImports/>
+            <formatAnnotations/>
+          </java>
+          <pom>
+            <sortPom>
+              <endWithNewline>true</endWithNewline>
+              <keepBlankLines>true</keepBlankLines>
+              <sortDependencies>scope,groupId,artifactId</sortDependencies>
+              <sortPlugins>groupId,artifactId</sortPlugins>
+              <sortProperties>true</sortProperties>
+            </sortPom>
+          </pom>
         </configuration>
         <executions>
           <execution>
-            <id>sortpom-verify</id>
-            <goals>
-              <goal>verify</goal>
-            </goals>
-            <phase>validate</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <!-- https://mvnrepository.com/artifact/com.spotify.fmt/fmt-maven-plugin -->
-        <groupId>com.spotify.fmt</groupId>
-        <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.29</version>
-        <executions>
-          <execution>
-            <id>fmt-check</id>
+            <id>spotless-check</id>
             <goals>
               <goal>check</goal>
             </goals>

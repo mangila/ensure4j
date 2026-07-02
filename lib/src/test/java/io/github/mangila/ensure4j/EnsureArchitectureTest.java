@@ -18,6 +18,30 @@ import org.junit.jupiter.api.Test;
 class EnsureArchitectureTest {
 
   @Test
+  void shouldCountOpsClasses() {
+    final int expectedOpsCount = 10;
+    final List<JavaClass> ensureOpsClasses =
+        ArchTestUtils.ENSURE_PACKAGE.stream()
+            .filter(javaClass -> javaClass.getSimpleName().endsWith("Ops"))
+            .toList();
+    assertThat(ensureOpsClasses)
+        .as(
+            "number of EnsureOps classes: %d - %s"
+                .formatted(ensureOpsClasses.size(), ensureOpsClasses))
+        .hasSize(expectedOpsCount);
+  }
+
+  @Test
+  void shouldThrowIfCallingConstructor() throws NoSuchMethodException {
+    Constructor<?> constructor = Ensure.class.getDeclaredConstructor();
+    constructor.setAccessible(true);
+    assertThatThrownBy(constructor::newInstance)
+        .isInstanceOf(InvocationTargetException.class)
+        .hasCauseInstanceOf(AssertionError.class)
+        .hasRootCauseMessage("No Ensure4j for you!");
+  }
+
+  @Test
   void shouldThrowIfSupplierIsNull() {
     Supplier<RuntimeException> supplier = null;
     assertThatThrownBy(
@@ -37,30 +61,6 @@ class EnsureArchitectureTest {
             })
         .isInstanceOf(EnsureException.class)
         .hasMessage("supplier was given a null value");
-  }
-
-  @Test
-  void shouldThrowIfCallingConstructor() throws NoSuchMethodException {
-    Constructor<?> constructor = Ensure.class.getDeclaredConstructor();
-    constructor.setAccessible(true);
-    assertThatThrownBy(constructor::newInstance)
-        .isInstanceOf(InvocationTargetException.class)
-        .hasCauseInstanceOf(AssertionError.class)
-        .hasRootCauseMessage("No Ensure4j for you!");
-  }
-
-  @Test
-  void shouldCountOpsClasses() {
-    final int expectedOpsCount = 10;
-    final List<JavaClass> ensureOpsClasses =
-        ArchTestUtils.ENSURE_PACKAGE.stream()
-            .filter(javaClass -> javaClass.getSimpleName().endsWith("Ops"))
-            .toList();
-    assertThat(ensureOpsClasses)
-        .as(
-            "number of EnsureOps classes: %d - %s"
-                .formatted(ensureOpsClasses.size(), ensureOpsClasses))
-        .hasSize(expectedOpsCount);
   }
 
   @Test

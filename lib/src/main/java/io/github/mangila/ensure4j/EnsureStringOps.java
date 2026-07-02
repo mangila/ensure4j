@@ -8,100 +8,15 @@ import org.jetbrains.annotations.Contract;
 
 final class EnsureStringOps {
 
-  static final String STRING_MUST_NOT_BE_BLANK_MESSAGE = "string must not be blank";
+  static final String PREFIX_NOT_NULL_MESSAGE = "prefix must not be null";
+  static final String REGEX_NOT_NULL_MESSAGE = "regex must not be null";
   static final String STRING_LENGTH_AT_LEAST_FORMAT = "string length must be at least %d";
   static final String STRING_LENGTH_AT_MOST_FORMAT = "string length must be at most %d";
-  static final String STRING_MUST_START_WITH_FORMAT = "string must start with: %s";
-  static final String PREFIX_NOT_NULL_MESSAGE = "prefix must not be null";
   static final String STRING_MUST_END_WITH_FORMAT = "string must end with: %s";
-  static final String SUFFIX_MUST_NOT_BE_NULL_MESSAGE = "suffix must not be null";
   static final String STRING_MUST_MATCH_REGEX_FORMAT = "string must match regex: %s";
-  static final String REGEX_NOT_NULL_MESSAGE = "regex must not be null";
-
-  private EnsureStringOps() {
-    throw new AssertionError("No Ensure4j for you!");
-  }
-
-  /**
-   * Ensures that the provided string is not {@code null} or blank.
-   *
-   * @param string the string to check
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the provided string if it is not {@code null} or blank
-   * @throws RuntimeException if the string is {@code null} or blank; the thrown exception is
-   *     provided by {@code exceptionSupplier}
-   */
-  @Contract("null, _ -> fail; !null, _ -> param1")
-  static String notBlank(String string, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (EnsureUtils.isBlankOrNull(string)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return string;
-  }
-
-  /**
-   * Ensures that the provided string has at least the specified minimum length.
-   *
-   * @param string the string to check
-   * @param boundary the minimum length
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the provided string if it has at least the minimum length
-   * @throws RuntimeException if the string length is less than the minimum; the thrown exception is
-   *     provided by {@code exceptionSupplier}
-   */
-  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
-  static String minLength(
-      String string, int boundary, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (string == null || !EnsureUtils.isAtLeast(string.length(), boundary)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return string;
-  }
-
-  /**
-   * Ensures that the provided string does not exceed the specified maximum length.
-   *
-   * @param string the string to check
-   * @param boundary the maximum length
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the provided string if it does not exceed the maximum length
-   * @throws RuntimeException if the string length exceeds the maximum; the thrown exception is
-   *     provided by {@code exceptionSupplier}
-   */
-  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
-  static String maxLength(
-      String string, int boundary, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (string == null || !EnsureUtils.isAtMost(string.length(), boundary)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return string;
-  }
-
-  /**
-   * Ensures that the provided string starts with the specified prefix.
-   *
-   * @param string the string to check
-   * @param prefix the prefix to check for
-   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
-   *     fails
-   * @return the provided string if it starts with the prefix
-   * @throws RuntimeException if the string does not start with the prefix; the thrown exception is
-   *     provided by {@code exceptionSupplier}
-   */
-  @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
-  static String startsWith(
-      String string, String prefix, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (prefix == null) {
-      throw EnsureException.from(PREFIX_NOT_NULL_MESSAGE);
-    }
-    if (!EnsureUtils.hasPrefix(string, prefix)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-    return string;
-  }
+  static final String STRING_MUST_NOT_BE_BLANK_MESSAGE = "string must not be blank";
+  static final String STRING_MUST_START_WITH_FORMAT = "string must start with: %s";
+  static final String SUFFIX_MUST_NOT_BE_NULL_MESSAGE = "suffix must not be null";
 
   /**
    * Ensures that the provided string ends with the specified suffix.
@@ -147,5 +62,90 @@ final class EnsureStringOps {
       throw getSupplierOrThrow(exceptionSupplier);
     }
     return string;
+  }
+
+  /**
+   * Ensures that the provided string does not exceed the specified maximum length.
+   *
+   * @param string the string to check
+   * @param boundary the maximum length
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it does not exceed the maximum length
+   * @throws RuntimeException if the string length exceeds the maximum; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  static String maxLength(
+      String string, int boundary, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (string == null || !EnsureUtils.isAtMost(string.length(), boundary)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
+  }
+
+  /**
+   * Ensures that the provided string has at least the specified minimum length.
+   *
+   * @param string the string to check
+   * @param boundary the minimum length
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it has at least the minimum length
+   * @throws RuntimeException if the string length is less than the minimum; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   */
+  @Contract("null, _, _ -> fail; !null, _, _ -> param1")
+  static String minLength(
+      String string, int boundary, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (string == null || !EnsureUtils.isAtLeast(string.length(), boundary)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
+  }
+
+  /**
+   * Ensures that the provided string is not {@code null} or blank.
+   *
+   * @param string the string to check
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it is not {@code null} or blank
+   * @throws RuntimeException if the string is {@code null} or blank; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   */
+  @Contract("null, _ -> fail; !null, _ -> param1")
+  static String notBlank(String string, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (EnsureUtils.isBlankOrNull(string)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
+  }
+
+  /**
+   * Ensures that the provided string starts with the specified prefix.
+   *
+   * @param string the string to check
+   * @param prefix the prefix to check for
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided string if it starts with the prefix
+   * @throws RuntimeException if the string does not start with the prefix; the thrown exception is
+   *     provided by {@code exceptionSupplier}
+   */
+  @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
+  static String startsWith(
+      String string, String prefix, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (prefix == null) {
+      throw EnsureException.from(PREFIX_NOT_NULL_MESSAGE);
+    }
+    if (!EnsureUtils.hasPrefix(string, prefix)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return string;
+  }
+
+  private EnsureStringOps() {
+    throw new AssertionError("No Ensure4j for you!");
   }
 }
