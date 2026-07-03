@@ -6,17 +6,15 @@ python = "3"
 [env]
 _.python.venv = ".venv"
 
-[tasks."mvn:validate"]
-description = "Run Maven Validate"
+[tasks."mvn:compile"]
+description = "Run Maven Compile"
 dir = "./lib"
-run = "mvn clean validate"
+run = "mvn clean test-compile"
 
 [tasks."mvn:format"]
 description = "Format pom.xml and Java code"
 dir = "./lib"
-run = [
-    "mvn spotless:apply",
-]
+run = "mvn spotless:apply"
 
 [tasks.megalint]
 description = "Megalint with Java flavor"

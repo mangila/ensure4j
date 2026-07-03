@@ -8,9 +8,9 @@ minimum_pre_commit_version: '4.6.0'
 repos:
   - repo: local
     hooks:
-      - id: mvn-validate-ensure4j
-        name: Maven Validate
-        entry: mise run mvn:validate
+      - id: mvn-compile-ensure4j
+        name: Maven Compile
+        entry: mise run mvn:compile
         language: system
         files: ^lib/src
         require_serial: true
