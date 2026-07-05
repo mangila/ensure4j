@@ -5,8 +5,6 @@ name: MegaLinter
 
 on:
   pull_request:
-    paths:
-      - "lib/src/**"
     branches:
       - main
 
