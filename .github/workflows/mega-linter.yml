@@ -52,4 +52,4 @@ jobs:
         # https://github.com/github/codeql-action
         uses: github/codeql-action/upload-sarif@v4.36.2 # zizmor: ignore[unpinned-uses]
         with:
-          sarif_file: 'megalinter-reports/megalinter-report.sarif'
+          sarif_file: "megalinter-reports/megalinter-report.sarif"

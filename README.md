@@ -9,7 +9,7 @@
 Ensure4j is an implementation of the precondition pattern in Java. It's a lightweight library with no external
 dependencies.
 
-https://mangila.github.io/ensure4j/
+<https://mangila.github.io/ensure4j/>
 
 There is also support for functional programming pipelines and Java Streams.
 

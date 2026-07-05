@@ -1,5 +1,4 @@
 ---
-
 name: Test
 
 on:
@@ -26,7 +25,7 @@ jobs:
         uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
         with:
           java-version: 25
-          distribution: 'zulu'
+          distribution: "zulu"
           cache: maven
 
       - name: Run tests (lib)
@@ -41,7 +40,7 @@ jobs:
           paths: lib/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 90
-          title: '# :bar_chart: Coverage Report'
-          pass-emoji: ':green_circle:'
-          fail-emoji: ':red_circle:'
+          title: "# :bar_chart: Coverage Report"
+          pass-emoji: ":green_circle:"
+          fail-emoji: ":red_circle:"
           update-comment: true

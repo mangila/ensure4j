@@ -1,3 +1,4 @@
+---
 # Sample reference configuration file
 #
 # The configuration file must be named `dco.yml` and placed in the `.github` directory in the default branch of the repository. The values used below are the defaults.

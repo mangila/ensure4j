@@ -2,7 +2,7 @@
 
 ## Mise Setup
 
-Install https://mise.jdx.dev/getting-started.html
+Install <https://mise.jdx.dev/getting-started.html>
 
 Trust this directory
 
@@ -18,13 +18,13 @@ mise install
 
 ## Pre commit Setup
 
-- https://pre-commit.com/
+- <https://pre-commit.com/>
 
 Create a virtual environment in the root of this project (for convenience)
 
 Install the `requirements.txt` file.
 
-```
+```text
 pip install -r requirements.txt
 ```
 

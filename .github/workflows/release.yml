@@ -1,14 +1,13 @@
 ---
-
 name: Release
 
 on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: 'SemVer Release Type'
+        description: "SemVer Release Type"
         required: true
-        default: 'Patch'
+        default: "Patch"
         type: choice
         options:
           - Major
@@ -44,7 +43,7 @@ jobs:
         uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
         with:
           java-version: 25
-          distribution: 'zulu'
+          distribution: "zulu"
           server-id: central
           server-username: SONAR_USERNAME
           server-password: SONAR_PASSWORD
@@ -130,7 +129,7 @@ jobs:
         uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
         with:
           java-version: 25
-          distribution: 'zulu'
+          distribution: "zulu"
           cache: maven
 
       - name: Build site
