@@ -101,13 +101,13 @@
             <trimTrailingWhitespace/>
             <endWithNewline/>
             <cleanthat/>
-            <eclipse>
+            <!--<eclipse>
               <sortMembersEnabled>true</sortMembersEnabled>
               <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
               <sortMembersDoNotSortFields>false</sortMembersDoNotSortFields>
               <sortMembersVisibilityOrderEnabled>true</sortMembersVisibilityOrderEnabled>
               <sortMembersVisibilityOrder>B,R,D,V</sortMembersVisibilityOrder>
-            </eclipse>
+            </eclipse>-->
             <googleJavaFormat>
               <style>GOOGLE</style>
               <reflowLongStrings>true</reflowLongStrings>
