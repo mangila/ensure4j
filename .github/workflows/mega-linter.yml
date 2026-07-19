@@ -48,6 +48,6 @@ jobs:
       - name: Upload MegaLinter scan results to GitHub Security tab
         if: success() || failure()
         # https://github.com/github/codeql-action
-        uses: github/codeql-action/upload-sarif@v4.36.3 # zizmor: ignore[unpinned-uses]
+        uses: github/codeql-action/upload-sarif@v4.37.0 # zizmor: ignore[unpinned-uses]
         with:
           sarif_file: "megalinter-reports/megalinter-report.sarif"
