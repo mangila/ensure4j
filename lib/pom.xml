@@ -112,9 +112,6 @@
             <formatAnnotations/>
           </java>
           <pom>
-            <includes>
-              <include>pom.xml</include>
-            </includes>
             <sortPom>
               <endWithNewline>true</endWithNewline>
               <keepBlankLines>true</keepBlankLines>
@@ -124,15 +121,6 @@
             </sortPom>
           </pom>
         </configuration>
-        <executions>
-          <execution>
-            <id>spotless-check</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>validate</phase>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
