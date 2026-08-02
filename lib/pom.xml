@@ -98,18 +98,25 @@
         <version>3.8.0</version>
         <configuration>
           <java>
-            <trimTrailingWhitespace />
-            <endWithNewline />
-            <cleanthat />
+            <trimTrailingWhitespace/>
+            <endWithNewline/>
+            <cleanthat/>
+            <eclipse>
+              <sortMembersEnabled>true</sortMembersEnabled>
+              <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
+              <sortMembersDoNotSortFields>false</sortMembersDoNotSortFields>
+              <sortMembersVisibilityOrderEnabled>true</sortMembersVisibilityOrderEnabled>
+              <sortMembersVisibilityOrder>B,R,D,V</sortMembersVisibilityOrder>
+            </eclipse>
             <googleJavaFormat>
               <style>GOOGLE</style>
               <reflowLongStrings>true</reflowLongStrings>
               <formatJavadoc>true</formatJavadoc>
             </googleJavaFormat>
-            <removeUnusedImports />
-            <forbidWildcardImports />
-            <forbidModuleImports />
-            <formatAnnotations />
+            <removeUnusedImports/>
+            <forbidWildcardImports/>
+            <forbidModuleImports/>
+            <formatAnnotations/>
           </java>
           <pom>
             <sortPom>
@@ -158,7 +165,7 @@
                   <version>17</version>
                   <message>Your Java version is too old. Ensure4j requires Java 17 or higher!</message>
                 </requireJavaVersion>
-                <dependencyConvergence />
+                <dependencyConvergence/>
               </rules>
               <fail>true</fail>
             </configuration>
@@ -296,30 +303,5 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <profiles>
-    <profile>
-      <id>local-format</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.diffplug.spotless</groupId>
-            <artifactId>spotless-maven-plugin</artifactId>
-            <configuration>
-              <java>
-                <eclipse>
-                  <sortMembersEnabled>true</sortMembersEnabled>
-                  <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
-                  <sortMembersDoNotSortFields>false</sortMembersDoNotSortFields>
-                  <sortMembersVisibilityOrderEnabled>true</sortMembersVisibilityOrderEnabled>
-                  <sortMembersVisibilityOrder>B,R,D,V</sortMembersVisibilityOrder>
-                </eclipse>
-              </java>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

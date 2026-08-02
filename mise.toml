@@ -14,7 +14,7 @@ run = "mvn clean test-compile spotbugs:check"
 [tasks.format]
 description = "Format pom.xml and Java code"
 dir = "./lib"
-run = "mvn spotless:apply -Plocal-format"
+run = "mvn spotless:apply"
 
 [tasks.test]
 description = "Format, test and Spotbubs"
