@@ -4,7 +4,7 @@
 
   <groupId>io.github.mangila</groupId>
   <artifactId>ensure4j</artifactId>
-  <version>4.0.3-SNAPSHOT</version>
+  <version>4.0.3</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Ensure your Java code with preconditions checks</description>
@@ -31,7 +31,7 @@
   <scm>
     <connection>scm:git:https://github.com/mangila/ensure4j.git</connection>
     <developerConnection>scm:git:git@github.com:mangila/ensure4j.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v4.0.3</tag>
     <url>https://github.com/mangila/ensure4j/tree/main</url>
   </scm>
 
@@ -98,18 +98,18 @@
         <version>3.8.0</version>
         <configuration>
           <java>
-            <trimTrailingWhitespace/>
-            <endWithNewline/>
-            <cleanthat/>
+            <trimTrailingWhitespace />
+            <endWithNewline />
+            <cleanthat />
             <googleJavaFormat>
               <style>GOOGLE</style>
               <reflowLongStrings>true</reflowLongStrings>
               <formatJavadoc>true</formatJavadoc>
             </googleJavaFormat>
-            <removeUnusedImports/>
-            <forbidWildcardImports/>
-            <forbidModuleImports/>
-            <formatAnnotations/>
+            <removeUnusedImports />
+            <forbidWildcardImports />
+            <forbidModuleImports />
+            <formatAnnotations />
           </java>
           <pom>
             <sortPom>
@@ -167,7 +167,7 @@
                   <version>17</version>
                   <message>Your Java version is too old. Ensure4j requires Java 17 or higher!</message>
                 </requireJavaVersion>
-                <dependencyConvergence/>
+                <dependencyConvergence />
               </rules>
               <fail>true</fail>
             </configuration>
