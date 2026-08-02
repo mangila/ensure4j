@@ -131,15 +131,6 @@
           <failOnError>true</failOnError>
           <includeTests>true</includeTests>
         </configuration>
-        <executions>
-          <execution>
-            <id>spotbugs-check</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>test</phase>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->

@@ -7,9 +7,9 @@ python = "3"
 _.python.venv = ".venv"
 
 [tasks.compile]
-description = "Run Maven Compile"
+description = "Compile and Spotbugs"
 dir = "./lib"
-run = "mvn clean test-compile"
+run = "mvn clean test-compile spotbugs:check"
 
 [tasks.format]
 description = "Format pom.xml and Java code"
@@ -17,9 +17,9 @@ dir = "./lib"
 run = "mvn spotless:apply -Plocal-format"
 
 [tasks.test]
-description = "Format pom.xml and Java code"
+description = "Format, test and Spotbubs"
 dir = "./lib"
-run = "mise format && mvn clean test"
+run = "mise format && mvn clean test spotbugs:check"
 
 [tasks.megalint]
 description = "Megalint with Java flavor"
