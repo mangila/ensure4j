@@ -8,6 +8,7 @@
 - *(workflows)* Add bash language hint for test step
 - *(docs)* Add links to precondition libraries in README
 - *(workflows)* Add changelog generation workflow and update release job configuration
+- *(workflows)* Add skip ci flag to changelog commit message
 ## [4.0.3] - 2026-08-02
 
 ### ⚙️ Miscellaneous Tasks
