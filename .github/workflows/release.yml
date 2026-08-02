@@ -109,12 +109,12 @@ jobs:
   deploy_pages:
     name: Deploy Maven Site to GitHub Pages
     needs: release
+    runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
     env:
       CURRENT_TAG: ${{ needs.release.outputs.current_tag }}
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
@@ -152,13 +152,13 @@ jobs:
   create_github_release:
     name: Create GitHub Release
     needs: release
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: read
     env:
       FROM_TAG: ${{ needs.release.outputs.previous_tag }}
       TO_TAG: ${{ needs.release.outputs.current_tag }}
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         # https://github.com/actions/checkout
