@@ -1,7 +1,6 @@
 package io.github.mangila.ensure4j;
 
 import static io.github.mangila.ensure4j.EnsureUtils.getSupplierOrThrow;
-import static java.util.Objects.isNull;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -9,7 +8,6 @@ import org.jetbrains.annotations.Contract;
 
 final class EnsureObjectOps {
 
-  static final String CLASS_MUST_NOT_BE_NULL_MESSAGE = "class must not be null";
   static final String OBJECT_MUST_BE_OF_TYPE_MESSAGE = "object must be a type of";
   static final String OBJECTS_DEEP_EQUAL_MESSAGE = "objects must be deeply equal";
   static final String OBJECTS_MUST_BE_EQUAL_MESSAGE = "objects must be equal";
@@ -75,10 +73,7 @@ final class EnsureObjectOps {
   @Contract("_, null, _ -> fail; !null, !null, _ -> param1")
   static <T> T typeOf(
       Object object, Class<T> clazz, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (isNull(clazz)) {
-      throw EnsureException.from(CLASS_MUST_NOT_BE_NULL_MESSAGE);
-    }
-    if (!clazz.isInstance(object)) {
+    if (clazz == null || !clazz.isInstance(object)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
     return clazz.cast(object);

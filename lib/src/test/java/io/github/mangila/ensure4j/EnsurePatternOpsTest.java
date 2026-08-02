@@ -114,11 +114,20 @@ class EnsurePatternOpsTest implements EnsureOpsArchTest<EnsurePatternOps> {
   }
 
   @Test
+  @DisplayName("matches should throw exception when string is null")
+  void matchesShouldThrowExceptionWhenNull() {
+    Pattern pattern = Pattern.compile("^abc$");
+    assertThatThrownBy(() -> Ensure.matches(null, pattern))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string must match regex: ^abc$");
+  }
+
+  @Test
   @DisplayName("matches should throw exception when pattern is null")
   void matchesShouldThrowExceptionWhenPatternIsNull() {
     assertThatThrownBy(() -> Ensure.matches("test", (Pattern) null))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("pattern must not be null");
+        .hasMessage("string must match regex: null");
   }
 
   @Test

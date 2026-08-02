@@ -7,12 +7,12 @@ import org.jetbrains.annotations.Contract;
 
 final class EnsureNumberOps {
 
-  static final String NUMBER_MUST_BE_NEGATIVE_FORMAT = "number must be negative - %d";
+  static final String NUMBER_MUST_BE_NEGATIVE_FORMAT = "number must be negative: %d";
   static final String NUMBER_MUST_BE_NEGATIVE_OR_ZERO_FORMAT =
-      "number must be negative or zero - %d";
-  static final String NUMBER_MUST_BE_POSITIVE_FORMAT = "number must be positive - %d";
+      "number must be negative or zero: %d";
+  static final String NUMBER_MUST_BE_POSITIVE_FORMAT = "number must be positive: %d";
   static final String NUMBER_MUST_BE_POSITIVE_OR_ZERO_FORMAT =
-      "number must be positive or zero - %d";
+      "number must be positive or zero: %d";
   static final String NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT =
       "number must be greater than or equal to %d, but was %d";
   static final String NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT =

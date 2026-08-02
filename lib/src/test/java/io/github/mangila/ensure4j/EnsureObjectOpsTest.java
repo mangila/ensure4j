@@ -112,7 +112,7 @@ class EnsureObjectOpsTest implements EnsureOpsArchTest<EnsureObjectOps> {
     Object value = 123;
     assertThatThrownBy(() -> Ensure.typeOf(value, null))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("class must not be null");
+        .hasMessage("object must be a type of");
   }
 
   @Test

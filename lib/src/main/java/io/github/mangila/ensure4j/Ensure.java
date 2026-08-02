@@ -112,7 +112,7 @@ public final class Ensure {
    * @param key the key whose presence in the map is to be tested
    * @return the provided map if it contains the specified key
    * @throws EnsureException if the map is {@code null} or does not contain the specified key, with
-   *     the message {@code "map must contain key %s"}
+   *     the message {@code "map must contain key: %s"}
    * @see #containsKey(Map, Object, String)
    * @see #containsKey(Map, Object, Supplier)
    */
@@ -167,7 +167,7 @@ public final class Ensure {
    * @param value the value whose presence in the map is to be tested
    * @return the provided map if it contains the specified value
    * @throws EnsureException if the map is {@code null} or does not contain the specified value,
-   *     with the message {@code "map must contain value %s"}
+   *     with the message {@code "map must contain value: %s"}
    * @see #containsValue(Map, Object, String)
    * @see #containsValue(Map, Object, Supplier)
    */
@@ -657,10 +657,7 @@ public final class Ensure {
    */
   @Contract("null, _ -> fail; !null, _ -> param1")
   public static String matches(String string, Pattern pattern) {
-    return matches(
-        string,
-        pattern,
-        STRING_MUST_MATCH_REGEX_FORMAT.formatted(pattern == null ? "null" : pattern.pattern()));
+    return matches(string, pattern, STRING_MUST_MATCH_REGEX_FORMAT.formatted(pattern));
   }
 
   /**
@@ -958,7 +955,7 @@ public final class Ensure {
    * @param boundary the maximum length
    * @return the provided string if it does not exceed the maximum length requirement
    * @throws EnsureException if the string is {@code null} or longer than the maximum length, with
-   *     the message {@code "string length must be at most %d"}
+   *     the message {@code "string length must be at most %d characters"}
    * @see #maxLength(String, int, String)
    * @see #maxLength(String, int, Supplier)
    */
@@ -1112,7 +1109,7 @@ public final class Ensure {
    * @param boundary the minimum length
    * @return the provided string if it meets the minimum length requirement
    * @throws EnsureException if the string is {@code null} or shorter than the minimum length, with
-   *     the message {@code "string length must be at least %d"}
+   *     the message {@code "string length must be at least %d characters"}
    * @see #minLength(String, int, String)
    * @see #minLength(String, int, Supplier)
    */
@@ -1163,7 +1160,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is negative
    * @throws EnsureException if the value is not negative, with the message {@code "number must be
-   *     negative - %d"}
+   *     negative: %d"}
    * @see #negative(int, String)
    * @see #negative(int, Supplier)
    */
@@ -1210,7 +1207,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is negative
    * @throws EnsureException if the value is not negative, with the message {@code "number must be
-   *     negative - %d"}
+   *     negative: %d"}
    * @see #negative(long, String)
    * @see #negative(long, Supplier)
    */
@@ -1257,7 +1254,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is negative or zero
    * @throws EnsureException if the value is not negative or zero, with the message {@code "number
-   *     must be negative or zero - %d"}
+   *     must be negative or zero: %d"}
    * @see #negativeWithZero(int, String)
    * @see #negativeWithZero(int, Supplier)
    */
@@ -1305,7 +1302,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is negative or zero
    * @throws EnsureException if the value is not negative or zero, with the message {@code "number
-   *     must be negative or zero - %d"}
+   *     must be negative or zero: %d"}
    * @see #negativeWithZero(long, String)
    * @see #negativeWithZero(long, Supplier)
    */
@@ -1656,7 +1653,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is positive
    * @throws EnsureException if the value is not positive, with the message {@code "number must be
-   *     positive - %d"}
+   *     positive: %d"}
    * @see #positive(int, String)
    * @see #positive(int, Supplier)
    */
@@ -1703,7 +1700,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is positive
    * @throws EnsureException if the value is not positive, with the message {@code "number must be
-   *     positive - %d"}
+   *     positive: %d"}
    * @see #positive(long, String)
    * @see #positive(long, Supplier)
    */
@@ -1750,7 +1747,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is positive or zero
    * @throws EnsureException if the value is not positive or zero, with the message {@code "number
-   *     must be positive or zero - %d"}
+   *     must be positive or zero: %d"}
    * @see #positiveWithZero(int, String)
    * @see #positiveWithZero(int, Supplier)
    */
@@ -1798,7 +1795,7 @@ public final class Ensure {
    * @param value the value to check
    * @return the provided value if it is positive or zero
    * @throws EnsureException if the value is not positive or zero, with the message {@code "number
-   *     must be positive or zero - %d"}
+   *     must be positive or zero: %d"}
    * @see #positiveWithZero(long, String)
    * @see #positiveWithZero(long, Supplier)
    */

@@ -58,6 +58,17 @@ class EnsureDateTimeOpsTest implements EnsureOpsArchTest<EnsureDateTimeOps> {
   }
 
   @Test
+  @DisplayName("future should throw exception when null")
+  void futureShouldThrowWhenNull() {
+    assertThatThrownBy(() -> Ensure.future(null, FIXED_TIME_POINT))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("instant must be in the future");
+    assertThatThrownBy(() -> Ensure.future(FIXED_TIME_POINT, null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("instant must be in the future");
+  }
+
+  @Test
   @DisplayName("pastOrPresent should return instant when in the past or present")
   void pastOrPresentShouldReturnInstantWhenInThePastOrPresent() {
     Instant past = FIXED_TIME_POINT.minusSeconds(10);
@@ -94,5 +105,16 @@ class EnsureDateTimeOpsTest implements EnsureOpsArchTest<EnsureDateTimeOps> {
     assertThatThrownBy(() -> Ensure.pastOrPresent(future, FIXED_TIME_POINT, "custom message"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom message");
+  }
+
+  @Test
+  @DisplayName("pastOrPresent should throw exception when null")
+  void pastOrPresentShouldThrowWhenNull() {
+    assertThatThrownBy(() -> Ensure.pastOrPresent(null, FIXED_TIME_POINT))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("instant must be in the past or present");
+    assertThatThrownBy(() -> Ensure.pastOrPresent(FIXED_TIME_POINT, null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("instant must be in the past or present");
   }
 }

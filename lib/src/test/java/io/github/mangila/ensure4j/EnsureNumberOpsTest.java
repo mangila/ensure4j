@@ -125,10 +125,10 @@ class EnsureNumberOpsTest implements EnsureOpsArchTest<EnsureNumberOps> {
   void negativeShouldThrowExceptionWhenNotNegative() {
     assertThatThrownBy(() -> Ensure.negative(0L))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be negative - 0");
+        .hasMessage("number must be negative: 0");
     assertThatThrownBy(() -> Ensure.negative(0))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be negative - 0");
+        .hasMessage("number must be negative: 0");
   }
 
   @Test
@@ -169,10 +169,10 @@ class EnsureNumberOpsTest implements EnsureOpsArchTest<EnsureNumberOps> {
   void negativeWithZeroShouldThrowExceptionWhenPositive() {
     assertThatThrownBy(() -> Ensure.negativeWithZero(1L))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be negative or zero - 1");
+        .hasMessage("number must be negative or zero: 1");
     assertThatThrownBy(() -> Ensure.negativeWithZero(1))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be negative or zero - 1");
+        .hasMessage("number must be negative or zero: 1");
   }
 
   @Test
@@ -209,10 +209,10 @@ class EnsureNumberOpsTest implements EnsureOpsArchTest<EnsureNumberOps> {
   void positiveShouldThrowExceptionWhenNotPositive() {
     assertThatThrownBy(() -> Ensure.positive(0L))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be positive - 0");
+        .hasMessage("number must be positive: 0");
     assertThatThrownBy(() -> Ensure.positive(0))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be positive - 0");
+        .hasMessage("number must be positive: 0");
   }
 
   @Test
@@ -253,10 +253,10 @@ class EnsureNumberOpsTest implements EnsureOpsArchTest<EnsureNumberOps> {
   void positiveWithZeroShouldThrowExceptionWhenNegative() {
     assertThatThrownBy(() -> Ensure.positiveWithZero(-1L))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be positive or zero - -1");
+        .hasMessage("number must be positive or zero: -1");
     assertThatThrownBy(() -> Ensure.positiveWithZero(-1))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("number must be positive or zero - -1");
+        .hasMessage("number must be positive or zero: -1");
   }
 
   @Test

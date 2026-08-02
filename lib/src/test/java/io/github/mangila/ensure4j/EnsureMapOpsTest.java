@@ -42,7 +42,23 @@ class EnsureMapOpsTest implements EnsureOpsArchTest<EnsureMapOps> {
     Map<String, String> map = Map.of("key", "value");
     assertThatThrownBy(() -> Ensure.containsKey(map, "other"))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("map must contain key other");
+        .hasMessage("map must contain key: other");
+  }
+
+  @Test
+  @DisplayName("containsKey should throw exception when key is null")
+  void containsKeyShouldThrowExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> Ensure.containsKey(Map.of(), null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("map must contain key: null");
+  }
+
+  @Test
+  @DisplayName("containsKey should throw exception when map is null")
+  void containsKeyShouldThrowExceptionWhenMapIsNull() {
+    assertThatThrownBy(() -> Ensure.containsKey(null, "test"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("map must contain key: test");
   }
 
   @Test
@@ -72,12 +88,28 @@ class EnsureMapOpsTest implements EnsureOpsArchTest<EnsureMapOps> {
   }
 
   @Test
+  @DisplayName("containsValue should throw exception when map is null")
+  void containsValueShouldThrowExceptionWhenMapIsNull() {
+    assertThatThrownBy(() -> Ensure.containsValue(null, "test"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("map must contain value: test");
+  }
+
+  @Test
   @DisplayName("containsValue should throw exception when value does not exist")
   void containsValueShouldThrowExceptionWhenValueDoesNotExist() {
     Map<String, String> map = Map.of("key", "value");
     assertThatThrownBy(() -> Ensure.containsValue(map, "other"))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("map must contain value other");
+        .hasMessage("map must contain value: other");
+  }
+
+  @Test
+  @DisplayName("containsValue should throw exception when value is null")
+  void containsValueShouldThrowExceptionWhenValueIsNull() {
+    assertThatThrownBy(() -> Ensure.containsValue(Map.of(), null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("map must contain value: null");
   }
 
   @Test
@@ -111,7 +143,15 @@ class EnsureMapOpsTest implements EnsureOpsArchTest<EnsureMapOps> {
     Map<String, String> map = Map.of();
     assertThatThrownBy(() -> Ensure.notEmpty(map))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("map must not be empty");
+        .hasMessage("map must not be empty or null");
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw exception when null")
+  void notEmptyShouldThrowExceptionWhenNull() {
+    assertThatThrownBy(() -> Ensure.notEmpty((Map<?, ?>) null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("map must not be empty or null");
   }
 
   @Test
