@@ -154,9 +154,10 @@ Ensure4j. Since this is a precondition-only library.
 
 Libs with preconditions support:
 
-- Guava's Preconditions
-- Java's builtin Objects
-- Spring's Assert class
+- [Guava's Preconditions](https://github.com/google/guava/wiki/PreconditionsExplained)
+- [Apache Commons 'Validate' class](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/Validate.html)
+- [Java SE 'Objects' class](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Objects.html)
+- [Spring's 'Assert' class](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/util/Assert.html)
 
 Using a precondition/postcondition library is a great way to save time. However, with a library there are always drawbacks like a
 performance penalty that might waste some CPU cycles/stack frames.
