@@ -4,7 +4,7 @@
 
   <groupId>io.github.mangila</groupId>
   <artifactId>ensure4j</artifactId>
-  <version>4.0.3</version>
+  <version>4.0.4-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Ensure your Java code with preconditions checks</description>
@@ -31,7 +31,7 @@
   <scm>
     <connection>scm:git:https://github.com/mangila/ensure4j.git</connection>
     <developerConnection>scm:git:git@github.com:mangila/ensure4j.git</developerConnection>
-    <tag>v4.0.3</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/mangila/ensure4j/tree/main</url>
   </scm>
 
