@@ -112,6 +112,9 @@
             <formatAnnotations/>
           </java>
           <pom>
+            <includes>
+              <include>pom.xml</include>
+            </includes>
             <sortPom>
               <endWithNewline>true</endWithNewline>
               <keepBlankLines>true</keepBlankLines>
