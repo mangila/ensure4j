@@ -8,9 +8,9 @@ import org.jetbrains.annotations.Contract;
 
 final class EnsureMapOps {
 
-  static final String MAP_MUST_CONTAIN_KEY_MESSAGE = "map must contain key %s";
-  static final String MAP_MUST_CONTAIN_VALUE_MESSAGE = "map must contain value %s";
-  static final String MAP_MUST_NOT_BE_EMPTY_MESSAGE = "map must not be empty";
+  static final String MAP_MUST_CONTAIN_KEY_MESSAGE = "map must contain key: %s";
+  static final String MAP_MUST_CONTAIN_VALUE_MESSAGE = "map must contain value: %s";
+  static final String MAP_MUST_NOT_BE_EMPTY_MESSAGE = "map must not be empty or null";
 
   /**
    * Ensures that the provided map contains the specified key.

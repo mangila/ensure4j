@@ -8,15 +8,13 @@ import org.jetbrains.annotations.Contract;
 
 final class EnsureStringOps {
 
-  static final String PREFIX_NOT_NULL_MESSAGE = "prefix must not be null";
-  static final String REGEX_NOT_NULL_MESSAGE = "regex must not be null";
-  static final String STRING_LENGTH_AT_LEAST_FORMAT = "string length must be at least %d";
-  static final String STRING_LENGTH_AT_MOST_FORMAT = "string length must be at most %d";
+  static final String STRING_LENGTH_AT_LEAST_FORMAT =
+      "string length must be at least %d characters";
+  static final String STRING_LENGTH_AT_MOST_FORMAT = "string length must be at most %d characters";
   static final String STRING_MUST_END_WITH_FORMAT = "string must end with: %s";
   static final String STRING_MUST_MATCH_REGEX_FORMAT = "string must match regex: %s";
   static final String STRING_MUST_NOT_BE_BLANK_MESSAGE = "string must not be blank";
   static final String STRING_MUST_START_WITH_FORMAT = "string must start with: %s";
-  static final String SUFFIX_MUST_NOT_BE_NULL_MESSAGE = "suffix must not be null";
 
   /**
    * Ensures that the provided string ends with the specified suffix.
@@ -32,9 +30,6 @@ final class EnsureStringOps {
   @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
   static String endsWith(
       String string, String suffix, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (suffix == null) {
-      throw EnsureException.from(SUFFIX_MUST_NOT_BE_NULL_MESSAGE);
-    }
     if (!EnsureUtils.hasSuffix(string, suffix)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -55,9 +50,6 @@ final class EnsureStringOps {
   @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
   static String matches(
       String string, @RegExp String regex, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (regex == null) {
-      throw EnsureException.from(REGEX_NOT_NULL_MESSAGE);
-    }
     if (!EnsureUtils.matches(string, regex)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -136,9 +128,6 @@ final class EnsureStringOps {
   @Contract("null, _, _ -> fail; _, null, _ -> fail; !null, !null, _ -> param1")
   static String startsWith(
       String string, String prefix, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (prefix == null) {
-      throw EnsureException.from(PREFIX_NOT_NULL_MESSAGE);
-    }
     if (!EnsureUtils.hasPrefix(string, prefix)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }

@@ -3,6 +3,7 @@ package io.github.mangila.ensure4j;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,6 +77,14 @@ class EnsureCollectionOpsTest implements EnsureOpsArchTest<EnsureCollectionOps> 
   void notEmptyShouldThrowExceptionWhenEmpty() {
     List<String> list = List.of();
     assertThatThrownBy(() -> Ensure.notEmpty(list))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("collection must not be empty or null");
+  }
+
+  @Test
+  @DisplayName("notEmpty should throw exception when null")
+  void notEmptyShouldThrowExceptionWhenNull() {
+    assertThatThrownBy(() -> Ensure.notEmpty((Collection<?>) null))
         .isInstanceOf(EnsureException.class)
         .hasMessage("collection must not be empty or null");
   }

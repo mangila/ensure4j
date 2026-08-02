@@ -15,11 +15,11 @@ final class EnsureUtils {
   }
 
   static boolean containsKey(Map<?, ?> map, Object key) {
-    return map != null && map.containsKey(key);
+    return map != null && key != null && map.containsKey(key);
   }
 
   static boolean containsValue(Map<?, ?> map, Object value) {
-    return map != null && map.containsValue(value);
+    return map != null && value != null && map.containsValue(value);
   }
 
   static boolean deepEquals(Object[] array, Object[] otherArray) {
@@ -42,11 +42,11 @@ final class EnsureUtils {
   }
 
   static boolean hasPrefix(String string, String prefix) {
-    return string != null && string.startsWith(prefix);
+    return string != null && prefix != null && string.startsWith(prefix);
   }
 
   static boolean hasSuffix(String string, String suffix) {
-    return string != null && string.endsWith(suffix);
+    return string != null && suffix != null && string.endsWith(suffix);
   }
 
   static boolean isAtLeast(int value, int boundary) {
@@ -106,11 +106,11 @@ final class EnsureUtils {
   }
 
   static boolean matches(String string, Pattern pattern) {
-    return string != null && pattern.matcher(string).matches();
+    return string != null && pattern != null && pattern.matcher(string).matches();
   }
 
   static boolean matches(String string, @RegExp String regex) {
-    return string != null && string.matches(regex);
+    return string != null && regex != null && string.matches(regex);
   }
 
   private EnsureUtils() {

@@ -45,43 +45,43 @@
   </properties>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
     <dependency>
+      <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>26.1.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.jspecify/jspecify -->
     <dependency>
+      <!-- https://mvnrepository.com/artifact/org.jspecify/jspecify -->
       <groupId>org.jspecify</groupId>
       <artifactId>jspecify</artifactId>
       <version>1.0.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
     <dependency>
+      <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
       <groupId>com.tngtech.archunit</groupId>
       <artifactId>archunit</artifactId>
       <version>1.4.2</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
     <dependency>
+      <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.27.7</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
     <dependency>
+      <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>6.1.2</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
     <dependency>
+      <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <version>6.1.2</version>
@@ -101,13 +101,6 @@
             <trimTrailingWhitespace/>
             <endWithNewline/>
             <cleanthat/>
-            <!--<eclipse>
-              <sortMembersEnabled>true</sortMembersEnabled>
-              <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
-              <sortMembersDoNotSortFields>false</sortMembersDoNotSortFields>
-              <sortMembersVisibilityOrderEnabled>true</sortMembersVisibilityOrderEnabled>
-              <sortMembersVisibilityOrder>B,R,D,V</sortMembersVisibilityOrder>
-            </eclipse>-->
             <googleJavaFormat>
               <style>GOOGLE</style>
               <reflowLongStrings>true</reflowLongStrings>
@@ -153,7 +146,7 @@
             <goals>
               <goal>check</goal>
             </goals>
-            <phase>test-compile</phase>
+            <phase>test</phase>
           </execution>
         </executions>
       </plugin>
@@ -176,13 +169,14 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>3.8.0</version>
-                  <message>Your Maven version is too old. Ensure4j requires Maven 3.8.0 or higher!</message>
+                  <version>3.9.0</version>
+                  <message>Your Maven version is too old. Ensure4j requires Maven 3.9.0 or higher!</message>
                 </requireMavenVersion>
                 <requireJavaVersion>
                   <version>17</version>
                   <message>Your Java version is too old. Ensure4j requires Java 17 or higher!</message>
                 </requireJavaVersion>
+                <dependencyConvergence/>
               </rules>
               <fail>true</fail>
             </configuration>
@@ -221,8 +215,8 @@
           </execution>
         </executions>
       </plugin>
-      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
       <plugin>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <version>3.3.1</version>
@@ -274,7 +268,7 @@
             <goals>
               <goal>report</goal>
             </goals>
-            <phase>prepare-package</phase>
+            <phase>test</phase>
           </execution>
         </executions>
       </plugin>
@@ -320,5 +314,30 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <profiles>
+    <profile>
+      <id>local-format</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.diffplug.spotless</groupId>
+            <artifactId>spotless-maven-plugin</artifactId>
+            <configuration>
+              <java>
+                <eclipse>
+                  <sortMembersEnabled>true</sortMembersEnabled>
+                  <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
+                  <sortMembersDoNotSortFields>false</sortMembersDoNotSortFields>
+                  <sortMembersVisibilityOrderEnabled>true</sortMembersVisibilityOrderEnabled>
+                  <sortMembersVisibilityOrder>B,R,D,V</sortMembersVisibilityOrder>
+                </eclipse>
+              </java>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

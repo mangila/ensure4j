@@ -6,7 +6,7 @@
 
 # All available variables are described in documentation
 # https://megalinter.io/latest/configuration/#all-available-variables
-APPLY_FIXES: all
+APPLY_FIXES: none
 PRINT_ALL_FILES: true
 LOG_FILE: none
 FLAVOR_SUGGESTIONS: false
@@ -17,16 +17,12 @@ CLEAR_REPORT_FOLDER: true
 
 LOG_LEVEL: DEBUG
 FAIL_IF_MISSING_LINTER_IN_FLAVOR: true
-MARKDOWN_DEFAULT_STYLE: rumdl
 ENABLE_LINTERS:
-  # https://megalinter.io/latest/descriptors/java_checkstyle/
   - JAVA_CHECKSTYLE
-  # https://megalinter.io/latest/descriptors/java_pmd/
   - JAVA_PMD
   - YAML_PRETTIER
   - YAML_YAMLLINT
   - XML_XMLLINT
-  - MARKDOWN_RUMDL
 
 JAVA_CHECKSTYLE_CONFIG_FILE: megalinter-config/google-checks.xml
 JAVA_CHECKSTYLE_FILTER_REGEX_INCLUDE: (lib/src/main/java)

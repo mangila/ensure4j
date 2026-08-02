@@ -6,16 +6,21 @@ python = "3"
 [env]
 _.python.venv = ".venv"
 
-[tasks."mvn:compile"]
+[tasks.compile]
 description = "Run Maven Compile"
 dir = "./lib"
 run = "mvn clean test-compile"
 
-[tasks."mvn:format"]
+[tasks.format]
 description = "Format pom.xml and Java code"
 dir = "./lib"
-run = "mvn spotless:apply"
+run = "mvn spotless:apply -Plocal-format"
+
+[tasks.test]
+description = "Format pom.xml and Java code"
+dir = "./lib"
+run = "mise format && mvn clean test"
 
 [tasks.megalint]
 description = "Megalint with Java flavor"
-run = "podman run --rm -v $(pwd):/tmp/lint:rw oxsecurity/megalinter-java"
+run = "podman run --rm -v $(pwd):/tmp/lint:rw docker.io/oxsecurity/megalinter-java"

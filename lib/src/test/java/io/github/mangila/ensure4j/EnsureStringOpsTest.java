@@ -55,7 +55,7 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
   void endsWithShouldThrowExceptionWhenSuffixIsNull() {
     assertThatThrownBy(() -> Ensure.endsWith("test", null))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("suffix must not be null");
+        .hasMessage("string must end with: null");
   }
 
   @Test
@@ -91,11 +91,19 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
   }
 
   @Test
+  @DisplayName("matches should throw exception when string is null")
+  void matchesShouldThrowExceptionWhenNull() {
+    assertThatThrownBy(() -> Ensure.matches(null, "^abc$"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string must match regex: ^abc$");
+  }
+
+  @Test
   @DisplayName("matches should throw exception when regex is null")
   void matchesShouldThrowExceptionWhenRegexIsNull() {
     assertThatThrownBy(() -> Ensure.matches("test", (String) null))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("regex must not be null");
+        .hasMessage("string must match regex: null");
   }
 
   @Test
@@ -127,7 +135,7 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
   void maxLengthShouldThrowExceptionWhenLengthIsGreaterThanBoundary() {
     assertThatThrownBy(() -> Ensure.maxLength("abcde", 4))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("string length must be at most 4");
+        .hasMessage("string length must be at most 4 characters");
   }
 
   @Test
@@ -136,6 +144,14 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
     assertThatThrownBy(() -> Ensure.maxLength("abcde", 4, "custom"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("maxLength should throw exception when string is null")
+  void maxLengthShouldThrowWhenNull() {
+    assertThatThrownBy(() -> Ensure.maxLength(null, 4))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string length must be at most 4 characters");
   }
 
   @Test
@@ -159,7 +175,7 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
   void minLengthShouldThrowExceptionWhenLengthIsLessThanBoundary() {
     assertThatThrownBy(() -> Ensure.minLength("abc", 4))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("string length must be at least 4");
+        .hasMessage("string length must be at least 4 characters");
   }
 
   @Test
@@ -168,6 +184,14 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
     assertThatThrownBy(() -> Ensure.minLength("abc", 4, "custom"))
         .isInstanceOf(EnsureException.class)
         .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("minLength should throw exception when string is null")
+  void minLengthShouldThrowWhenNull() {
+    assertThatThrownBy(() -> Ensure.minLength(null, 4))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("string length must be at least 4 characters");
   }
 
   @Test
@@ -238,7 +262,7 @@ class EnsureStringOpsTest implements EnsureOpsArchTest<EnsureStringOps> {
   void startsWithShouldThrowExceptionWhenPrefixIsNull() {
     assertThatThrownBy(() -> Ensure.startsWith("test", null))
         .isInstanceOf(EnsureException.class)
-        .hasMessage("prefix must not be null");
+        .hasMessage("string must start with: null");
   }
 
   @Test

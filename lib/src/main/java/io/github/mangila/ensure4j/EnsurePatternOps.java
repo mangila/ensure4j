@@ -21,8 +21,6 @@ final class EnsurePatternOps {
   static final Pattern EMAIL_PATTERN =
       Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
-  static final String PATTERN_MUST_NOT_BE_NULL_MESSAGE = "pattern must not be null";
-
   static final String STRING_MUST_MATCH_ALPHANUMERIC_MESSAGE =
       "string must match alphanumeric pattern";
 
@@ -30,9 +28,6 @@ final class EnsurePatternOps {
 
   static String matches(
       String string, Pattern pattern, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (pattern == null) {
-      throw EnsureException.from(PATTERN_MUST_NOT_BE_NULL_MESSAGE);
-    }
     if (!EnsureUtils.matches(string, pattern)) {
       throw getSupplierOrThrow(exceptionSupplier);
     }
@@ -51,11 +46,7 @@ final class EnsurePatternOps {
    */
   static String matchesAlphanumeric(
       String string, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!EnsureUtils.matches(string, ALPHANUMERIC_PATTERN)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-
-    return string;
+    return matches(string, ALPHANUMERIC_PATTERN, exceptionSupplier);
   }
 
   /**
@@ -70,11 +61,7 @@ final class EnsurePatternOps {
    */
   static String matchesEmail(
       String string, Supplier<? extends RuntimeException> exceptionSupplier) {
-    if (!EnsureUtils.matches(string, EMAIL_PATTERN)) {
-      throw getSupplierOrThrow(exceptionSupplier);
-    }
-
-    return string;
+    return matches(string, EMAIL_PATTERN, exceptionSupplier);
   }
 
   private EnsurePatternOps() {

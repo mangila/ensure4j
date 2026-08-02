@@ -79,6 +79,14 @@ class EnsureArrayOpsTest implements EnsureOpsArchTest<EnsureArrayOps> {
   }
 
   @Test
+  @DisplayName("notEmpty should throw exception when null")
+  void notEmptyShouldThrowExceptionWhenNull() {
+    assertThatThrownBy(() -> Ensure.notEmpty((String[]) null))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("array must not be empty");
+  }
+
+  @Test
   @DisplayName("notEmpty should throw exception with custom message")
   void notEmptyShouldThrowExceptionWithCustomMessage() {
     assertThatThrownBy(() -> Ensure.notEmpty(new String[0], "custom message"))
