@@ -29,6 +29,7 @@ jobs:
           cache: maven
 
       - name: Run tests (lib)
+        # language=bash
         run: |
           MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -f lib/pom.xml"
           mvn $MAVEN_ARGS test
