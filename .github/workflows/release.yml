@@ -30,7 +30,6 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
-          persist-credentials: true
 
       - name: Configure Git User
         # language=bash
@@ -82,6 +81,7 @@ jobs:
           echo "projectVersionPolicyId: $RELEASE_TYPE"
 
       - name: Release to Maven Central
+        working-directory: lib
         env:
           SONAR_USERNAME: ${{ secrets.SONAR_USERNAME }}
           SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
@@ -90,12 +90,12 @@ jobs:
           VERSION_POLICY: ${{ env.VERSION_POLICY }}
         # language=bash
         run: |
-          MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -DskipTests=true -f lib/pom.xml"
+          MAVEN_ARGS="-B -V -e -ntp -Dstyle.color=always -DskipTests=true"
           RELEASE_ARGS="-Darguments=-B -V -e -ntp -Dstyle.color=always -DskipTests=true"
           mvn ${MAVEN_ARGS} \
-          -DprojectVersionPolicyId=$VERSION_POLICY \
-          "${RELEASE_ARGS}" \
-          release:prepare release:perform
+            -DprojectVersionPolicyId=$VERSION_POLICY \
+            "${RELEASE_ARGS}" \
+            release:prepare release:perform
           git push origin main --tags
 
       - name: Set the Current Git tag for GitHub Release
