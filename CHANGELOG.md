@@ -1,3 +1,8 @@
+## [unreleased]
+
+### ⚙️ Miscellaneous Tasks
+
+- *(docs)* Update dependency version in README to 4.0.4
 ## [4.0.4] - 2026-08-29
 
 ### ⚙️ Miscellaneous Tasks
