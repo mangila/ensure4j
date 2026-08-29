@@ -4,6 +4,7 @@
 
 - *(docs)* Update dependency version in README to 4.0.4
 - *(lib)* Add newline after license headers and adjust Maven formatting settings
+- *(repo)* Remove .gitattributes file
 ## [4.0.4] - 2026-08-29
 
 ### ⚙️ Miscellaneous Tasks
