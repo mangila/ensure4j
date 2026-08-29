@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.mangila.ensure4j;
 
 import static io.github.mangila.ensure4j.EnsureUtils.getSupplierOrThrow;

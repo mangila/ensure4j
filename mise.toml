@@ -2,25 +2,24 @@
 java = "25"
 maven = "3"
 python = "3"
-git-cliff="latest"
 
 [env]
 _.python.venv = ".venv"
-
-[tasks.compile]
-description = "Compile and Spotbugs"
-dir = "./lib"
-run = "mvn clean test-compile spotbugs:check"
 
 [tasks.format]
 description = "Format pom.xml and Java code"
 dir = "./lib"
 run = "mvn spotless:apply"
 
-[tasks.test]
-description = "Format, test and Spotbubs"
+[tasks.compile]
+description = "Compile and Spotbugs"
 dir = "./lib"
-run = "mise format && mvn clean test spotbugs:check"
+run = "mvn clean test-compile spotbugs:check"
+
+[tasks.test]
+description = "Format and test"
+dir = "./lib"
+run = "mise format && mvn clean test"
 
 [tasks.megalint]
 description = "Megalint with Java flavor"

@@ -98,9 +98,9 @@
         <version>3.10.0</version>
         <configuration>
           <java>
-            <trimTrailingWhitespace />
-            <endWithNewline />
-            <cleanthat />
+            <trimTrailingWhitespace/>
+            <endWithNewline/>
+            <cleanthat/>
             <eclipse>
               <sortMembersEnabled>true</sortMembersEnabled>
               <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
@@ -113,10 +113,10 @@
               <reflowLongStrings>true</reflowLongStrings>
               <formatJavadoc>true</formatJavadoc>
             </googleJavaFormat>
-            <removeUnusedImports />
-            <forbidWildcardImports />
-            <forbidModuleImports />
-            <formatAnnotations />
+            <removeUnusedImports/>
+            <forbidWildcardImports/>
+            <forbidModuleImports/>
+            <formatAnnotations/>
           </java>
           <pom>
             <sortPom>
@@ -134,10 +134,15 @@
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>4.10.3.0</version>
-        <configuration>
-          <failOnError>true</failOnError>
-          <includeTests>true</includeTests>
-        </configuration>
+        <executions>
+          <execution>
+            <id>spotbugs-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>test</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <!-- https://github.com/mathieucarbou/license-maven-plugin -->
@@ -190,7 +195,7 @@
                   <version>17</version>
                   <message>Your Java version is too old. Ensure4j requires Java 17 or higher!</message>
                 </requireJavaVersion>
-                <dependencyConvergence />
+                <dependencyConvergence/>
               </rules>
               <fail>true</fail>
             </configuration>

@@ -24,10 +24,10 @@ ENABLE_LINTERS:
   - YAML_YAMLLINT
   - XML_XMLLINT
 
-JAVA_CHECKSTYLE_CONFIG_FILE: google-checks.xml
+JAVA_CHECKSTYLE_CONFIG_FILE: lib/google-checks.xml
 JAVA_CHECKSTYLE_FILTER_REGEX_INCLUDE: (lib/src/main/java)
 JAVA_CHECKSTYLE_FILTER_REGEX_EXCLUDE: (package-info\.java)
-JAVA_PMD_CONFIG_FILE: pmd-ruleset.xml
+JAVA_PMD_CONFIG_FILE: lib/pmd-ruleset.xml
 JAVA_PMD_FILTER_REGEX_INCLUDE: (lib/src/main/java)
 JAVA_PMD_FILTER_REGEX_EXCLUDE: (package-info\.java)
 
