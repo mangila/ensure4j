@@ -11,6 +11,7 @@
 - *(workflows)* Add skip ci flag to changelog commit message
 - *(docs)* Refine wording in RELEASE.md for release version information
 - *(examples)* Migrate examples to new structure and add comprehensive tests
+- *(lib)* Add license headers to source and test files, configure license-maven-plugin
 ## [4.0.3] - 2026-08-02
 
 ### ⚙️ Miscellaneous Tasks
