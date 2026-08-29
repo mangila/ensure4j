@@ -138,6 +138,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git pull --rebase origin main
           git add CHANGELOG.md
           git commit -m "docs(changelog): Update CHANGELOG.md"
           git push origin main
