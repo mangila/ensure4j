@@ -39,7 +39,7 @@ If you’re building your project using Maven, you can add the following depende
 <dependency>
     <groupId>io.github.mangila</groupId>
     <artifactId>ensure4j</artifactId>
-    <version>4.0.4</version>
+    <version>4.0.7</version>
 </dependency>
 ```
 
