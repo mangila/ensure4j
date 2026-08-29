@@ -1,7 +1,8 @@
-## [unreleased]
+## [4.0.7] - 2026-08-29
 
 ### 📚 Documentation
 
+- *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
@@ -128,6 +129,19 @@
 - *(lib)* Add newline after license headers and adjust Maven formatting settings
 - *(repo)* Remove .gitattributes file
 - *(workflows)* Update changelog push command to use ci.skip flag and change commit message
+- *(workflows)* Merge changelog workflow into release workflow (#163)
+- *(workflows)* Remove ci.skip flag from changelog push command
+- *(lib)* Fix typos in license headers (#162)
+- *(workflows)* Add rebase step before committing changelog changes
+- *(lib)* Downgrade version in pom.xml from 4.0.6-SNAPSHOT to 4.0.5-SNAPSHOT
+- *(workflows)* Relocate rebase step in release workflow to avoid redundancy
+- *(lib)* Downgrade version in pom.xml from 4.1.1-SNAPSHOT to 4.0.5-SNAPSHOT
+- *(lib)* Bump version in pom.xml from 4.0.5-SNAPSHOT to 4.0.6-SNAPSHOT
+- *(lib)* Update version in pom.xml from 4.0.6-SNAPSHOT to 4.0.5-SNAPSHOT
+- *(lib)* Update version in pom.xml from 4.0.6-SNAPSHOT to 4.0.5-SNAPSHOT
+- *(lib)* Update version in pom.xml from 4.0.6-SNAPSHOT to 4.0.5-SNAPSHOT
+- *(lib)* Downgrade version in pom.xml from 4.0.6-SNAPSHOT to 4.0.5-SNAPSHOT
+- *(lib)* Bump version in pom.xml from 4.0.5-SNAPSHOT to 4.0.7-SNAPSHOT
 ## [4.0.4] - 2026-08-29
 
 ### ⚙️ Miscellaneous Tasks
