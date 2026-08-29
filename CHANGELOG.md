@@ -1,5 +1,9 @@
 ## [unreleased]
 
+### 📚 Documentation
+
+- *(changelog)* Update CHANGELOG.md
+
 ### ⚙️ Miscellaneous Tasks
 
 - *(docs)* Update dependency version in README to 4.0.4
