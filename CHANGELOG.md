@@ -88,6 +88,7 @@
 - *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
+- *(changelog)* Update CHANGELOG.md
 
 ### ⚙️ Miscellaneous Tasks
 
