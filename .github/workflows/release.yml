@@ -19,7 +19,7 @@ jobs:
     name: Maven Release & Upload Artifact to Maven Central
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     outputs:
       previous_tag: ${{ steps.set_previous_tag.outputs.tag }}
       current_tag: ${{ steps.set_current_tag.outputs.tag }}
