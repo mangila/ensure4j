@@ -39,5 +39,5 @@ jobs:
       - name: Commit and push changes
         run: |
           git add CHANGELOG.md
-          git commit -m "Update CHANGELOG.md [skip ci]"
-          git push origin main
+          git commit -m "docs(changelog): Update CHANGELOG.md"
+          git push -o ci.skip origin main
