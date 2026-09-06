@@ -99,7 +99,7 @@ class EnsureArchitectureTest {
               @Override
               public void check(JavaClass item, ConditionEvents events) {
                 final long count = getMethodCount(item);
-                final long expectedMethodCount = 111;
+                final long expectedMethodCount = 117;
                 assertThat(count)
                     .as(
                         "Expected methods: %s - %s"

@@ -39,8 +39,51 @@ final class EnsureNumberOps {
       "number must be positive or zero: %d";
   static final String NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT =
       "number must be greater than or equal to %d, but was %d";
+  static final String NUMBER_NOT_IN_RANGE_FORMAT = "number must be in range [%d, %d], but was %d";
   static final String NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT =
       "number must be less than or equal to %d, but was %d";
+
+  /**
+   * Ensures that the provided number is within the specified range [start, end] (inclusive).
+   *
+   * @param number the number to check
+   * @param start the minimum allowed number
+   * @param end the maximum allowed number
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided number if it is within the range
+   * @throws RuntimeException if the number is not in the range; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   */
+  @Contract("_, _, _, _ -> param1")
+  static int inRange(
+      int number, int start, int end, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (!EnsureUtils.isInRange(number, start, end)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return number;
+  }
+
+  /**
+   * Ensures that the provided number is within the specified range [start, end] (inclusive).
+   *
+   * @param number the number to check
+   * @param start the minimum allowed number
+   * @param end the maximum allowed number
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided number if it is within the range
+   * @throws RuntimeException if the number is not in the range; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   */
+  @Contract("_, _, _, _ -> param1")
+  static long inRange(
+      long number, long start, long end, Supplier<? extends RuntimeException> exceptionSupplier) {
+    if (!EnsureUtils.isInRange(number, start, end)) {
+      throw getSupplierOrThrow(exceptionSupplier);
+    }
+    return number;
+  }
 
   /**
    * Ensures that the provided number does not exceed the specified boundary.

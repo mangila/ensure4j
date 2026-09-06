@@ -21,7 +21,7 @@ Ensure.java is the public API methods that are used by the users.
 
 The **Ops classes** are the classes that are used to implement the methods and are not meant to be used directly.
 
-Make sure the formatting is correct by running the following command: "mvn com.spotify.fmt:fmt-maven-plugin:format"
+Make sure the formatting is correct by running the following command: "mise format"
 
 - Make sure the methods are implemented for the overloaded methods following the Step-down Rule (or the Newspaper
   Metaphor).
