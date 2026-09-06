@@ -39,7 +39,72 @@ class EnsureNumberOpsTest implements EnsureOpsArchTest<EnsureNumberOps> {
 
   @Override
   public long expectedMethodCount() {
-    return 12;
+    return 14;
+  }
+
+  @Test
+  @DisplayName("inRange should return value when within range")
+  void inRangeShouldReturnValueWhenWithinRange() {
+    assertThat(Ensure.inRange(5L, 1L, 10L)).isEqualTo(5L);
+    assertThat(Ensure.inRange(1L, 1L, 10L)).isEqualTo(1L);
+    assertThat(Ensure.inRange(10L, 1L, 10L)).isEqualTo(10L);
+    assertThat(Ensure.inRange(5, 1, 10)).isEqualTo(5);
+    assertThat(Ensure.inRange(1, 1, 10)).isEqualTo(1);
+    assertThat(Ensure.inRange(10, 1, 10)).isEqualTo(10);
+  }
+
+  @Test
+  @DisplayName("inRange should throw custom exception")
+  void inRangeShouldThrowCustomException() {
+    assertThatThrownBy(
+            () -> Ensure.inRange(0L, 1L, 10L, () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
+    assertThatThrownBy(
+            () -> Ensure.inRange(11L, 1L, 10L, () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
+    assertThatThrownBy(() -> Ensure.inRange(0, 1, 10, () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
+    assertThatThrownBy(
+            () -> Ensure.inRange(11, 1, 10, () -> new IllegalArgumentException("custom")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("custom");
+  }
+
+  @Test
+  @DisplayName("inRange should throw exception when outside range")
+  void inRangeShouldThrowExceptionWhenOutsideRange() {
+    assertThatThrownBy(() -> Ensure.inRange(0L, 1L, 10L))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("number must be in range [1, 10], but was 0");
+    assertThatThrownBy(() -> Ensure.inRange(11L, 1L, 10L))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("number must be in range [1, 10], but was 11");
+    assertThatThrownBy(() -> Ensure.inRange(0, 1, 10))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("number must be in range [1, 10], but was 0");
+    assertThatThrownBy(() -> Ensure.inRange(11, 1, 10))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("number must be in range [1, 10], but was 11");
+  }
+
+  @Test
+  @DisplayName("inRange should throw exception with custom message")
+  void inRangeShouldThrowExceptionWithCustomMessage() {
+    assertThatThrownBy(() -> Ensure.inRange(0L, 1L, 10L, "custom"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom");
+    assertThatThrownBy(() -> Ensure.inRange(11L, 1L, 10L, "custom"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom");
+    assertThatThrownBy(() -> Ensure.inRange(0, 1, 10, "custom"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom");
+    assertThatThrownBy(() -> Ensure.inRange(11, 1, 10, "custom"))
+        .isInstanceOf(EnsureException.class)
+        .hasMessage("custom");
   }
 
   @Test

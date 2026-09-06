@@ -42,6 +42,7 @@ import static io.github.mangila.ensure4j.EnsureNumberOps.NUMBER_MUST_BE_NEGATIVE
 import static io.github.mangila.ensure4j.EnsureNumberOps.NUMBER_MUST_BE_POSITIVE_FORMAT;
 import static io.github.mangila.ensure4j.EnsureNumberOps.NUMBER_MUST_BE_POSITIVE_OR_ZERO_FORMAT;
 import static io.github.mangila.ensure4j.EnsureNumberOps.NUMBER_NOT_GREATER_THAN_OR_EQUAL_FORMAT;
+import static io.github.mangila.ensure4j.EnsureNumberOps.NUMBER_NOT_IN_RANGE_FORMAT;
 import static io.github.mangila.ensure4j.EnsureNumberOps.NUMBER_NOT_LESS_THAN_OR_EQUAL_FORMAT;
 import static io.github.mangila.ensure4j.EnsureObjectOps.OBJECTS_DEEP_EQUAL_MESSAGE;
 import static io.github.mangila.ensure4j.EnsureObjectOps.OBJECTS_MUST_BE_EQUAL_MESSAGE;
@@ -576,6 +577,114 @@ public final class Ensure {
   public static Instant future(
       Instant instant, Instant boundary, Supplier<? extends RuntimeException> exceptionSupplier) {
     return EnsureDateTimeOps.future(instant, boundary, exceptionSupplier);
+  }
+
+  /**
+   * Ensures that the provided value is within the specified range [start, end] (inclusive).
+   *
+   * @param value the value to check
+   * @param start the minimum allowed value (inclusive)
+   * @param end the maximum allowed value (inclusive)
+   * @return the provided value if it is within the range
+   * @throws EnsureException if the value is not in the range, with the message {@code "number must
+   *     be in range [%d, %d], but was %d"}
+   * @see #inRange(int, int, int, String)
+   * @see #inRange(int, int, int, Supplier)
+   */
+  @Contract("_, _, _ -> param1")
+  public static int inRange(int value, int start, int end) {
+    return inRange(value, start, end, NUMBER_NOT_IN_RANGE_FORMAT.formatted(start, end, value));
+  }
+
+  /**
+   * Ensures that the provided value is within the specified range [start, end] (inclusive).
+   *
+   * @param value the value to check
+   * @param start the minimum allowed value (inclusive)
+   * @param end the maximum allowed value (inclusive)
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided value if it is within the range
+   * @throws EnsureException if the value is not in the range, with the provided message
+   * @see #inRange(int, int, int)
+   * @see #inRange(int, int, int, Supplier)
+   */
+  @Contract("_, _, _, _ -> param1")
+  public static int inRange(int value, int start, int end, String exceptionMessage) {
+    return inRange(value, start, end, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided value is within the specified range [start, end] (inclusive).
+   *
+   * @param value the value to check
+   * @param start the minimum allowed value (inclusive)
+   * @param end the maximum allowed value (inclusive)
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided value if it is within the range
+   * @throws RuntimeException if the value is not in the range; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   * @see #inRange(int, int, int)
+   * @see #inRange(int, int, int, String)
+   */
+  @Contract("_, _, _, _ -> param1")
+  public static int inRange(
+      int value, int start, int end, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsureNumberOps.inRange(value, start, end, exceptionSupplier);
+  }
+
+  /**
+   * Ensures that the provided value is within the specified range [start, end] (inclusive).
+   *
+   * @param value the value to check
+   * @param start the minimum allowed value (inclusive)
+   * @param end the maximum allowed value (inclusive)
+   * @return the provided value if it is within the range
+   * @throws EnsureException if the value is not in the range, with the message {@code "number must
+   *     be in range [%d, %d], but was %d"}
+   * @see #inRange(long, long, long, String)
+   * @see #inRange(long, long, long, Supplier)
+   */
+  @Contract("_, _, _ -> param1")
+  public static long inRange(long value, long start, long end) {
+    return inRange(value, start, end, NUMBER_NOT_IN_RANGE_FORMAT.formatted(start, end, value));
+  }
+
+  /**
+   * Ensures that the provided value is within the specified range [start, end] (inclusive).
+   *
+   * @param value the value to check
+   * @param start the minimum allowed value (inclusive)
+   * @param end the maximum allowed value (inclusive)
+   * @param exceptionMessage the message to include in the exception if validation fails
+   * @return the provided value if it is within the range
+   * @throws EnsureException if the value is not in the range, with the provided message
+   * @see #inRange(long, long, long)
+   * @see #inRange(long, long, long, Supplier)
+   */
+  @Contract("_, _, _, _ -> param1")
+  public static long inRange(long value, long start, long end, String exceptionMessage) {
+    return inRange(value, start, end, () -> EnsureException.from(exceptionMessage));
+  }
+
+  /**
+   * Ensures that the provided value is within the specified range [start, end] (inclusive).
+   *
+   * @param value the value to check
+   * @param start the minimum allowed value (inclusive)
+   * @param end the maximum allowed value (inclusive)
+   * @param exceptionSupplier the supplier that provides the exception to be thrown if validation
+   *     fails
+   * @return the provided value if it is within the range
+   * @throws RuntimeException if the value is not in the range; the thrown exception is provided by
+   *     {@code exceptionSupplier}
+   * @see #inRange(long, long, long)
+   * @see #inRange(long, long, long, String)
+   */
+  @Contract("_, _, _, _ -> param1")
+  public static long inRange(
+      long value, long start, long end, Supplier<? extends RuntimeException> exceptionSupplier) {
+    return EnsureNumberOps.inRange(value, start, end, exceptionSupplier);
   }
 
   /**

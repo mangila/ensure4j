@@ -109,6 +109,14 @@ final class EnsureUtils {
     return instant != null && boundary != null && instant.isAfter(boundary);
   }
 
+  static boolean isInRange(int value, int start, int end) {
+    return value >= start && value <= end;
+  }
+
+  static boolean isInRange(long value, long start, long end) {
+    return value >= start && value <= end;
+  }
+
   static boolean isNegative(long value) {
     return value < 0;
   }
