@@ -1,3 +1,17 @@
+## [4.0.8] - 2026-09-08
+
+### 🚀 Features
+
+- *(lib)* Add range validation methods for int and long values in Ensure class (#169)
+
+### 📚 Documentation
+
+- *(changelog)* Update CHANGELOG.md
+
+### ⚙️ Miscellaneous Tasks
+
+- *(docs)* Update README.md to reflect dependency version 4.0.7
+- *(lib)* Add JaCoCo coverage check (#170)
 ## [4.0.7] - 2026-08-29
 
 ### 📚 Documentation
