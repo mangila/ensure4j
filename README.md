@@ -110,7 +110,7 @@ public void placeOrder(Order order) {
 With the exception that Ensure4j throws an `EnsureException` instead of an `IllegalArgumentException`.
 
 Ensure4j has supplier functions that can be used to provide a custom exception suited for the application or use case
-need. For more complex cases, you can use the ops APIs to get more granular preconditions.
+need.
 
 ```java
 import io.github.mangila.ensure4j.Ensure;
