@@ -114,7 +114,6 @@ need.
 
 ```java
 import io.github.mangila.ensure4j.Ensure;
-import io.github.mangila.ensure4j.ops.EnsureNumberOps;
 
 // other class members
 
