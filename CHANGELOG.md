@@ -1,3 +1,9 @@
+## [4.0.9] - 2026-10-08
+
+### 📚 Documentation
+
+- *(changelog)* Update CHANGELOG.md
+- Update README with Ensure4j usage details (#178)
 ## [4.0.8] - 2026-09-08
 
 ### 🚀 Features
@@ -307,16 +313,6 @@
 - Add regex-based string validation utility to EnsureStringOps (#72)
 - Add EnsureDateTimeOps support
 
-### 🚜 Refactor
-
-- Remove Maven Wrapper and add pre-commit hooks
-- Improve and consolidate validation methods (#64)
-- Remove architecture tests and deprecated methods in EnsureNullOps (#68)
-- Simplify getPublicMethodCount implementation and clean up tests
-- Simplify Java versioning and update dependency schedules
-- *(examples)* Consolidate validation examples and update structure
-- *(examples)* Update package structure and comment out regex validation
-
 ### 📚 Documentation
 
 - Remove redundant pull request guidelines from CONTRIBUTING.md (#59)
@@ -327,6 +323,16 @@
 ### ⚡ Performance
 
 - Enhance code contracts with @Contract annotations for parameter validation (#74)
+
+### 🚜 Refactor
+
+- Remove Maven Wrapper and add pre-commit hooks
+- Improve and consolidate validation methods (#64)
+- Remove architecture tests and deprecated methods in EnsureNullOps (#68)
+- Simplify getPublicMethodCount implementation and clean up tests
+- Simplify Java versioning and update dependency schedules
+- *(examples)* Consolidate validation examples and update structure
+- *(examples)* Update package structure and comment out regex validation
 
 ### ⚙️ Miscellaneous Tasks
 
