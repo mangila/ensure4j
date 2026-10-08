@@ -98,9 +98,9 @@
         <version>3.10.3</version>
         <configuration>
           <java>
-            <trimTrailingWhitespace />
-            <endWithNewline />
-            <cleanthat />
+            <trimTrailingWhitespace/>
+            <endWithNewline/>
+            <cleanthat/>
             <eclipse>
               <sortMembersEnabled>true</sortMembersEnabled>
               <sortMembersOrder>SF,SI,SM,F,I,C,M,T</sortMembersOrder>
@@ -113,10 +113,10 @@
               <reflowLongStrings>true</reflowLongStrings>
               <formatJavadoc>true</formatJavadoc>
             </googleJavaFormat>
-            <removeUnusedImports />
-            <forbidWildcardImports />
-            <forbidModuleImports />
-            <formatAnnotations />
+            <removeUnusedImports/>
+            <forbidWildcardImports/>
+            <forbidModuleImports/>
+            <formatAnnotations/>
           </java>
           <pom>
             <sortPom>
@@ -195,7 +195,7 @@
                   <version>17</version>
                   <message>Your Java version is too old. Ensure4j requires Java 17 or higher!</message>
                 </requireJavaVersion>
-                <dependencyConvergence />
+                <dependencyConvergence/>
               </rules>
               <fail>true</fail>
             </configuration>
