@@ -1,6 +1,0 @@
-[tools]
-java = "17"
-
-[tasks.test]
-description = "Test examples"
-run = "mvn clean test"
