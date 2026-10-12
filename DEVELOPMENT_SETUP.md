@@ -20,8 +20,6 @@ mise install
 
 - <https://pre-commit.com/>
 
-Create a virtual environment in the root of this project (for convenience)
-
 Install the `requirements.txt` file.
 
 ```text
