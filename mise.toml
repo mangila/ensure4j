@@ -1,4 +1,6 @@
 [tools]
+java = "17"
+maven = "3.10.0"
 python = "3.15.0"
 
 [env]
