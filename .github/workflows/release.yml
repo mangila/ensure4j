@@ -207,7 +207,7 @@ jobs:
       - name: Build Github Changelog
         id: github_release
         # https://github.com/mikepenz/release-changelog-builder-action
-        uses: mikepenz/release-changelog-builder-action@cb021f9b36a51a7c6f18e4679b6fa2cb77a1260c # v.6.3.0
+        uses: mikepenz/release-changelog-builder-action@b0db9d18b53447ef9f940a46c8f31653c4d9f621 # v.6.5.0
         with:
           fromTag: "${{ env.FROM_TAG }}"
           toTag: "${{ env.TO_TAG }}"
